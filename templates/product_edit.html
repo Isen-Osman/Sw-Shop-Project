@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <title>Измени продукт | Modern Shop</title>
+</head>
+<body>
+    <h1>Измени продукт: {{ product.name }}</h1>
+
+    <form action="{% url 'product_edit' product.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <p>
+            <label for="name">Име на продукт:</label><br>
+            <input type="text" name="name" id="name" value="{{ form.name.value }}" required>
+        </p>
+
+        <p>
+            <label for="description">Опис:</label><br>
+            <textarea name="description" id="description" rows="4" required>{{ form.description.value }}</textarea>
+        </p>
+
+        <p>
+            <label for="price">Цена (денари):</label><br>
+            <input type="number" name="price" id="price" step="0.01" value="{{ form.price.value }}" required>
+        </p>
+
+        <p>
+            <label for="color">Боја:</label><br>
+            <select name="color" id="color" required>
+                <option value="RED" {% if form.color.value == "RED" %}selected{% endif %}>Red</option>
+                <option value="BLUE" {% if form.color.value == "BLUE" %}selected{% endif %}>Blue</option>
+                <option value="GREEN" {% if form.color.value == "GREEN" %}selected{% endif %}>Green</option>
+                <option value="BLACK" {% if form.color.value == "BLACK" %}selected{% endif %}>Black</option>
+                <option value="WHITE" {% if form.color.value == "WHITE" %}selected{% endif %}>White</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="category">Категорија:</label><br>
+            <select name="category" id="category" required>
+                <option value="female_dresses" {% if form.category.value == "female_dresses" %}selected{% endif %}>Женски Фустани</option>
+                <option value="female_tops" {% if form.category.value == "female_tops" %}selected{% endif %}>Женски Топови</option>
+                <option value="female_jeans" {% if form.category.value == "female_jeans" %}selected{% endif %}>Женски Панталони</option>
+                <option value="female_shoes" {% if form.category.value == "female_shoes" %}selected{% endif %}>Женски Чевли</option>
+                <option value="female_accessories" {% if form.category.value == "female_accessories" %}selected{% endif %}>Женски Додатоци</option>
+                <option value="male_shirts" {% if form.category.value == "male_shirts" %}selected{% endif %}>Машки Кошули</option>
+                <option value="male_trousers" {% if form.category.value == "male_trousers" %}selected{% endif %}>Машки Панталони</option>
+                <option value="male_jackets" {% if form.category.value == "male_jackets" %}selected{% endif %}>Машки Јакни</option>
+                <option value="male_shoes" {% if form.category.value == "male_shoes" %}selected{% endif %}>Машки Чевли</option>
+                <option value="male_accessories" {% if form.category.value == "male_accessories" %}selected{% endif %}>Машки Додатоци</option>
+            </select>
+        </p>
+
+        <!-- Додавање нови слики -->
+        <p>
+            <label for="images">Додај нови слики (опционално):</label><br>
+            <input type="file" name="images" id="images" multiple>
+        </p>
+
+        <p>
+            <button type="submit">Зачувај промените</button>
+        </p>
+    </form>
+
+    <!-- Прикажи постоечки слики -->
+    {% if product.images.all %}
+        <h3>Постоечки слики:</h3>
+        <ul>
+            {% for img in product.images.all %}
+            <li>
+                <img src="{{ img.image.url }}" alt="{{ product.name }}" width="150">
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <p><a href="{% url 'products' %}">Назад кон сите продукти</a></p>
+</body>
+</html>
