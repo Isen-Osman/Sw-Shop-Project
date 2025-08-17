@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Navbar</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-scrolled .nav-text {
+            color: #1f2937; /* gray-800 */
+        }
+
+        .nav-text {
+            color: white;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-out;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        .menu-item:hover {
+            transform: translateX(5px);
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+<nav id="mainNav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16 lg:h-20">
+            <!-- Left side - Menu -->
+            <div class="flex items-center space-x-4">
+                <button id="menuToggle"
+                        class="p-2 rounded-full transition-all duration-300 hover:bg-white/20 focus:outline-none">
+                    <i class="fas fa-bars w-6 h-6 nav-text"></i>
+                </button>
+
+                <button class="p-2 rounded-full transition-all duration-300 hover:bg-white/20 focus:outline-none">
+                    <i class="fas fa-search w-6 h-6 nav-text"></i>
+                </button>
+            </div>
+
+            <!-- Center - Logo -->
+            <div class="flex-1 flex justify-center">
+                <div class="text-2xl lg:text-3xl font-light tracking-widest transition-all duration-500 nav-text">
+                    <span class="font-light">SW</span>
+                    <span class="font-medium text-pink-300">SHOP</span>
+                </div>
+            </div>
+
+            <!-- Right side - User actions -->
+            <div class="flex items-center space-x-2 lg:space-x-4">
+                <button class="p-2 rounded-full transition-all duration-300 hover:bg-white/20 focus:outline-none">
+                    <i class="far fa-user w-6 h-6 nav-text"></i>
+                </button>
+                <a href="/wishlist"
+                   class="relative p-2 rounded-full transition-all duration-300 hover:bg-white/20 focus:outline-none">
+                    <i class="fas fa-heart w-6 h-6 nav-text"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenuOverlay" class="fixed inset-0 bg-white bg-opacity-30 backdrop-blur-md z-40 hidden"></div>
+
+        <div id="mobileMenu" class="mobile-menu fixed top-0 left-0 bg-white w-64 h-full p-5 shadow-xl z-50">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-xl font-bold text-gray-800">Menu</h2>
+                <button id="closeMenu"
+                        class="focus:outline-none text-gray-800 hover:scale-110 active:scale-90 transition-transform">
+                    <i class="fas fa-times w-6 h-6"></i>
+                </button>
+            </div>
+
+            <nav>
+                <ul class="space-y-4">
+                    <li class="menu-item">
+                        <a href="#"
+                           class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
+                            Home
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{% url 'products' %}"
+                           class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
+                            Shop
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#"
+                           class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
+                            Collections
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#"
+                           class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
+                            About Us
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="#"
+                           class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
+                            Contact
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Decorative elements -->
+    <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-pink-200 to-transparent opacity-50"></div>
+</nav>
+
+<script>
+    // Toggle mobile menu
+    const menuToggle = document.getElementById('menuToggle');
+    const closeMenu = document.getElementById('closeMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.add('open');
+        mobileMenuOverlay.classList.remove('hidden');
+    });
+
+    closeMenu.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        mobileMenuOverlay.classList.add('hidden');
+    });
+
+    mobileMenuOverlay.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        mobileMenuOverlay.classList.add('hidden');
+    });
+
+    // Scroll effect
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 10) {
+            nav.classList.add('nav-scrolled');
+        } else {
+            nav.classList.remove('nav-scrolled');
+        }
+    });
+</script>
+</body>
+</html>
