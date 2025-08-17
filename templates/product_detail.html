@@ -2,43 +2,44 @@
 <html lang="mk">
 <head>
     <meta charset="UTF-8">
-    <title>{{ product.name }} | Modern Shop</title>
+    <title>Детали за продукт | Modern Shop</title>
 </head>
 <body>
     <h1>{{ product.name }}</h1>
     <p>Категорија: {{ product.category }}</p>
-    <p>Боја: {{ product.color }}</p>
     <p>Цена: {{ product.price }} ден.</p>
-    <p>Опис: {{ product.description }}</p>
+    <p>{{ product.description }}</p>
 
-    <!-- Product Images -->
+    <!-- Прикажи слики -->
     {% if product.images.all %}
-        <h3>Слики:</h3>
         <ul>
-            {% for img in product.images.all %}
+        {% for img in product.images.all %}
             <li>
-                <img src="{{ img.image.url }}" alt="{{ product.name }}" width="200">
+                <img src="{{ img.image.url }}" alt="{{ product.name }}" width="150">
             </li>
-            {% endfor %}
+        {% endfor %}
         </ul>
     {% endif %}
 
     <!-- Quantity по големина -->
     {% if product.quantities.all %}
-        <h3>Големини и Quantity:</h3>
+        <p>Големини и Quantity:</p>
         <ul>
-            {% for q in product.quantities.all %}
+        {% for q in product.quantities.all %}
             <li>{{ q.size }}: {{ q.quantity }}</li>
-            {% endfor %}
+        {% endfor %}
         </ul>
     {% endif %}
 
-    <!-- Action Links -->
-    <p>
-        <a href="{% url 'product_edit' product.id %}">Edit</a> |
-        <a href="{% url 'product_delete' product.id %}"
-           onclick="return confirm('Дали сте сигурни дека сакате да го избришете овој продукт?');">Delete</a> |
-        <a href="{% url 'products' %}">Back to Products</a>
-    </p>
+    <!-- Add to Wishlist копче -->
+    {% if user.is_authenticated %}
+        <p>
+            <a href="{% url 'wishlist_add' product.id %}">Додади во Wishlist</a>
+        </p>
+    {% else %}
+        <p>За да додадете во Wishlist, <a href="{% url 'login' %}">најавете се</a>.</p>
+    {% endif %}
+
+    <p><a href="{% url 'products' %}">Назад кон продукти</a></p>
 </body>
 </html>
