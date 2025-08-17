@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import ProductForm
-from .models import Product, ProductImage
+from .models import Product, ProductImage, Category
 
 
 def product_list(request):
@@ -63,3 +63,7 @@ def product_delete(request, product_id):
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     return render(request, 'product_detail.html', {'product': product})
+
+def products_by_category(request, category_name):
+    products = Product.objects.filter(category=category_name)
+    return render(request, 'home.html', {'products': products, 'category_name': category_name})
