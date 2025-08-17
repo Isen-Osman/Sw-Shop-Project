@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
+
 from .forms import ProductForm
 from .models import Product
 
+
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, 'product_page.html', {'products': products})
 
 def product_add(request):
     if request.method == 'POST':
