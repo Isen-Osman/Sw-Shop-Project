@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.urls import path
 
 from app import views
+from wishlist import views as wishlist_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -13,6 +14,9 @@ urlpatterns = [
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
     path('products/',views.product_list, name='products'),
 
+    path('', wishlist_views.wishlist_view, name='wishlist'),
+    path('add/<int:product_id>/', wishlist_views.wishlist_add, name='wishlist_add'),
+    path('remove/<int:product_id>/',wishlist_views.wishlist_remove, name='wishlist_remove'),
 ]
 
 if settings.DEBUG:
