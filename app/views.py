@@ -8,6 +8,13 @@ def product_list(request):
     products = Product.objects.all()
     return render(request, 'product_page.html', {'products': products})
 
+
+def recently_added_products(request):
+    products = Product.objects.all().order_by('-created_at')[:5]
+
+    return render(request, 'home_page.html', {'products': products})
+
+
 def product_add(request):
     if request.method == 'POST':
         product_form = ProductForm(request.POST)
@@ -31,6 +38,7 @@ def product_edit(request, product_id):
         form = ProductForm(instance=product)
 
     return render(request, 'products/product_edit.html', {'form': form, 'product': product})
+
 
 def product_delete(request, product_id):
     product = get_object_or_404(Product, id=product_id)
