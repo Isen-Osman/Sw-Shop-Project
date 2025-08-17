@@ -1,0 +1,49 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <title>Најави се | Modern Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold text-gray-900 mb-6 text-center">Најави се</h1>
+
+        <!-- Login Form -->
+        <form method="POST" action="{% url 'account_login' %}" class="space-y-4">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            
+            <div>
+                <label for="login" class="block text-sm font-medium text-gray-700">Email</label>
+                {{ form.login|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" }}
+                {{ form.login.errors }}
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                {{ form.password|add_class:"mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" }}
+                {{ form.password.errors }}
+            </div>
+
+            <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition-colors font-medium">
+                Најави се
+            </button>
+        </form>
+
+        <p class="text-center text-sm text-gray-500 mt-4">
+            Немаш профил? 
+            <a href="{% url 'account_signup' %}" class="text-indigo-600 hover:text-indigo-800">Регистрирај се</a>
+        </p>
+
+        <!-- Social Login -->
+        {% if socialaccount_providers %}
+        <div class="mt-6">
+            <p class="text-center text-gray-500 mb-4">Или најави се со</p>
+            {% for provider in socialaccount_providers %}
+            <a href="{% provider_login_url provider.id process='login' %}" 
+               class="w-full flex items-center justify-center border border-gray-300 py-2 px-4 rounded-md hover:bg-gray-100 mb-2">
+                <img src="{% static 'images/'|add:provider.id|add:'.svg' %}" alt="{{ provider.name }}" class="w-5 h-5 mr-2">
+                Најави се со {{ provider.name }}
+            </a>

@@ -1,0 +1,189 @@
+{% extends 'partials/base.html' %}
+{% load i18n %}
+
+{% block title %}Профил | {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="mx-auto h-24 w-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg mb-6">
+                <span class="text-3xl font-bold text-white">
+                    {{ user.first_name|first|upper }}{{ user.last_name|first|upper|default:user.username|first|upper }}
+                </span>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">{{ user.get_full_name|default:user.username }}</h1>
+            <p class="text-gray-600">{{ user.email }}</p>
+            <p class="text-sm text-gray-500 mt-2">Член од {{ user.date_joined|date:"d.m.Y" }}</p>
+        </div>
+
+        <!-- Profile Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Profile Info Card -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                        <svg class="w-6 h-6 text-indigo-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        Информации за профилот
+                    </h2>
+
+                    <form method="POST" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- First Name -->
+                            <div>
+                                <label for="first_name" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Име
+                                </label>
+                                <input type="text" name="first_name" id="first_name" 
+                                       value="{{ user.first_name|default:'' }}"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200">
+                            </div>
+
+                            <!-- Last Name -->
+                            <div>
+                                <label for="last_name" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Презиме
+                                </label>
+                                <input type="text" name="last_name" id="last_name" 
+                                       value="{{ user.last_name|default:'' }}"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200">
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                                Е-пошта
+                            </label>
+                            <input type="email" name="email" id="email" 
+                                   value="{{ user.email }}"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200">
+                        </div>
+
+                        <!-- Save Button -->
+                        <div class="flex justify-end">
+                            <button type="submit" 
+                                    class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200">
+                                Зачувај промени
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Change Password Card -->
+                <div class="bg-white rounded-2xl shadow-lg p-8 mt-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                        <svg class="w-6 h-6 text-red-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        Промени лозинка
+                    </h2>
+
+                    <form method="POST" action="{% url 'account_change_password' %}" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <!-- Current Password -->
+                        <div>
+                            <label for="oldpassword" class="block text-sm font-medium text-gray-700 mb-2">
+                                Тековна лозинка
+                            </label>
+                            <input type="password" name="oldpassword" id="oldpassword" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200">
+                        </div>
+
+                        <!-- New Password -->
+                        <div>
+                            <label for="password1" class="block text-sm font-medium text-gray-700 mb-2">
+                                Нова лозинка
+                            </label>
+                            <input type="password" name="password1" id="password1" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200">
+                        </div>
+
+                        <!-- Confirm New Password -->
+                        <div>
+                            <label for="password2" class="block text-sm font-medium text-gray-700 mb-2">
+                                Потврди нова лозинка
+                            </label>
+                            <input type="password" name="password2" id="password2" required
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-colors duration-200">
+                        </div>
+
+                        <!-- Save Button -->
+                        <div class="flex justify-end">
+                            <button type="submit" 
+                                    class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
+                                Промени лозинка
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Quick Stats -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Статистики</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Најавувања</span>
+                            <span class="font-semibold text-indigo-600">{{ user.last_login|date:"d.m.Y"|default:"Првпат" }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600">Статус</span>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm">Активен</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Брзи акции</h3>
+                    <div class="space-y-3">
+                        <a href="{% url 'wishlist' %}" 
+                           class="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors duration-200">
+                            <svg class="w-5 h-5 text-red-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                            Мојата листа на желби
+                        </a>
+                        <a href="{% url 'products' %}" 
+                           class="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors duration-200">
+                            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                            </svg>
+                            Сите производи
+                        </a>
+                        <a href="{% url 'home' %}" 
+                           class="flex items-center p-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors duration-200">
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            Почетна страница
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="bg-red-50 border border-red-200 rounded-2xl p-6">
+                    <h3 class="text-lg font-semibold text-red-900 mb-4">Опасна зона</h3>
+                    <p class="text-sm text-red-700 mb-4">Овие акции не можат да се вратат.</p>
+                    <a href="{% url 'account_logout' %}" 
+                       class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        Одјавете се
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

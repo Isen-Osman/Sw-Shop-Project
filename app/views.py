@@ -1,18 +1,44 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 
 from .forms import ProductForm
-from .models import Product, ProductImage, Category
+from .models import ProductImage
 
+from django.shortcuts import render
+from .models import Product, Category  # ако имаш модел Category
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def product_list(request):
     products = Product.objects.all()
 
-    # Додај нов атрибут за новата цена
+    # Филтрирање по категорија ако е избрана
+    category_filter = request.GET.get('category')
+    if category_filter:
+        products = products.filter(category__iexact=category_filter)
+
+    # Филтрирање по price ако е избрана
+    price_filter = request.GET.get('price')
+    if price_filter:
+        if price_filter == "0-500":
+            products = products.filter(price__lte=500)
+        elif price_filter == "500-1000":
+            products = products.filter(price__gt=500, price__lte=1000)
+        elif price_filter == "1000+":
+            products = products.filter(price__gt=1000)
+
+    # Додај нова цена (пример за попуст или нова цена)
     for product in products:
-        product.new_price = product.price + 200  # новата променлива
+        product.new_price = product.price + 200  # или било каква логика
 
-    return render(request, 'product_page.html', {'products': products})
+    # Земи ги сите категории за dropdown
+    categories = Product.objects.values_list('category', flat=True).distinct()
 
+    return render(request, 'product_page.html', {
+        'products': products,
+        'categories': categories,
+        'selected_category': category_filter,
+        'selected_price': price_filter
+    })
 
 def recently_added_products(request):
     products = Product.objects.all().order_by('-created_at')[:5]  # последни 5 продукти
@@ -86,3 +112,18 @@ def product_detail(request, product_id):
 def products_by_category(request, category_name):
     products = Product.objects.filter(category=category_name)
     return render(request, 'home.html', {'products': products, 'category_name': category_name})
+
+@login_required
+def profile_view(request):
+    if request.method == 'POST':
+        # Update user profile
+        user = request.user
+        user.first_name = request.POST.get('first_name', '')
+        user.last_name = request.POST.get('last_name', '')
+        user.email = request.POST.get('email', '')
+        user.save()
+        
+        messages.success(request, 'Профилот е успешно ажуриран!')
+        return redirect('profile')
+    
+    return render(request, 'account/profile.html')
