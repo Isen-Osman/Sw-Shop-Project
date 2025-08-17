@@ -1,131 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bella Intimates | Luxury Lingerie for Women</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{% extends 'partials/base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
     <style>
-        .hero {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1590845947676-fa2576f401d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-        }
         .product-card:hover .product-actions {
             opacity: 1;
             transform: translateY(0);
         }
-        .collection-card {
-            transition: all 0.3s ease;
-        }
-        .collection-card:hover {
-            transform: scale(1.03);
+
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/flagged/photo-1578985355557-d6c2342fed0c?q=80&w=1174&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
         }
     </style>
-</head>
-<body class="font-sans text-gray-800 bg-gray-50">
-    <!-- Header/Navigation -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <!-- Logo -->
-                <div class="text-2xl font-bold text-pink-600">Bella Intimates</div>
 
-                <!-- Main Navigation -->
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#" class="text-gray-700 hover:text-pink-600 font-medium">Home</a>
-                    <a href="#" class="text-gray-700 hover:text-pink-600 font-medium">Shop</a>
-                    <a href="#" class="text-gray-700 hover:text-pink-600 font-medium">Collections</a>
-                    <a href="#" class="text-gray-700 hover:text-pink-600 font-medium">New Arrivals</a>
-                    <a href="#" class="text-gray-700 hover:text-pink-600 font-medium">About</a>
-                </nav>
-
-                <!-- Icons -->
-                <div class="flex items-center space-x-6">
-                    <a href="#" class="text-gray-700 hover:text-pink-600">
-                        <i class="fas fa-search"></i>
-                    </a>
-                    <a href="#" class="text-gray-700 hover:text-pink-600">
-                        <i class="fas fa-user"></i>
-                    </a>
-                    <a href="#" class="text-gray-700 hover:text-pink-600 relative">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span class="absolute -top-2 -right-2 bg-pink-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
-                    </a>
-                    <!-- Mobile menu button -->
-                    <button class="md:hidden text-gray-700 focus:outline-none">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero h-96 flex items-center justify-center text-white">
+    <!-- Hero Banner -->
+    <section class="hero h-screen flex items-center justify-center text-white">
         <div class="text-center px-4">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">Summer Collection 2023</h1>
-            <p class="text-xl mb-8 max-w-2xl mx-auto">Discover our luxurious new lingerie designed for comfort and confidence</p>
-            <a href="#" class="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-full font-medium transition duration-300 inline-block">Shop Now</a>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">New Collection</h1>
+            <p class="text-xl mb-8">Discover our latest arrivals</p>
+            <a href="#" class="bg-pink-600 hover:bg-pink-700 text-white px-8 py-3 rounded-full font-medium">Shop Now</a>
         </div>
     </section>
 
-    <!-- Categories Section -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-12">Shop by Category</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <a href="#" class="collection-card bg-gray-100 rounded-lg overflow-hidden group">
-                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
-                    <div class="p-4 text-center">
-                        <h3 class="font-medium text-lg group-hover:text-pink-600 transition">Bras</h3>
-                        <p class="text-gray-600 text-sm">50+ styles</p>
-                    </div>
-                </a>
-                <a href="#" class="collection-card bg-gray-100 rounded-lg overflow-hidden group">
-                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1590239926046-7d6a348a1a2e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
-                    <div class="p-4 text-center">
-                        <h3 class="font-medium text-lg group-hover:text-pink-600 transition">Panties</h3>
-                        <p class="text-gray-600 text-sm">100+ styles</p>
-                    </div>
-                </a>
-                <a href="#" class="collection-card bg-gray-100 rounded-lg overflow-hidden group">
-                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
-                    <div class="p-4 text-center">
-                        <h3 class="font-medium text-lg group-hover:text-pink-600 transition">Lingerie Sets</h3>
-                        <p class="text-gray-600 text-sm">Matching pairs</p>
-                    </div>
-                </a>
-                <a href="#" class="collection-card bg-gray-100 rounded-lg overflow-hidden group">
-                    <div class="h-64 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');"></div>
-                    <div class="p-4 text-center">
-                        <h3 class="font-medium text-lg group-hover:text-pink-600 transition">Nightwear</h3>
-                        <p class="text-gray-600 text-sm">Silk & lace</p>
-                    </div>
-                </a>
-            </div>
+    <!-- Recently Added Products -->
+    <section class="py-16 container mx-auto px-6">
+        <div class="flex justify-between items-center mb-12">
+            <h2 class="text-3xl font-bold">Recently Added</h2>
+            <a href="#" class="text-pink-600 hover:text-pink-700">View All →</a>
         </div>
-    </section>
 
-    <!-- New Arrivals Section -->
-    <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold">New Arrivals</h2>
-                <a href="#" class="text-pink-600 hover:text-pink-700 font-medium">View All →</a>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                <!-- Product 1 -->
-                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-300">
-                    <div class="relative overflow-hidden h-80">
-                        <img src="https://images.unsplash.com/photo-1590239926046-7d6a348a1a2e?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Lace Bralette" class="w-full h-full object-cover">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            {% for product in products %}
+                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-300">
+                    <div class="relative h-64 overflow-hidden">
+                        {% if product.images.all %}
+                            <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
+                                 class="w-full h-full object-cover">
+                        {% else %}
+                            <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                                <i class="fas fa-image text-gray-400 text-4xl"></i>
+                            </div>
+                        {% endif %}
                         <div class="product-actions absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 p-4 flex justify-between opacity-0 transform translate-y-4 transition duration-300">
                             <button class="text-gray-700 hover:text-pink-600">
                                 <i class="far fa-heart"></i>
                             </button>
-                            <button class="bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-pink-700 transition">
+                            <button class="bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-pink-700">
                                 Add to Cart
                             </button>
                             <button class="text-gray-700 hover:text-pink-600">
@@ -135,168 +58,31 @@
                         <span class="absolute top-3 left-3 bg-pink-600 text-white text-xs px-2 py-1 rounded-full">NEW</span>
                     </div>
                     <div class="p-4">
-                        <h3 class="font-medium text-gray-800 mb-1">Lace Bralette</h3>
+                        <h3 class="font-medium text-gray-800 mb-1">{{ product.name }}</h3>
                         <div class="flex justify-between items-center">
-                            <span class="text-pink-600 font-medium">$39.99</span>
+                            <span class="text-pink-600 font-medium">{{ product.price }} ден.</span>
                             <div class="flex space-x-1">
-                                <span class="w-3 h-3 rounded-full bg-pink-400"></span>
-                                <span class="w-3 h-3 rounded-full bg-black"></span>
-                                <span class="w-3 h-3 rounded-full bg-rose-200"></span>
+                                <span class="w-3 h-3 rounded-full bg-pink-400" title="{{ product.color }}"></span>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Product 2 -->
-                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-300">
-                    <div class="relative overflow-hidden h-80">
-                        <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Silk Chemise" class="w-full h-full object-cover">
-                        <div class="product-actions absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 p-4 flex justify-between opacity-0 transform translate-y-4 transition duration-300">
-                            <button class="text-gray-700 hover:text-pink-600">
-                                <i class="far fa-heart"></i>
-                            </button>
-                            <button class="bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-pink-700 transition">
-                                Add to Cart
-                            </button>
-                            <button class="text-gray-700 hover:text-pink-600">
-                                <i class="fas fa-expand"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-medium text-gray-800 mb-1">Silk Chemise</h3>
-                        <div class="flex justify-between items-center">
-                            <span class="text-pink-600 font-medium">$59.99</span>
-                            <div class="flex space-x-1">
-                                <span class="w-3 h-3 rounded-full bg-black"></span>
-                                <span class="w-3 h-3 rounded-full bg-rose-200"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 3 -->
-                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-300">
-                    <div class="relative overflow-hidden h-80">
-                        <img src="https://images.unsplash.com/photo-1590845947676-fa2576f401d2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="High Waist Panty" class="w-full h-full object-cover">
-                        <div class="product-actions absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 p-4 flex justify-between opacity-0 transform translate-y-4 transition duration-300">
-                            <button class="text-gray-700 hover:text-pink-600">
-                                <i class="far fa-heart"></i>
-                            </button>
-                            <button class="bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-pink-700 transition">
-                                Add to Cart
-                            </button>
-                            <button class="text-gray-700 hover:text-pink-600">
-                                <i class="fas fa-expand"></i>
-                            </button>
-                        </div>
-                        <span class="absolute top-3 left-3 bg-pink-600 text-white text-xs px-2 py-1 rounded-full">NEW</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-medium text-gray-800 mb-1">High Waist Panty</h3>
-                        <div class="flex justify-between items-center">
-                            <span class="text-pink-600 font-medium">$24.99</span>
-                            <div class="flex space-x-1">
-                                <span class="w-3 h-3 rounded-full bg-pink-400"></span>
-                                <span class="w-3 h-3 rounded-full bg-black"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 4 -->
-                <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-300">
-                    <div class="relative overflow-hidden h-80">
-                        <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Push-Up Bra" class="w-full h-full object-cover">
-                        <div class="product-actions absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 p-4 flex justify-between opacity-0 transform translate-y-4 transition duration-300">
-                            <button class="text-gray-700 hover:text-pink-600">
-                                <i class="far fa-heart"></i>
-                            </button>
-                            <button class="bg-pink-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-pink-700 transition">
-                                Add to Cart
-                            </button>
-                            <button class="text-gray-700 hover:text-pink-600">
-                                <i class="fas fa-expand"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="font-medium text-gray-800 mb-1">Push-Up Bra</h3>
-                        <div class="flex justify-between items-center">
-                            <span class="text-pink-600 font-medium">$45.99</span>
-                            <div class="flex space-x-1">
-                                <span class="w-3 h-3 rounded-full bg-pink-400"></span>
-                                <span class="w-3 h-3 rounded-full bg-black"></span>
-                                <span class="w-3 h-3 rounded-full bg-rose-200"></span>
-                                <span class="w-3 h-3 rounded-full bg-navy-500"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </section>
 
-    <!-- Newsletter Section -->
+    <!-- Newsletter -->
     <section class="py-16 bg-white">
         <div class="container mx-auto px-6 max-w-4xl text-center">
-            <h2 class="text-3xl font-bold mb-4">Join Our Community</h2>
-            <p class="text-gray-600 mb-8">Subscribe to get 15% off your first order and updates on new collections</p>
+            <h2 class="text-3xl font-bold mb-4">Join Our Newsletter</h2>
+            <p class="text-gray-600 mb-8">Subscribe to get 15% off your first order</p>
             <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
                 <input type="email" placeholder="Your email address" class="flex-grow px-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-500">
-                <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-full font-medium transition duration-300">Subscribe</button>
+                <button type="submit" class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-full font-medium">Subscribe</button>
             </form>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Bella Intimates</h3>
-                    <p class="text-gray-400">Luxury lingerie designed for comfort, confidence, and self-expression.</p>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Shop</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">All Products</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">New Arrivals</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Best Sellers</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Sale</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Information</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping & Returns</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Size Guide</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Connect</h4>
-                    <div class="flex space-x-4 mb-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-pinterest-p"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
-                    </div>
-                    <p class="text-gray-400">support@bellaintimates.com</p>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
-                <p>&copy; 2023 Bella Intimates. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
 
-    <script>
-        // Simple JavaScript for mobile menu toggle would go here
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle functionality can be added here
-        });
-    </script>
-</body>
-</html>
+
+{% endblock %}

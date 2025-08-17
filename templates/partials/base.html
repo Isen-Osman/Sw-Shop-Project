@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My shop{% endblock %}</title>
+</head>
+<body>
+{% include "partials/navbar.html" %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+{% include "partials/footer.html" %}
+</body>
+</html>
