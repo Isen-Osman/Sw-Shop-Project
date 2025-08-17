@@ -12,20 +12,25 @@
             backdrop-filter: blur(12px);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
+
         .nav-scrolled .nav-text {
             color: #1f2937; /* gray-800 */
         }
+
         .nav-text {
             color: white;
             transition: color 0.3s ease;
         }
+
         .mobile-menu {
             transform: translateX(-100%);
             transition: transform 0.3s ease-out;
         }
+
         .mobile-menu.open {
             transform: translateX(0);
         }
+
         .menu-item:hover {
             transform: translateX(5px);
             transition: transform 0.3s ease;
@@ -61,12 +66,10 @@
                 <button class="p-2 rounded-full transition-all duration-300 hover:bg-white/20 focus:outline-none">
                     <i class="far fa-user w-6 h-6 nav-text"></i>
                 </button>
-                <button class="relative p-2 rounded-full transition-all duration-300 hover:bg-white/20 focus:outline-none">
-                    <i class="fas fa-shopping-cart w-6 h-6 nav-text"></i>
-                    <span class="absolute -top-1 -right-1 bg-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                        3
-                    </span>
-                </button>
+                <a href="/wishlist"
+                   class="relative p-2 rounded-full transition-all duration-300 hover:bg-white/20 focus:outline-none">
+                    <i class="fas fa-heart w-6 h-6 nav-text"></i>
+                </a>
             </div>
         </div>
 
@@ -91,7 +94,7 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                         <a href="{% url 'products' %}"
+                        <a href="{% url 'products' %}"
                            class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
                             Shop
                         </a>
