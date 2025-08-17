@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <title>Додади нов продукт | Modern Shop</title>
+</head>
+<body>
+    <h1>Додади нов продукт</h1>
+
+    <form action="{% url 'product_add' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <p>
+            <label for="name">Име на продукт:</label><br>
+            <input type="text" name="name" id="name" required>
+        </p>
+
+        <p>
+            <label for="description">Опис:</label><br>
+            <textarea name="description" id="description" rows="4" required></textarea>
+        </p>
+
+        <p>
+            <label for="price">Цена (денари):</label><br>
+            <input type="number" name="price" id="price" step="0.01" required>
+        </p>
+
+        <p>
+            <label for="color">Боја:</label><br>
+            <select name="color" id="color" required>
+                <option value="RED">Red</option>
+                <option value="BLUE">Blue</option>
+                <option value="GREEN">Green</option>
+                <option value="BLACK">Black</option>
+                <option value="WHITE">White</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="category">Категорија:</label><br>
+            <select name="category" id="category" required>
+                <option value="female_dresses">Женски Фустани</option>
+                <option value="female_tops">Женски Топови</option>
+                <option value="female_jeans">Женски Панталони</option>
+                <option value="female_shoes">Женски Чевли</option>
+                <option value="female_accessories">Женски Додатоци</option>
+                <option value="male_shirts">Машки Кошули</option>
+                <option value="male_trousers">Машки Панталони</option>
+                <option value="male_jackets">Машки Јакни</option>
+                <option value="male_shoes">Машки Чевли</option>
+                <option value="male_accessories">Машки Додатоци</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="images">Слики (множество):</label><br>
+            <input type="file" name="images" id="images" multiple>
+        </p>
+
+        <p>
+            <button type="submit">Додади продукт</button>
+        </p>
+    </form>
+
+    <p><a href="{% url 'products' %}">Назад кон сите продукти</a></p>
+</body>
+</html>
