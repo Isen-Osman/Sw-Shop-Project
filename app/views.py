@@ -74,12 +74,10 @@ def product_delete(request, product_id):
 
 
 def product_detail(request, product_id):
-    products = Product.objects.all()
     product = get_object_or_404(Product, id=product_id)
 
     # Додај нов атрибут за новата цена
-    for product in products:
-        product.new_price = product.price + 200  # новата променлива
+    product.new_price = product.price + 200
 
     return render(request, 'product_detail.html', {'product': product})
 
