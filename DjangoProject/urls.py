@@ -7,11 +7,12 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.recently_added_products, name='home'),
     path('product/add/', views.product_add, name='product_add'),
     path('product/<int:product_id>/delete/', views.product_delete, name='product_delete'),
     path('product/<int:product_id>/edit/', views.product_edit, name='product_edit'),
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
-    path('products/',views.product_list, name='products'),
+    path('products', views.product_list, name='products'),
 
 ]
 
