@@ -16,16 +16,10 @@ class Color(models.TextChoices):
     WHITE = "WHITE", "White"
 
 class Category(models.TextChoices):
-    FEMALE_DRESSES = "female_dresses", "Женски Фустани"
-    FEMALE_TOPS = "female_tops", "Женски Топови"
-    FEMALE_JEANS = "female_jeans", "Женски Панталони"
-    FEMALE_SHOES = "female_shoes", "Женски Чевли"
-    FEMALE_ACCESSORIES = "female_accessories", "Женски Додатоци"
-    MALE_SHIRTS = "male_shirts", "Машки Кошули"
-    MALE_TROUSERS = "male_trousers", "Машки Панталони"
-    MALE_JACKETS = "male_jackets", "Машки Јакни"
-    MALE_SHOES = "male_shoes", "Машки Чевли"
-    MALE_ACCESSORIES = "male_accessories", "Машки Додатоци"
+    BRAS = "bras", "Bras"
+    PANTIES = "panties", "Panties"
+    LINGERIE = "lingerie", "Lingerie"
+    PAJAMAS = "pajamas", "Pajamas"
 
 # Главен модел Product
 class Product(models.Model):
@@ -33,7 +27,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     color = models.CharField(max_length=20, choices=Color.choices)
-    category = models.CharField(max_length=50, choices=Category.choices, default=Category.FEMALE_DRESSES)
+    category = models.CharField(max_length=50, choices=Category.choices, default=Category.BRAS)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

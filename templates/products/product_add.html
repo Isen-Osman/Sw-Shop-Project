@@ -66,6 +66,7 @@
             </div>
 
             <!-- Category -->
+
             <div>
                 <label for="category" class="block text-sm font-medium text-gray-700 mb-2">
                     Категорија
@@ -74,18 +75,10 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                     <option value="">Избери категорија</option>
                     <optgroup label="Женски производи">
-                        <option value="female_dresses">Женски Фустани</option>
-                        <option value="female_tops">Женски Топови</option>
-                        <option value="female_jeans">Женски Панталони</option>
-                        <option value="female_shoes">Женски Чевли</option>
-                        <option value="female_accessories">Женски Додатоци</option>
-                    </optgroup>
-                    <optgroup label="Машки производи">
-                        <option value="male_shirts">Машки Кошули</option>
-                        <option value="male_trousers">Машки Панталони</option>
-                        <option value="male_jackets">Машки Јакни</option>
-                        <option value="male_shoes">Машки Чевли</option>
-                        <option value="male_accessories">Машки Додатоци</option>
+                        <option value="bras">Bras</option>
+                        <option value="panties">Panties</option>
+                        <option value="lingerie">Lingerie</option>
+                        <option value="pajamas">Pajamas</option>
                     </optgroup>
                 </select>
             </div>
@@ -95,13 +88,13 @@
                 <h3 class="text-lg font-medium text-gray-800 mb-2">Quantity по големина</h3>
                 <div class="grid grid-cols-5 gap-4">
                     {% for size in sizes %}
-                    <div>
-                        <label for="quantity_{{ size }}" class="block text-sm font-medium text-gray-700 mb-1">
-                            {{ size }}
-                        </label>
-                        <input type="number" name="quantity_{{ size }}" id="quantity_{{ size }}" min="0" value="0"
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    </div>
+                        <div>
+                            <label for="quantity_{{ size }}" class="block text-sm font-medium text-gray-700 mb-1">
+                                {{ size }}
+                            </label>
+                            <input type="number" name="quantity_{{ size }}" id="quantity_{{ size }}" min="0" value="0"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        </div>
                     {% endfor %}
                 </div>
             </div>
