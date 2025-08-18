@@ -151,10 +151,10 @@ def product_detail(request, pk):
 
 
 def products_by_category(request, category_name):
-    # филтрирај продукти според параметарот од URL
+    # Филтрирај продукти според category enum field
     products = Product.objects.filter(category=category_name)
 
-    # додај нов атрибут за new_price
+    # Додај нов атрибут за new_price
     for product in products:
         product.new_price = product.price + 200
 
