@@ -29,7 +29,7 @@ urlpatterns = [
     path('collections/', views.collections_page, name='collections'),
 
     # urls.py
-    path('products/category/<int:category_id>/', views.products_by_category, name='products_by_category')
+    path('products/category/<str:category_name>/', views.products_by_category, name='products_by_category')
 
 ]
 
