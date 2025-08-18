@@ -8,7 +8,32 @@ from django.forms.models import inlineformset_factory
 def product_list(request):
     products = Product.objects.all()
 
-    # Додај нов атрибут за новата цена
+    # Филтрирање по категорија
+    category = request.GET.get('category')
+    if category:
+        products = products.filter(category=category)
+
+    # Филтрирање по ценовен опсег
+    price_range = request.GET.get('price_range')
+    if price_range:
+        if price_range == '0-500':
+            products = products.filter(price__lte=500)
+        elif price_range == '500-1000':
+            products = products.filter(price__gte=500, price__lte=1000)
+        elif price_range == '1000+':
+            products = products.filter(price__gte=1000)
+
+    # Подредување
+    sort = request.GET.get('sort')
+    if sort == 'price_asc':
+        products = products.order_by('price')
+    elif sort == 'price_desc':
+        products = products.order_by('-price')
+    elif sort == 'newest':
+        products = products.order_by('-created_at')
+    elif sort == 'oldest':
+        products = products.order_by('created_at')
+
     for product in products:
         product.new_price = product.price + 200  # новата променлива
 
@@ -117,6 +142,7 @@ def product_delete(request, product_id):
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
     available_sizes = product.quantities.filter(quantity__gt=0)
+    product.new_price = product.price + 200
     context = {
         'product': product,
         'available_sizes': available_sizes,
@@ -125,5 +151,18 @@ def product_detail(request, pk):
 
 
 def products_by_category(request, category_name):
+    # филтрирај продукти според параметарот од URL
     products = Product.objects.filter(category=category_name)
-    return render(request, 'home.html', {'products': products, 'category_name': category_name})
+
+    # додај нов атрибут за new_price
+    for product in products:
+        product.new_price = product.price + 200
+
+    return render(request, 'products/product_page.html', {
+        'products': products,
+        'category_name': category_name.capitalize()
+    })
+
+
+def collections_page(request):
+    return render(request, 'collections_page.html', )
