@@ -91,8 +91,8 @@ def product_edit(request, product_id):
     return render(request, 'product_edit.html', {'form': form, 'product': product})
 
 
-def product_delete(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+def product_delete(request, pk):
+    product = get_object_or_404(Product, pk=pk)
     product.delete()
     return redirect('products')
 
