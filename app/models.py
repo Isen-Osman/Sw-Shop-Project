@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Enum-ови за големини и боја
 class Size(models.TextChoices):
     XS = "XS", "XS"
@@ -7,6 +8,8 @@ class Size(models.TextChoices):
     M = "M", "M"
     L = "L", "L"
     XL = "XL", "XL"
+    XXL = "XXL", "XXL"
+
 
 class Color(models.TextChoices):
     RED = "RED", "Red"
@@ -15,11 +18,13 @@ class Color(models.TextChoices):
     BLACK = "BLACK", "Black"
     WHITE = "WHITE", "White"
 
+
 class Category(models.TextChoices):
     BRAS = "bras", "Bras"
     PANTIES = "panties", "Panties"
     LINGERIE = "lingerie", "Lingerie"
     PAJAMAS = "pajamas", "Pajamas"
+
 
 # Главен модел Product
 class Product(models.Model):
@@ -33,6 +38,7 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name} ({self.category})"
 
+
 # Quantity по големина
 class ProductQuantity(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='quantities')
@@ -41,6 +47,7 @@ class ProductQuantity(models.Model):
 
     def __str__(self):
         return f"{self.product.name} - {self.size}: {self.quantity}"
+
 
 # Повеќе слики за продукт
 class ProductImage(models.Model):
