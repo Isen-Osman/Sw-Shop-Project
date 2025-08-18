@@ -12,9 +12,6 @@ def product_list(request):
     if category:
         products = products.filter(category=category)
 
-    for product in products:
-        product.new_price = product.price + 200  # новата променлива
-
     # Филтрирање по ценовен опсег
     price_range = request.GET.get('price_range')
     if price_range:
@@ -35,6 +32,9 @@ def product_list(request):
         products = products.order_by('-created_at')
     elif sort == 'oldest':
         products = products.order_by('created_at')
+
+    for product in products:
+        product.new_price = product.price + 200  # новата променлива
 
     return render(request, 'product_page.html', {'products': products})
 
