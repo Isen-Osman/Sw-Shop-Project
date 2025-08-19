@@ -29,6 +29,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('create-order/', orders.views.create_order, name='create_order'),
     path('order-success/<int:order_id>/', orders.views.order_success, name='order_success'),
+    path('collections/', views.collections_page, name='collections'),
+
+    # urls.py
+    path('products/category/<str:category_name>/', views.products_by_category, name='products_by_category')
 
 ]
 

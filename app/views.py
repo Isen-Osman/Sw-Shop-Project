@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import ProductForm
-from .models import Product, ProductImage, ProductQuantity
-from django.forms.models import inlineformset_factory
 
 
 def product_list(request):
@@ -37,7 +35,7 @@ def product_list(request):
     for product in products:
         product.new_price = product.price + 200  # новата променлива
 
-    return render(request, 'product_page.html', {'products': products})
+    return render(request, 'products/product_page.html', {'products': products})
 
 
 def recently_added_products(request):
@@ -133,30 +131,32 @@ def product_edit(request, product_id):
     })
 
 
-def product_delete(request, pk):
-    product = get_object_or_404(Product, pk=pk)
+def product_delete(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
     product.delete()
     return redirect('products')
 
 
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
-
-    # Додај нов атрибут за новата цена
+    available_sizes = product.quantities.filter(quantity__gt=0)
     product.new_price = product.price + 200
-
-    return render(request, 'products/product_detail.html', {'product': product})
+    context = {
+        'product': product,
+        'available_sizes': available_sizes,
+    }
+    return render(request, 'products/product_detail.html', context)
 
 
 def products_by_category(request, category_name):
-    # филтрирај продукти според параметарот од URL
+    # Филтрирај продукти според category enum field
     products = Product.objects.filter(category=category_name)
 
-    # додај нов атрибут за new_price
+    # Додај нов атрибут за new_price
     for product in products:
         product.new_price = product.price + 200
 
-    return render(request, 'product_page.html', {
+    return render(request, 'products/product_page.html', {
         'products': products,
         'category_name': category_name.capitalize()
     })
