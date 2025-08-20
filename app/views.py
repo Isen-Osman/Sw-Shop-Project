@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import ProductForm
@@ -166,3 +167,28 @@ def products_by_category(request, category_name):
 
 def collections_page(request):
     return render(request, 'collections_page.html', )
+
+
+def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')  # веќе логирани корисници одат на home
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+
+    return render(request, 'registration/login.html')
+
+
+
+def profile_view(request):
+    return render(request, 'registration/profile.html')
+
+
+def google_login_view(request):
+    return render(request, 'registration/google_login.html')

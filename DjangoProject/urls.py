@@ -5,10 +5,10 @@ from django.contrib import admin
 import orders.views
 from app import views
 from wishlist import views as wishlist_views
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
-    # path('accounts/', include('allauth.urls')),  # AllAuth URL-и
+    path('accounts/', include('allauth.urls')),  # AllAuth URL-и
 
     path('admin/', admin.site.urls),
 
@@ -31,7 +31,10 @@ urlpatterns = [
     path('collections/', views.collections_page, name='collections'),
 
     # urls.py
-    path('products/category/<str:category_name>/', views.products_by_category, name='products_by_category')
+    path('products/category/<str:category_name>/', views.products_by_category, name='products_by_category'),
+
+    path('profile/', views.profile_view, name='profile_page'),
+    path('google-login/', views.google_login_view, name='google_login_page'),
 
 ]
 
