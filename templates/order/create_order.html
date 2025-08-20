@@ -1,4 +1,6 @@
 {% extends 'partials/base.html' %}
+{% load widget_tweaks %}
+{% load humanize %}
 
 {% block title %}Креирај нарачка{% endblock %}
 
@@ -31,7 +33,7 @@
                         <div class="ml-4 flex-1">
                             <div class="flex justify-between text-base font-medium text-gray-900">
                                 <h3>{{ product.name }}</h3>
-                                <p class="ml-4">{{ product.price }} ден</p>
+                                <p class="ml-4">{{ product.price|floatformat:0|intcomma }} ден</p>
                             </div>
                         </div>
                     </li>
@@ -42,15 +44,15 @@
                 <div class="border-t border-gray-200 mt-6 pt-6 space-y-3">
                     <div class="flex justify-between text-base font-medium text-gray-900">
                         <p>Вкупно продукти:</p>
-                        <p>{{ total_price|floatformat:0 }} ден</p>
+                        <p>{{ total_price|floatformat:0|intcomma }} ден</p>
                     </div>
                     <div class="flex justify-between text-base font-medium text-gray-900">
                         <p>Карго:</p>
-                        <p>{{ shipping_price|floatformat:0 }} ден</p>
+                        <p>{{ shipping_price|floatformat:0|intcomma }} ден</p>
                     </div>
                     <div class="flex justify-between text-lg font-bold text-gray-900 pt-2 border-t border-gray-200">
                         <p>Вкупно за плаќање:</p>
-                        <p>{{ final_price|floatformat:0 }} ден</p>
+                        <p>{{ final_price|floatformat:0|intcomma }} ден</p>
                     </div>
                 </div>
             {% else %}
@@ -84,6 +86,7 @@
                             {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
                         </label>
                         <div class="mt-1">
+                            {% render_field field class="block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 shadow-sm focus:border-pink-500 focus:ring-pink-500" %}
                             {% if field.errors %}
                                 <p class="mt-1 text-sm text-red-600">
                                     {% for error in field.errors %}

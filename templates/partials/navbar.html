@@ -92,71 +92,74 @@
                 </div>
             </div>
 
+
             <!-- Right side - User actions -->
-            <div class="flex items-center space-x-2 lg:space-x-4">
-                <button class="p-2 rounded-full transition-all duration-300 hover:bg-white/20 focus:outline-none">
-                    <i class="far fa-user w-6 h-6 nav-text transform hover:scale-105"></i>
-                </button>
-                <a href="/wishlist"
-                   class="relative p-2 rounded-full transition-all duration-300 focus:outline-none">
-                    <i class="fas fa-heart w-6 h-6 nav-text hover:text-red-600 ease-in-out transform hover:scale-105"></i>
-                </a>
-            </div>
+            <a href="{% url 'profile_page' %}"
+               class="p-2 rounded-full transition-all duration-300 hover:bg-white/20 focus:outline-none">
+                <i class="far fa-user w-6 h-6 nav-text transform hover:scale-105"></i>
+            </a>
+
+            <a href="/wishlist"
+               class="relative p-2 rounded-full transition-all duration-300 focus:outline-none">
+                <i class="fas fa-heart w-6 h-6 nav-text hover:text-red-600 ease-in-out transform hover:scale-105"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenuOverlay"></div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-xl font-bold text-gray-800">Menu</h2>
+            <button id="closeMenu"
+                    class="focus:outline-none text-gray-800 hover:scale-110 active:scale-90 transition-transform">
+                <i class="fas fa-times w-6 h-6"></i>
+            </button>
         </div>
 
-        <!-- Mobile Menu Overlay -->
-        <div id="mobileMenuOverlay"></div>
-
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="mobile-menu">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-xl font-bold text-gray-800">Menu</h2>
-                <button id="closeMenu"
-                        class="focus:outline-none text-gray-800 hover:scale-110 active:scale-90 transition-transform">
-                    <i class="fas fa-times w-6 h-6"></i>
-                </button>
-            </div>
-
-            <nav>
-                <ul class="space-y-4">
-                    <li class="menu-item">
-                        <a href="{% url 'home' %}"
-                           class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
-                            Home
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="{% url 'products' %}"
-                           class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
-                            Shop
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="{% url 'collections' %}"
-                           class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
-                            Collections
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#"
-                           class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
-                            About Us
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="#"
-                           class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
-                            Contact
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        <nav>
+            <ul class="space-y-4">
+                <li class="menu-item">
+                    <a href="{% url 'home' %}"
+                       class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
+                        Home
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{% url 'products' %}"
+                       class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
+                        Shop
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="{% url 'collections' %}"
+                       class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
+                        Collections
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#"
+                       class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
+                        About Us
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#"
+                       class="block py-2 px-3 text-gray-800 hover:text-pink-500 hover:bg-pink-50 rounded-lg transition-all duration-300">
+                        Contact
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
     </div>
 
     <!-- Decorative Gradient -->
     <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-pink-200 to-transparent opacity-50"></div>
 </nav>
+
 
 <script>
     const menuToggle = document.getElementById('menuToggle');

@@ -5,10 +5,10 @@ from django.contrib import admin
 import orders.views
 from app import views
 from wishlist import views as wishlist_views
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
-    # path('accounts/', include('allauth.urls')),  # AllAuth URL-и
+    path('accounts/', include('allauth.urls')),  # AllAuth URL-и
 
     path('admin/', admin.site.urls),
 
@@ -18,8 +18,7 @@ urlpatterns = [
     path('product/<int:product_id>/edit/', views.product_edit, name='product_edit'),
     path('product/<int:pk>/', views.product_detail, name='product_detail'),
     path('products/', views.product_list, name='products'),
-    path("category/<str:category_name>/", views.products_by_category, name="products_by_category"),
-    path('wishlist/', wishlist_views.wishlist_view, name='wishlist'),
+    path('products/category/<int:category_id>/', views.product_list, name='products_by_category'),
 
     path('collections/', views.collections_page, name='collections'),
     path('wishlist', wishlist_views.wishlist_view, name='wishlist'),
@@ -32,7 +31,10 @@ urlpatterns = [
     path('collections/', views.collections_page, name='collections'),
 
     # urls.py
-    path('products/category/<str:category_name>/', views.products_by_category, name='products_by_category')
+    path('products/category/<str:category_name>/', views.products_by_category, name='products_by_category'),
+
+    path('profile/', views.profile_view, name='profile_page'),
+    path('google-login/', views.google_login_view, name='google_login_page'),
 
 ]
 

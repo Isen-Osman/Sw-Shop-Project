@@ -1,0 +1,64 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+<div class="bg-white p-10 rounded-2xl shadow-2xl w-96 text-center">
+
+    {% if user.is_authenticated %}
+        <!-- Logged in -->
+        <div class="flex flex-col items-center gap-4">
+
+            {% if user.socialaccount_set.all|length > 0 %}
+                <img src="{{ user.socialaccount_set.all|first }}"
+                     alt="Profile picture" class="w-20 h-20 rounded-full shadow">
+
+            {% else %}
+                <div class="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center text-2xl text-white font-bold">
+                    {{ user.first_name|first }}{{ user.last_name|first }}
+                </div>
+            {% endif %}
+
+            <h2 class="text-2xl font-bold text-gray-800">{{ user.first_name }} {{ user.last_name }}</h2>
+            <p class="text-gray-500">{{ user.email }}</p>
+
+            <div class="mt-6 flex flex-col gap-3">
+                <a href="{% url 'account_logout' %}"
+                   class="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-medium">
+                    Logout
+                </a>
+                <a href="{% url 'profile_page' %}"
+                   class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-medium">
+                    Refresh Profile
+                </a>
+            </div>
+        </div>
+
+    {% else %}
+        <!-- Not logged in -->
+        <h2 class="text-2xl font-semibold mb-6 text-gray-800">Најави се за да продолжиш</h2>
+
+        <a href="{% provider_login_url 'google' %}"
+           class="flex items-center justify-center gap-2 px-6 py-3 rounded-lg shadow font-medium
+                  bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 transition transform hover:scale-105">
+            <span class="text-red-500 font-bold">G</span>
+            <span class="text-blue-500 font-bold">o</span>
+            <span class="text-yellow-400 font-bold">o</span>
+            <span class="text-blue-500 font-bold">g</span>
+            <span class="text-green-500 font-bold">l</span>
+            <span class="text-red-500 font-bold">e</span>
+            <span class="ml-2">Sign in</span>
+        </a>
+
+        <p class="text-gray-500 mt-4 text-sm">Нема сметка? Кликни и регистрирај се.</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

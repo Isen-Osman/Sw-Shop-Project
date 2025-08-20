@@ -29,7 +29,7 @@
     <!-- Recently Added Products -->
     <section class="py-16 container mx-auto px-6">
         <div class="flex justify-between items-center mb-12">
-            <h2 class="text-3xl font-bold">Recently Added</h2>
+            <h2 class="text-3xl font-bold">New Arrivals</h2>
             <a href="{% url 'products' %}" class="text-pink-600 hover:text-pink-700">View All →</a>
         </div>
 
@@ -70,23 +70,10 @@
         </div>
     </section>
 
-    {% load socialaccount %}
-
     <!-- Newsletter -->
     <section class="py-16 bg-white">
         <div class="container mx-auto px-6 max-w-4xl text-center">
             <h2 class="text-3xl font-bold mb-4">Join Our Newsletter</h2>
-
-            <!-- Google Login Button без слика -->
-            <a href="{% provider_login_url 'google' %}"
-               class="flex items-center justify-center px-4 py-2 rounded-lg shadow text-white font-medium
-          bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500
-          hover:opacity-90 transition">
-                Login with Google
-            </a>
-
-            <button><a href="{% provider_login_url 'facebook' method='oauth2' %}">Login Facebook</a></button>
-
             <p class="text-gray-600 mb-8">Subscribe to get 15% off your first order</p>
             <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
                 <input type="email" placeholder="Your email address"
