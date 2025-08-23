@@ -1,54 +1,73 @@
-
 {% extends "partials/base.html" %}
 
-{% block title %}Продукти | Modern Shop{% endblock %}
+{% block title %}Продукти | SW SHOP{% endblock %}
 
 {% block content %}
     <style>
         div {
             font-family: "PPRadioGrotesk", Arial, sans-serif;
         }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
     </style>
+
     <div class="min-h-screen bg-gray-50 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
             <!-- Search and Filter Section -->
-            <div class="bg-white rounded-lg shadow-sm mb-8 mt-10">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <a href="{% url 'product_add' %}"
-                       class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 mt-4 sm:mt-0">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                        </svg>
-                        Додади нов продукт
-                    </a>
-                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            <div class="bg-white rounded-lg shadow-sm mb-8 mt-10 p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="flex flex-col sm:flex-row gap-4 flex-1">
+                    <input id="searchInput" type="text" placeholder="Пребарај производи..."
+                           class="w-full sm:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"/>
+                    <select id="categoryFilter"
+                            class="w-full sm:w-48 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200">
                         <option value="">Сите категории</option>
                         <option value="shirts">Маици</option>
                         <option value="pants">Панталони</option>
                         <option value="shoes">Чевли</option>
                     </select>
-                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    <select id="priceFilter"
+                            class="w-full sm:w-48 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200">
                         <option value="">Сите цени</option>
                         <option value="0-500">0-500 ден.</option>
                         <option value="500-1000">500-1000 ден.</option>
                         <option value="1000+">1000+ ден.</option>
                     </select>
                 </div>
+
+                {% if request.user.is_superuser %}
+                    <a href="{% url 'product_add' %}"
+                       class="mt-4 md:mt-0 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Додади нов продукт
+                    </a>
+                {% endif %}
             </div>
 
             <!-- Products Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {% for product in products %}
-                    <div class="bg-white overflow-hidden group">
+                    <div class="relative bg-white overflow-hidden rounded-lg shadow hover:shadow-lg transition-shadow duration-300 group">
+
+                        <!-- Product Link as overlay -->
+                        <a href="{% url 'product_detail' product.id %}" class="absolute inset-0 z-10"></a>
+
                         <!-- Product Image -->
                         <div class="relative h-96 bg-gray-200 overflow-hidden">
                             {% if product.images.all %}
                                 <img src="{{ product.images.first.image.url }}"
                                      alt="{{ product.name }}"
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                     class="w-full h-full object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105">
                                 {% if product.images.count > 1 %}
-                                    <div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded-full">
+                                    <div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded-full z-20">
                                         +{{ product.images.count|add:"-1" }}
                                     </div>
                                 {% endif %}
@@ -62,88 +81,96 @@
                                 </div>
                             {% endif %}
 
-                            <!-- Quick Actions Overlay -->
-                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                                <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex space-x-2">
-                                    <a href="{% url 'product_detail' product.id %}"
-                                       class="bg-white text-gray-800 p-2 rounded-full hover:bg-gray-100 transition-colors">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                                        </svg>
-                                    </a>
+                            <!-- Discount Badge -->
+                            {% if product.new_price %}
+                                <div class="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md z-20">
+                                    {{ product.discount_percentage }}% попуст
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Product Info -->
+                        <div class="p-4 relative z-20">
+                            <h3 class="font-medium text-gray-800 mb-1 font-light line-clamp-2">{{ product.name }}</h3>
+
+                            <div class="flex flex-col mb-4">
+                                {% if product.new_price %}
+                                    <!-- Случај кога има попуст -->
+                                    <div class="flex items-baseline gap-2">
+                                        <span class="text-lg font-semibold text-gray-500 line-through">{{ product.new_price }} ден</span>
+                                        <span class="text-lg font-bold text-red-600">{{ product.price }} ден</span>
+                                    </div>
+                                    <div>
+            <span class="text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded-full">
+                Заштеда {{ product.savings }} ден
+            </span>
+                                    </div>
+                                {% else %}
+                                    <!-- Редовна цена без попуст -->
+                                    <div>
+                                        <span class="text-lg font-bold text-gray-900">{{ product.price }} ден</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+
+                            <!-- Action Buttons for Superuser -->
+                            {% if request.user.is_superuser %}
+                                <div class="flex space-x-2 mt-2">
                                     <a href="{% url 'product_edit' product.id %}"
-                                       class="bg-white text-gray-800 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                                       class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-lg transition-colors duration-200 z-30">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                   d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                         </svg>
                                     </a>
+                                    <button onclick="showDeleteModal('{{ product.id }}', '{{ product.name }}')"
+                                            class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition-colors duration-200 z-30">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Product Info -->
-                        <div class="">
-                            <div class="flex items-start justify-between mb-2 pt-3">
-                                <h3 class="font-medium text-gray-800 mb-1 font-light">{{ product.name }}</h3>
-                            </div>
-
-                            <div class="flex items-center">
-                                <span class="font-light text-sm text-red-500 mr-1 line-through">{{ product.new_price }}</span>
-                                <span class="font-light text-sm">{{ product.price }} ден</span>
-                            </div>
-
-                            <!-- Action Buttons -->
-                            <div class="flex space-x-2 my-3">
-                                <a href="{% url 'product_detail' product.id %}"
-                                   class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-center py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200">
-                                    Детали
-                                </a>
-                                <a href="{% url 'product_edit' product.id %}"
-                                   class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-lg transition-colors duration-200">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                    </svg>
-                                </a>
-                                <button onclick="showDeleteModal('{{ product.id }}', '{{ product.name }}')"
-                                        class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition-colors duration-200">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                    </svg>
-                                </button>
-                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 {% empty %}
-                    <div class="col-span-full">
-                        <div class="text-center py-12">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
-                                 viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                            </svg>
-                            <h3 class="mt-2 text-sm font-medium text-gray-900">Нема производи</h3>
-                            <p class="mt-1 text-sm text-gray-500">Започнете со додавање на вашиот прв продукт.</p>
+                    <div class="col-span-full text-center py-12">
+                        <h3 class="mt-2 text-sm font-medium text-gray-900">Нема производи</h3>
+                        <p class="mt-1 text-sm text-gray-500">Започнете со додавање на вашиот прв продукт.</p>
+                        {% if request.user.is_superuser %}
                             <div class="mt-6">
                                 <a href="{% url 'product_add' %}"
                                    class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
-                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                    </svg>
                                     Додади продукт
                                 </a>
                             </div>
-                        </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
 
+            <!-- Додадете го овој код во вашиот Django модел или контекст за да ги пресметате попустите -->
+            {% comment %}
+Во вашиот модел или view, додадете ги следните методи:
+
+class Product(models.Model):
+    # ... постоечки полиња ...
+
+    @property
+    def discount_percentage(self):
+        if self.new_price and self.price:
+            discount = ((self.price - self.new_price) / self.price) * 100
+            return round(discount)
+        return 0
+
+    @property
+    def savings(self):
+        if self.new_price and self.price:
+            return self.price - self.new_price
+        return 0
+{% endcomment %}
             <!-- Pagination -->
             {% if products.has_other_pages %}
                 <div class="mt-8 flex justify-center">
@@ -154,20 +181,14 @@
                                 Претходна
                             </a>
                         {% endif %}
-
                         {% for num in products.paginator.page_range %}
                             {% if products.number == num %}
-                                <span class="px-3 py-2 text-sm font-medium text-white bg-indigo-600 border border-indigo-600 rounded-md">
-                            {{ num }}
-                        </span>
+                                <span class="px-3 py-2 text-sm font-medium text-white bg-indigo-600 border border-indigo-600 rounded-md">{{ num }}</span>
                             {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
                                 <a href="?page={{ num }}"
-                                   class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
-                                    {{ num }}
-                                </a>
+                                   class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">{{ num }}</a>
                             {% endif %}
                         {% endfor %}
-
                         {% if products.has_next %}
                             <a href="?page={{ products.next_page_number }}"
                                class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
@@ -180,169 +201,75 @@
         </div>
     </div>
 
-    <!-- Beautiful Delete Confirmation Modal -->
-    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0"
-             id="modalContent">
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between p-6 border-b border-gray-100">
-                <div class="flex items-center space-x-3">
-                    <div class="flex-shrink-0">
+    <!-- Delete Confirmation Modal -->
+    {% if request.user.is_superuser %}
+        <div id="deleteModal"
+             class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0"
+                 id="modalContent">
+                <div class="flex items-center justify-between p-6 border-b border-gray-100">
+                    <div class="flex items-center space-x-3">
                         <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
                             <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.986l-6.928-12c-.77-1.319-2.694-1.319-3.464 0l-6.928 12c-.77 1.32.192 2.986 1.732 2.986z"></path>
                             </svg>
                         </div>
+                        <h3 class="text-lg font-medium text-gray-900">Избриши продукт</h3>
                     </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900">Избриши продукт</h3>
-                        <p class="text-sm text-gray-500">Оваа акција не може да се врати</p>
-                    </div>
+                    <button onclick="closeDeleteModal()" class="text-gray-400 hover:text-gray-600">✕</button>
                 </div>
-                <button onclick="hideDeleteModal()"
-                        class="text-gray-400 hover:text-gray-600 transition-colors duration-200">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Modal Body -->
-            <div class="p-6">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-gray-700 mb-4">
-                            Дали сте сигурни дека сакате да го избришете продуктот
-                            <span class="font-semibold text-gray-900" id="productNameModal"></span>?
-                        </p>
-                        <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-                            <div class="flex items-start space-x-3">
-                                <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                                </svg>
-                                <div>
-                                    <p class="text-sm font-medium text-red-800">Предупредување</p>
-                                    <p class="text-sm text-red-700 mt-1">
-                                        Оваа акција ќе го избрише продуктот засекогаш. Сите поврзани слики и податоци ќе
-                                        бидат изгубени.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="p-6">
+                    <p class="text-sm text-gray-500">Дали сте сигурни дека сакате да го избришете <span
+                            id="deleteProductName" class="font-medium"></span>? Оваа акција не може да се поништи.</p>
                 </div>
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="flex items-center justify-end space-x-3 p-6 border-t border-gray-100 bg-gray-50 rounded-b-2xl">
-                <button onclick="hideDeleteModal()"
-                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200">
-                    Откажи
-                </button>
-                <a id="deleteConfirmLink" href="#"
-                   class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                    </svg>
-                    Избриши продукт
-                </a>
+                <div class="flex justify-end p-6 border-t border-gray-100 space-x-3">
+                    <button onclick="closeDeleteModal()"
+                            class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition duration-200">
+                        Откажи
+                    </button>
+                    <form method="post" id="deleteForm">
+                        {% csrf_token %}
+                        <button type="submit"
+                                class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition duration-200">
+                            Избриши
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 
     <script>
-        // Delete Modal Functions
         function showDeleteModal(productId, productName) {
+            document.getElementById('deleteProductName').textContent = productName;
             const modal = document.getElementById('deleteModal');
-            const modalContent = document.getElementById('modalContent');
-            const productNameElement = document.getElementById('productNameModal');
-            const deleteLink = document.getElementById('deleteConfirmLink');
-
-            // Set product name and delete URL
-            productNameElement.textContent = productName;
-            deleteLink.href = `/product/${productId}/delete/`;
-
-            // Show modal with animation
+            const form = document.getElementById('deleteForm');
+            form.action = `/products/delete/${productId}/`;
             modal.classList.remove('hidden');
             setTimeout(() => {
-                modalContent.classList.remove('scale-95', 'opacity-0');
-                modalContent.classList.add('scale-100', 'opacity-100');
+                document.getElementById('modalContent').classList.remove('opacity-0', 'scale-95');
             }, 10);
-
-            // Prevent body scroll
-            document.body.style.overflow = 'hidden';
         }
 
-        function hideDeleteModal() {
+        function closeDeleteModal() {
             const modal = document.getElementById('deleteModal');
-            const modalContent = document.getElementById('modalContent');
-
-            // Hide modal with animation
-            modalContent.classList.remove('scale-100', 'opacity-100');
-            modalContent.classList.add('scale-95', 'opacity-0');
-
+            const content = document.getElementById('modalContent');
+            content.classList.add('opacity-0', 'scale-95');
             setTimeout(() => {
                 modal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }, 300);
+            }, 200);
         }
 
-        // Close modal when clicking outside
-        document.getElementById('deleteModal').addEventListener('click', function (e) {
-            if (e.target === this) {
-                hideDeleteModal();
-            }
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                hideDeleteModal();
-            }
-        });
-
-        // Search functionality
-        document.addEventListener('DOMContentLoaded', function () {
-            const searchInput = document.querySelector('input[placeholder="Пребарај производи..."]');
-            if (searchInput) {
-                searchInput.addEventListener('input', function (e) {
-                    const searchTerm = e.target.value.toLowerCase();
-                    const productCards = document.querySelectorAll('.grid > div');
-
-                    productCards.forEach(card => {
-                        const productName = card.querySelector('h3').textContent.toLowerCase();
-                        const productDesc = card.querySelector('p').textContent.toLowerCase();
-
-                        if (productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                });
-            }
+        // Simple search filter
+        document.getElementById('searchInput').addEventListener('input', function () {
+            const filter = this.value.toLowerCase();
+            const cards = document.querySelectorAll('#productsGrid > div');
+            cards.forEach(card => {
+                const name = card.querySelector('h3').textContent.toLowerCase();
+                card.style.display = name.includes(filter) ? '' : 'none';
+            });
         });
     </script>
 
-    <style>
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-    </style>
 {% endblock %}

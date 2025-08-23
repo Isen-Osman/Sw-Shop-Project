@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Потврда на нарачка | SW SHOP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        champagne: {
+                            50: '#fdf9f5',
+                            100: '#f8f2ec',
+                            200: '#f0e2d5',
+                            300: '#e5cab4',
+                            400: '#d4af97',
+                            500: '#c8957a',
+                            600: '#b57c63',
+                            700: '#8B5A3C',
+                        },
+                        rose: {
+                            50: '#fef2f2',
+                            100: '#ffe6e6',
+                            200: '#ffd1d1',
+                            300: '#ffadad',
+                            400: '#ff7a7a',
+                            500: '#ff5252',
+                            600: '#ed2c2c',
+                            700: '#c81d1d',
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Playfair Display', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fdf9f5;
+        }
+        .animate-checkmark {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 2s ease-out forwards;
+        }
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        .order-item {
+            transition: all 0.3s ease;
+        }
+        .order-item:hover {
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body class="bg-champagne-50 min-h-screen flex items-center justify-center py-8 px-4">
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full mx-4">
+        <!-- Success Header -->
+        <div class="text-center mb-8">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-12 h-12 text-green-600" viewBox="0 0 52 52">
+                    <circle class="fill-current" cx="26" cy="26" r="25" fill="none"></circle>
+                    <path class="animate-checkmark stroke-current" fill="none" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="M14.1 27.2l7.1 7.2 16.7-16.8"></path>
+                </svg>
+            </div>
+            <h1 class="font-display text-3xl font-bold text-gray-800 mb-2">Вашата нарачка е потврдена!</h1>
+            <p class="text-gray-600">Испратен е е-мејл со детали за нарачката.</p>
+        </div>
+
+        <!-- Customer Info -->
+        <div class="bg-champagne-50 rounded-xl p-5 mb-6 border border-champagne-200">
+            <h2 class="font-semibold text-gray-700 mb-2 flex items-center">
+                <i class="fas fa-user-circle mr-2 text-champagne-600"></i>
+                Информации за купувачот
+            </h2>
+            <p class="text-gray-800">{{ order.user.first_name }} {{ order.user.last_name }}</p>
+            <p class="text-gray-600 text-sm mt-1">Ќе добиете потврда и детали за испораката на вашата е-маил адреса.</p>
+        </div>
+
+        <!-- Order Details -->
+        <div class="border border-gray-100 rounded-xl overflow-hidden mb-6">
+            <div class="bg-gradient-to-r from-champagne-500 to-champagne-600 p-4">
+                <h2 class="font-display text-white text-xl font-semibold flex items-center">
+                    <i class="fas fa-receipt mr-2"></i>
+                    Детали за нарачката
+                </h2>
+            </div>
+
+            <div class="p-4 bg-white">
+                <div class="space-y-4">
+                    {% for item in order.items.all %}
+                    <div class="order-item flex items-center border-b border-gray-100 pb-4 last:border-0 last:pb-0">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                            <!-- Product image would go here -->
+                            <div class="w-full h-full flex items-center justify-center bg-gray-100">
+                                <i class="fas fa-tshirt text-champagne-400 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="ml-4 flex-1">
+                            <h3 class="font-medium text-gray-800">{{ item.product.name }}</h3>
+                            <div class="flex justify-between items-center mt-1">
+                                <p class="text-sm text-gray-600">Количина: {{ item.quantity }}</p>
+                                <p class="text-champagne-700 font-medium">{{ item.price }} ден.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-gray-200">
+                    <div class="flex justify-between items-center text-lg font-semibold">
+                        <span class="text-gray-700">Вкупно:</span>
+                        <span class="text-champagne-700">{{ order.total_price }} ден.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="bg-gray-50 rounded-xl p-5 mb-6">
+            <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                <i class="fas fa-info-circle mr-2 text-champagne-600"></i>
+                Што следува?
+            </h3>
+            <ul class="space-y-2 text-sm text-gray-600">
+                <li class="flex items-start">
+                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                    <span>Ќе добиете потврда по е-пошта во наредните неколку минути</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-truck text-champagne-600 mt-1 mr-2"></i>
+                    <span>Вашата нарачка ќе биде испратена во рок од 3-4 работни дена</span>
+                </li>
+                <li class="flex items-start">
+                    <i class="fas fa-phone text-champagne-600 mt-1 mr-2"></i>
+                    <span>За прашања, контактирајте не на <span class="font-medium">+389 70 123 456</span></span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3">
+            <a href="{% url 'products' %}" class="flex-1 bg-champagne-600 hover:bg-champagne-700 text-white text-center py-3 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Кон продукти
+            </a>
+            <a href="#" class="flex-1 border border-champagne-600 text-champagne-700 hover:bg-champagne-50 text-center py-3 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center">
+                <i class="fas fa-home mr-2"></i>
+                Кон почетна
+            </a>
+        </div>
+
+        <!-- Order Number -->
+        <div class="mt-6 text-center text-sm text-gray-500">
+            Број на нарачка: #{{ order.id }}
+        </div>
+    </div>
+</body>
+</html>

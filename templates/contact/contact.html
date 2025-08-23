@@ -1,0 +1,62 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}Контакт | SW SHOP{% endblock %}
+
+{% block content %}
+<section class="py-20 hero-pattern min-h-screen">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl md:text-5xl font-display font-bold text-center mb-6 gradient-text">
+            Контакт со Нас
+        </h1>
+        <p class="text-center text-gray-600 mb-12 text-lg">
+            Имате прашање? Испратете ни порака и ќе Ви одговориме што е можно побрзо.
+        </p>
+
+        {% if messages %}
+            <div class="mb-8 space-y-4">
+                {% for message in messages %}
+                    <div class="bg-green-50 border-l-4 border-green-400 text-green-700 px-6 py-4 rounded shadow-md transition-all duration-300">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form action="{% url 'contact' %}" method="post" class="bg-white bg-opacity-90 backdrop-blur-md p-10 rounded-3xl shadow-xl space-y-6 hover:shadow-2xl transition-shadow duration-500">
+            {% csrf_token %}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <input type="text" name="first_name" placeholder="Име" required
+                       class="w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-all duration-300 shadow-sm">
+                <input type="text" name="last_name" placeholder="Презиме" required
+                       class="w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-all duration-300 shadow-sm">
+            </div>
+
+            <input type="email" name="email" placeholder="Вашиот e-mail" required
+                   class="w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-all duration-300 shadow-sm">
+
+            <textarea name="message" placeholder="Вашата порака" rows="6" required
+                      class="w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent transition-all duration-300 shadow-sm resize-none"></textarea>
+
+            <button type="submit"
+                    class="w-full py-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold rounded-xl hover:from-pink-600 hover:to-purple-600 transition-all duration-300 shadow-lg">
+                Испрати порака
+            </button>
+        </form>
+    </div>
+</section>
+
+<style>
+    .hero-pattern {
+        background-color: #fdf2f8;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f9a8d4' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        background-repeat: repeat;
+    }
+
+    .gradient-text {
+        background: linear-gradient(135deg, #ec4899, #8b5cf6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
+{% endblock %}

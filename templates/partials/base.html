@@ -1,18 +1,27 @@
 {% load socialaccount %}
 {% providers_media_js %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mk">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}My shop{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Shop{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-50">
+
+<!-- Navbar -->
 {% include "partials/navbar.html" %}
 
-<main>
-    {% block content %}{% endblock %}
+<!-- Main content -->
+<main class="pt-20">  {# padding-top еднакво на висината на navbar #}
+    {% block content %}
+    {% endblock %}
 </main>
 
+<!-- Footer -->
 {% include "partials/footer.html" %}
+
 </body>
 </html>

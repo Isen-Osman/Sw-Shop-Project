@@ -11,7 +11,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # -------------------------------
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
-ALLOWED_HOSTS = []
 
 # -------------------------------
 # Installed Apps
@@ -87,6 +86,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app.context_processors.categories_processor',
+
             ],
         },
     },
@@ -140,7 +141,7 @@ SITE_ID = 1
 # -------------------------------
 # Allauth settings
 # -------------------------------
-LOGIN_REDIRECT_URL = '/profile/'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 ACCOUNT_LOGIN_METHODS = {'username', 'email'}
@@ -161,3 +162,17 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+EMAIL_HOST_USER = config('EMAIL_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_PASSWORD')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+ALLOWED_HOSTS = ['192.168.1.196', '192.168.1.187', 'localhost', '127.0.0.1', '192.168.1.185', ]
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
