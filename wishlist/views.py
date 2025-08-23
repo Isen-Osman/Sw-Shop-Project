@@ -16,7 +16,8 @@ def wishlist_view(request):
     return render(request, 'wishlist/wishlist.html', {'wishlist': wishlist, 'total_price': total_price})
 
 
-@login_required
+
+@login_required(login_url='/accounts/google/login/')
 def wishlist_add(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)

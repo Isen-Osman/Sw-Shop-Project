@@ -1,9 +1,13 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.http import JsonResponse
+from django.db.models import Q
 from .forms import ProductForm
-from .models import Product, ProductImage, ProductQuantity
-from django.forms.models import inlineformset_factory
+from .models import Product, ProductQuantity, ProductImage, Size
+from django.core.mail import send_mail
+from django.conf import settings
+
+from django.contrib import messages
 
 
 def product_list(request):
@@ -42,19 +46,18 @@ def product_list(request):
 
 
 def recently_added_products(request):
-    products = Product.objects.all().order_by('-created_at')[:5]  # последни 5 продукти
+    products = Product.objects.all().order_by('-created_at')[:5]
 
-    # Додај нов атрибут за новата цена
     for product in products:
-        product.new_price = product.price + 200  # новата променлива
+        product.new_price = product.price + 200
 
     return render(request, 'home/home_page.html', {'products': products})
 
 
-from .models import Product, ProductQuantity, ProductImage, Size
-
-
 def product_add(request):
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        return redirect('home')
+
     if request.method == 'POST':
         product_form = ProductForm(request.POST)
         images = request.FILES.getlist('images')
@@ -62,13 +65,11 @@ def product_add(request):
         if product_form.is_valid():
             product = product_form.save()
 
-            # зачувај quantity за секоја size
             for size in Size.values:
                 qty = int(request.POST.get(f'quantity_{size}', 0))
                 if qty > 0:
                     ProductQuantity.objects.create(product=product, size=size, quantity=qty)
 
-            # зачувај слики
             for img in images:
                 ProductImage.objects.create(product=product, image=img)
 
@@ -78,13 +79,16 @@ def product_add(request):
 
     return render(request, 'products/product_add.html', {
         'form': product_form,
-        'sizes': Size.values,  # праќаме ги сите size во template
+        'sizes': Size.values,
     })
 
 
 def product_edit(request, product_id):
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        return redirect('home')
+
     product = get_object_or_404(Product, id=product_id)
-    sizes = Size.values  # листа на сите големини (M, L, XL...)
+    sizes = Size.values
 
     if request.method == 'POST':
         form = ProductForm(request.POST, instance=product)
@@ -93,7 +97,6 @@ def product_edit(request, product_id):
         if form.is_valid():
             form.save()
 
-            # Зачувај quantity за секоја size
             for size in sizes:
                 qty_str = request.POST.get(f'quantity_{size}', '0')
                 try:
@@ -108,7 +111,6 @@ def product_edit(request, product_id):
                         defaults={'quantity': qty}
                     )
 
-            # Додај нови слики ако има
             for img in images:
                 ProductImage.objects.create(product=product, image=img)
 
@@ -116,13 +118,11 @@ def product_edit(request, product_id):
     else:
         form = ProductForm(instance=product)
 
-    # Подготовка на quantity за секој size за template
     size_quantities = {}
     for size in sizes:
         pq = ProductQuantity.objects.filter(product=product, size=size).first()
         size_quantities[size] = pq.quantity if pq else 0
 
-    # Подготовка на size_data (size, quantity) tuple list
     size_data = [(size, size_quantities[size]) for size in sizes]
 
     return render(request, 'products/product_edit.html', {
@@ -130,12 +130,15 @@ def product_edit(request, product_id):
         'product': product,
         'sizes': sizes,
         'size_quantities': size_quantities,
-        'size_data': size_data,  # додаено за template
+        'size_data': size_data,
     })
 
 
-def product_delete(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
+def product_delete(request, pk):
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        return redirect('home')
+
+    product = get_object_or_404(Product, pk=pk)
     product.delete()
     return redirect('products')
 
@@ -152,10 +155,8 @@ def product_detail(request, pk):
 
 
 def products_by_category(request, category_name):
-    # Филтрирај продукти според category enum field
     products = Product.objects.filter(category=category_name)
 
-    # Додај нов атрибут за new_price
     for product in products:
         product.new_price = product.price + 200
 
@@ -166,12 +167,12 @@ def products_by_category(request, category_name):
 
 
 def collections_page(request):
-    return render(request, 'collections_page.html', )
+    return render(request, 'lg/collections_page.html')
 
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('home')  # веќе логирани корисници одат на home
+        return redirect('home')
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -185,10 +186,57 @@ def login_view(request):
     return render(request, 'registration/login.html')
 
 
-
 def profile_view(request):
     return render(request, 'registration/profile.html')
 
 
-def google_login_view(request):
-    return render(request, 'registration/google_login.html')
+def custom_logout(request):
+    logout(request)
+    return redirect('/')
+
+
+def search_view(request):
+    query = request.GET.get('q', '')
+    results = []
+
+    if query:
+        products = Product.objects.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query) |
+            Q(category__name__icontains=query)
+        ).distinct()
+
+        for p in products:
+            results.append({
+                'id': p.id,
+                'name': p.name,
+                'price': p.price,
+                'image': p.images.first().image.url if p.images.exists() else '',
+            })
+
+    return JsonResponse({'results': results})
+
+
+def about_us(request):
+    return render(request, "aboutUs/aboutUs.html")
+
+
+def contact_view(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        full_message = f"Име: {first_name}\nПрезиме: {last_name}\nЕ-маил: {email}\n\nПорака:\n{message}"
+
+        send_mail(
+            subject=f'Нова порака од {first_name} {last_name}',
+            message=full_message,
+            from_email=settings.DEFAULT_FROM_EMAIL,  # На пример 'web@swshop.com'
+            recipient_list=['shopsw108@gmail.com'],  # Твојот e-mail
+            fail_silently=False,
+        )
+        messages.success(request, 'Вашата порака е испратена успешно!')
+        return redirect('contact')
+    return render(request, 'contact/contact.html')
