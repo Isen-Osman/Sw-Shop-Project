@@ -19,9 +19,23 @@ def wishlist_view(request):
 @login_required
 def wishlist_add(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+    size = request.GET.get('size')  # Примаме ?size=S од product_detail
+
     wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+
+    # Ако сакаш само ManyToManyField без through модел
     wishlist.products.add(product)
+
+    # Чување на избраната големина во session или во поврзан модел (препорачливо through модел)
+    # Пример со session:
+    if size:
+        if 'wishlist_sizes' not in request.session:
+            request.session['wishlist_sizes'] = {}
+        request.session['wishlist_sizes'][str(product.id)] = size
+        request.session.modified = True
+
     return redirect('wishlist')
+
 
 @login_required
 def wishlist_remove(request, product_id):
