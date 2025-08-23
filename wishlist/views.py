@@ -5,44 +5,98 @@ from .models import Wishlist
 from app.models import Product
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
 def wishlist_view(request):
-    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    try:
+        wishlist = Wishlist.objects.get(user=request.user)
+    except Wishlist.DoesNotExist:
+        wishlist = None
 
-    for product in wishlist.products.all():
-        product.new_price = product.price + 200
+        # Get sizes from session
+    wishlist_sizes = request.session.get('wishlist_sizes', {})
 
-    total_price = sum([product.price for product in wishlist.products.all()])
-    return render(request, 'wishlist/wishlist.html', {'wishlist': wishlist, 'total_price': total_price})
+    # Create a list of products with their sizes
+    products_with_sizes = []
+    total_price = 0
+
+    if wishlist:
+        for product in wishlist.products.all():
+            product_size = wishlist_sizes.get(str(product.id), 'Неодредена')
+            products_with_sizes.append({
+                'product': product,
+                'size': product_size
+            })
+            total_price += product.price
+
+    context = {
+        'wishlist': wishlist,
+        'total_price': total_price,
+        'products_with_sizes': products_with_sizes,
+    }
+    return render(request, 'wishlist/wishlist.html', context)
+
+from django.http import JsonResponse
+import json
 
 
-@login_required
+@login_required(login_url='/accounts/google/login/')
 def wishlist_add(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    size = request.GET.get('size')  # Примаме ?size=S од product_detail
+    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        try:
+            product = get_object_or_404(Product, id=product_id)
+            data = json.loads(request.body)
+            size = data.get('size')
 
-    wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+            wishlist, created = Wishlist.objects.get_or_create(user=request.user)
 
-    # Ако сакаш само ManyToManyField без through модел
-    wishlist.products.add(product)
+            # Проверете дали производот веќе е во кошничката
+            if not wishlist.products.filter(id=product.id).exists():
+                wishlist.products.add(product)
 
-    # Чување на избраната големина во session или во поврзан модел (препорачливо through модел)
-    # Пример со session:
-    if size:
-        if 'wishlist_sizes' not in request.session:
-            request.session['wishlist_sizes'] = {}
-        request.session['wishlist_sizes'][str(product.id)] = size
-        request.session.modified = True
+            # Зачувајте ја големината во сесија
+            if size:
+                wishlist_sizes = request.session.get('wishlist_sizes', {})
+                wishlist_sizes[str(product.id)] = size
+                request.session['wishlist_sizes'] = wishlist_sizes
+                request.session.modified = True
 
-    return redirect('wishlist')
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Продуктот е додаден во кошничка!',
+                'wishlist_count': wishlist.products.count()
+            })
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'})
 
 
-@login_required
-def wishlist_remove(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    wishlist = get_object_or_404(Wishlist, user=request.user)
-    wishlist.products.remove(product)
-    return redirect('wishlist')
+@login_required(login_url='/accounts/google/login/')
+def wishlist_add(request, product_id):
+    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        # Handle AJAX request
+        product = get_object_or_404(Product, id=product_id)
+
+        try:
+            data = json.loads(request.body)
+            size = data.get('size')
+
+            wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+            wishlist.products.add(product)
+
+            if size:
+                wishlist_sizes = request.session.get('wishlist_sizes', {})
+                wishlist_sizes[str(product.id)] = size
+                request.session['wishlist_sizes'] = wishlist_sizes
+                request.session.modified = True
+
+            return JsonResponse({'status': 'success', 'message': 'Продуктот е додаден во кошничка!'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+
+    # Handle non-AJAX requests if needed
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'})
 
 
 @login_required
@@ -81,3 +135,21 @@ def create_order(request):
     wishlist.products.clear()
 
     return redirect("order_detail", pk=order.pk)
+
+
+@login_required
+def wishlist_remove(request, product_id):
+    wishlist = get_object_or_404(Wishlist, user=request.user)
+    product = get_object_or_404(Product, id=product_id)
+
+    if wishlist.products.filter(id=product.id).exists():
+        wishlist.products.remove(product)
+
+        # избриши и од session за големина
+        wishlist_sizes = request.session.get('wishlist_sizes', {})
+        if str(product.id) in wishlist_sizes:
+            del wishlist_sizes[str(product.id)]
+            request.session['wishlist_sizes'] = wishlist_sizes
+            request.session.modified = True
+
+    return redirect('wishlist')

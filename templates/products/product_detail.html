@@ -1,262 +1,328 @@
-<!DOCTYPE html>
-<html lang="mk">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Детали за продукт | Modern Shop</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 min-h-screen">
-<div class="max-w-6xl mx-auto px-4 py-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <!-- Product Images Carousel -->
-        <div class="bg-white rounded-xl shadow-sm p-6">
-            <div class="relative w-full overflow-hidden rounded-lg">
-                <div class="flex transition-transform duration-300 ease-in-out" id="imageCarousel">
-                    {% if product.images.all %}
-                        {% for img in product.images.all %}
-                            <div class="w-full flex-shrink-0">
-                                <img src="{{ img.image.url }}" alt="{{ product.name }}"
-                                     class="w-full h-80 object-contain rounded-lg">
+{% extends "partials/base.html" %}
+
+{% block title %}Детали за продукт | Modern Shop{% endblock %}
+
+{% block content %}
+    <div class="max-w-6xl mx-auto px-4 py-8 ">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Product Images Carousel -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="relative w-full overflow-hidden rounded-lg">
+                    <div class="flex transition-transform duration-300 ease-in-out" id="imageCarousel">
+                        {% if product.images.all %}
+                            {% for img in product.images.all %}
+                                <div class="w-full flex-shrink-0">
+                                    <img src="{{ img.image.url }}" alt="{{ product.name }}"
+                                         class="w-full h-80 object-contain rounded-lg">
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="w-full flex-shrink-0 bg-gray-100 rounded-lg h-80 flex items-center justify-center">
+                                <div class="text-center text-gray-400">
+                                    <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin-round
+                                        " stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20
+                                        14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002
+                                        2z"></path>
+                                    </svg>
+                                    <p class="text-sm">Нема слика</p>
+                                </div>
                             </div>
-                        {% endfor %}
+                        {% endif %}
+                    </div>
+
+                    {% if product.images.all|length > 1 %}
+                        <!-- Navigation Arrows -->
+                        <button id="prevBtn"
+                                class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 rounded-full p-2 shadow-lg hover:bg-opacity-100 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        <button id="nextBtn"
+                                class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 rounded-full p-2 shadow-lg hover:bg-opacity-100 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Indicators -->
+                        <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+                            {% for img in product.images.all %}
+                                <button class="carousel-indicator w-2 h-2 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition {% if forloop.first %}bg-opacity-100{% endif %}"
+                                        data-index="{{ forloop.counter0 }}"></button>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Thumbnails -->
+                        <div class="flex space-x-2 mt-4 justify-center">
+                            {% for img in product.images.all %}
+                                <img src="{{ img.image.url }}" alt="Thumbnail {{ forloop.counter }}"
+                                     class="w-16 h-16 object-cover rounded cursor-pointer border-2 border-transparent hover:border-pink-400 transition"
+                                     data-index="{{ forloop.counter0 }}">
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="border-b border-gray-200 pb-6">
+                    <h1 class="text-2xl font-bold text-gray-900">{{ product.name }}</h1>
+
+                    <!-- Price & Discount -->
+                    <div class="flex flex-col sm:flex-row sm:items-baseline sm:gap-4 mt-3">
+                        {% if product.new_price %}
+                            <span class="text-lg font-semibold text-gray-500 line-through">{{ product.new_price }} ден</span>
+                            <span class="text-3xl font-bold text-red-600">{{ product.price }} ден</span>
+                            <span class="mt-1 sm:mt-0 text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded-full">
+                                Заштеда {{ product.savings }} ден
+                            </span>
+                        {% else %}
+                            <span class="text-3xl font-bold text-gray-900">{{ product.price }} ден</span>
+                        {% endif %}
+                    </div>
+
+                    <p class="text-gray-600 mt-4">{{ product.description }}</p>
+                </div>
+
+                <!-- Sizes -->
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Избери големина</h3>
+                    <div class="grid grid-cols-4 gap-3" id="sizesContainer">
+                        {% if available_sizes %}
+                            {% for qty in available_sizes %}
+                                <button type="button"
+                                        class="size-btn px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-sm font-medium hover:border-pink-400 hover:bg-pink-50 transition-all duration-200"
+                                        data-size="{{ qty.size }}">
+                                    {{ qty.size }}
+                                </button>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-gray-500 text-sm col-span-4">Нема достапни големини</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Wishlist -->
+                <div class="mt-8">
+                    {% load socialaccount %}
+                    {% if user.is_authenticated %}
+                        {% if available_sizes %}
+                            <button type="button"
+                                    id="addToCartBtn"
+                                    class="inline-flex items-center justify-center w-full px-6 py-4 bg-pink-500 text-white font-semibold rounded-lg transition duration-200 hover:bg-pink-600">
+                                Додади во Кошничка
+                            </button>
+                        {% else %}
+                            <button type="button"
+                                    class="w-full px-6 py-4 bg-gray-300 text-gray-600 font-semibold rounded-lg cursor-not-allowed">
+                                Нема на залиха
+                            </button>
+                        {% endif %}
                     {% else %}
-                        <div class="w-full flex-shrink-0 bg-gray-100 rounded-lg h-80 flex items-center justify-center">
-                            <div class="text-center text-gray-400">
-                                <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                </svg>
-                                <p class="text-sm">Нема слика</p>
-                            </div>
+                        <div class="text-center p-4 bg-gray-50 rounded-lg">
+                            <p class="text-gray-600 mb-3">За да додадете во Кошничка, треба да се најавите.</p>
+                            <a href="{% provider_login_url 'google' %}"
+                               class="inline-block px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+                                Најавете се со Google
+                            </a>
                         </div>
                     {% endif %}
                 </div>
 
-                <!-- Navigation Arrows -->
-                {% if product.images.all|length > 1 %}
-                    <button id="prevBtn"
-                            class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 rounded-full p-2 shadow-lg hover:bg-opacity-100 transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <!-- Back -->
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <a href="{% url 'products' %}"
+                       class="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium transition">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M15 19l-7-7 7-7"></path>
+                                  d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                         </svg>
-                    </button>
-                    <button id="nextBtn"
-                            class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 rounded-full p-2 shadow-lg hover:bg-opacity-100 transition">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </button>
-                {% endif %}
-
-                <!-- Indicators -->
-                {% if product.images.all|length > 1 %}
-                    <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-                        {% for img in product.images.all %}
-                            <button class="carousel-indicator w-2 h-2 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition {% if forloop.first %}bg-opacity-100{% endif %}"
-                                    data-index="{{ forloop.counter0 }}"></button>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-
-            <!-- Thumbnail Gallery -->
-            {% if product.images.all|length > 1 %}
-                <div class="flex space-x-2 mt-4 justify-center">
-                    {% for img in product.images.all %}
-                        <img src="{{ img.image.url }}" alt="Thumbnail {{ forloop.counter }}"
-                             class="w-16 h-16 object-cover rounded cursor-pointer border-2 border-transparent hover:border-pink-400 transition"
-                             data-index="{{ forloop.counter0 }}">
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-
-        <!-- Product Details -->
-        <div class="bg-white rounded-xl shadow-sm p-6">
-            <!-- Name and Price -->
-            <div class="border-b border-gray-200 pb-6">
-                <h1 class="text-2xl font-bold text-gray-900">{{ product.name }}</h1>
-                <div class="flex items-center mt-3">
-                    <span class="text-3xl font-bold text-pink-600">{{ product.price }} ден.</span>
-                </div>
-                <p class="text-gray-600 mt-4">{{ product.description }}</p>
-            </div>
-
-            <!-- Available Sizes -->
-            <div class="mt-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Избери големина</h3>
-                <div class="grid grid-cols-4 gap-3" id="sizesContainer">
-                    {% if available_sizes %}
-                        {% for qty in available_sizes %}
-                            <button type="button"
-                                    class="size-btn px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-sm font-medium hover:border-pink-400 hover:bg-pink-50 transition-all duration-200"
-                                    data-size="{{ qty.size }}">
-                                {{ qty.size }}
-                            </button>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-gray-500 text-sm col-span-4">Нема достапни големини</p>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Add to Wishlist Button -->
-            <div class="mt-8">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'wishlist_add' product.id %}" id="wishlistBtn"
-                       class="inline-flex items-center justify-center w-full px-6 py-4 bg-pink-500 text-white font-semibold rounded-lg transition duration-200 hover:bg-pink-600 disabled:opacity-50 disabled:cursor-not-allowed opacity-50">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                        </svg>
-                        Додади во Wishlist
+                        Назад кон продукти
                     </a>
-                {% else %}
-                    <div class="text-center p-4 bg-gray-50 rounded-lg">
-                        <p class="text-gray-600 mb-3">За да додадете во Wishlist, треба да се најавите.</p>
-                        <a href="{% url 'login' %}"
-                           class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition">
-                            Најавете се
-                        </a>
-                    </div>
-                {% endif %}
-            </div>
-
-            <!-- Back to Products -->
-            <div class="mt-6 pt-6 border-t border-gray-200">
-                <a href="{% url 'products' %}"
-                   class="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium transition">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                    </svg>
-                    Назад кон продукти
-                </a>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Shipping Information Section -->
-    <div class="bg-white rounded-xl shadow-sm p-6 mt-8">
-        <h3 class="text-xl font-semibold mb-6 text-gray-900">Достава и испорака</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="border border-gray-200 rounded-xl p-5 hover:shadow-md transition">
-                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 m-4 max-w-sm w-full">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                 </div>
-                <h4 class="font-semibold text-gray-800">Стандардна достава</h4>
-                <p class="text-sm text-gray-600 mt-2">Испорака во рок од 2-3 работни дена</p>
-                <p class="text-sm font-medium text-gray-900 mt-3">100 ден.</p>
-            </div>
-            <div class="border border-gray-200 rounded-xl p-5 hover:shadow-md transition">
-                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                    </svg>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Успешно додадено!</h3>
+                <p class="text-gray-600 mb-4">Продуктот е додаден во вашата кошничка.</p>
+                <div class="flex space-x-3">
+                    <button type="button" id="continueShopping"
+                            class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
+                        Продолжи
+                    </button>
+                    <a href="{% url 'wishlist' %}"
+                       class="flex-1 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition text-center">
+                        Кошничка
+                    </a>
                 </div>
-                <h4 class="font-semibold text-gray-800">Бесплатна достава</h4>
-                <p class="text-sm text-gray-600 mt-2">За нарачки над 2.000 ден.</p>
-                <p class="text-sm font-medium text-gray-900 mt-3">0 ден.</p>
-            </div>
-            <div class="border border-gray-200 rounded-xl p-5 hover:shadow-md transition">
-                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                    </svg>
-                </div>
-                <h4 class="font-semibold text-gray-800">Политика на враќање</h4>
-                <p class="text-sm text-gray-600 mt-2">Можност за враќање во рок од 14 дена</p>
-                <p class="text-sm font-medium text-gray-900 mt-3">Бесплатно</p>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Carousel
-        const carousel = document.getElementById('imageCarousel');
-        const images = carousel.querySelectorAll('div');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const indicators = document.querySelectorAll('.carousel-indicator');
-        const thumbnails = document.querySelectorAll('img[data-index]');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Carousel
+            const carousel = document.getElementById('imageCarousel');
+            if (!carousel) return;
 
-        let currentIndex = 0;
-        const totalImages = images.length;
+            const slides = carousel.children;
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            const thumbnails = document.querySelectorAll('img[data-index]');
 
-        function updateCarousel() {
-            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-            indicators.forEach((indicator, index) => {
-                indicator.classList.toggle('bg-opacity-100', index === currentIndex);
-                indicator.classList.toggle('bg-opacity-50', index !== currentIndex);
-            });
-            thumbnails.forEach((thumb, index) => {
-                thumb.classList.toggle('border-pink-400', index === currentIndex);
-                thumb.classList.toggle('border-transparent', index !== currentIndex);
-            });
-        }
+            let currentIndex = 0;
+            const totalSlides = slides.length;
 
-        if (prevBtn && nextBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + totalImages) % totalImages;
-                updateCarousel();
-            });
-            nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % totalImages;
-                updateCarousel();
-            });
-        }
-
-        indicators.forEach(indicator => {
-            indicator.addEventListener('click', () => {
-                currentIndex = parseInt(indicator.getAttribute('data-index'));
-                updateCarousel();
-            });
-        });
-
-        thumbnails.forEach(thumb => {
-            thumb.addEventListener('click', () => {
-                currentIndex = parseInt(thumb.getAttribute('data-index'));
-                updateCarousel();
-            });
-        });
-
-        if (totalImages > 1) {
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % totalImages;
-                updateCarousel();
-            }, 5000);
-        }
-
-        // Wishlist + Size selection
-        const sizeButtons = document.querySelectorAll('.size-btn');
-        const wishlistBtn = document.getElementById('wishlistBtn');
-
-        sizeButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                sizeButtons.forEach(b => {
-                    b.classList.remove('border-pink-400', 'bg-pink-50', 'text-pink-700');
-                    b.classList.add('border-gray-300', 'bg-white', 'text-gray-700');
+            function showSlide(index) {
+                carousel.style.transform = `translateX(-${index * 100}%)`;
+                indicators.forEach((ind, i) => {
+                    ind.classList.toggle('bg-opacity-100', i === index);
+                    ind.classList.toggle('bg-opacity-50', i !== index);
                 });
-                btn.classList.add('border-pink-400', 'bg-pink-50', 'text-pink-700');
-                btn.classList.remove('border-gray-300', 'bg-white', 'text-gray-700');
+                thumbnails.forEach((thumb, i) => {
+                    thumb.classList.toggle('border-pink-400', i === index);
+                    thumb.classList.toggle('border-transparent', i !== index);
+                });
+            }
 
-                if (wishlistBtn) {
-                    wishlistBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                    wishlistBtn.classList.add('opacity-100', 'cursor-pointer');
-                    wishlistBtn.href = wishlistBtn.href.split('?')[0] + '?size=' + btn.getAttribute('data-size');
+            if (prevBtn) prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                showSlide(currentIndex);
+            });
+
+            if (nextBtn) nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                showSlide(currentIndex);
+            });
+
+            indicators.forEach(ind => {
+                ind.addEventListener('click', () => {
+                    currentIndex = parseInt(ind.dataset.index);
+                    showSlide(currentIndex);
+                });
+            });
+
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    currentIndex = parseInt(thumb.dataset.index);
+                    showSlide(currentIndex);
+                });
+            });
+
+            if (totalSlides > 1) {
+                setInterval(() => {
+                    currentIndex = (currentIndex + 1) % totalSlides;
+                    showSlide(currentIndex);
+                }, 5000);
+            }
+
+            // Size selection
+            const sizeButtons = document.querySelectorAll('.size-btn');
+            let selectedSize = '';
+
+            sizeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    sizeButtons.forEach(b => b.classList.remove('border-pink-400', 'bg-pink-50', 'text-pink-700'));
+                    btn.classList.add('border-pink-400', 'bg-pink-50', 'text-pink-700');
+                    selectedSize = btn.dataset.size;
+                });
+            });
+
+            // Auto-select first size if available
+            if (sizeButtons.length > 0) {
+                sizeButtons[0].click();
+            }
+
+            // Add to cart with modal
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            const successModal = document.getElementById('successModal');
+            const continueShopping = document.getElementById('continueShopping');
+
+            // Function to get CSRF token from cookies
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            if (addToCartBtn) {
+                addToCartBtn.addEventListener('click', async function () {
+                    if (!selectedSize && sizeButtons.length > 0) {
+                        // If no size selected but sizes available, select first one
+                        selectedSize = sizeButtons[0].dataset.size;
+                        sizeButtons[0].click();
+                    }
+
+                    try {
+                        // Get CSRF token
+                        const csrftoken = getCookie('csrftoken');
+
+                        // Send POST request to add to wishlist with CSRF token
+                        const response = await fetch(`{% url 'wishlist_add' product.id %}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': csrftoken,
+                                'X-Requested-With': 'XMLHttpRequest',
+                            },
+                            body: JSON.stringify({
+                                size: selectedSize
+                            })
+                        });
+
+                        if (response.ok) {
+                            // Show success modal
+                            successModal.classList.remove('hidden');
+                        } else {
+                            alert('Грешка при додавање во кошничка.');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Грешка при додавање во кошничка.');
+                    }
+                });
+            }
+
+            // Close modal handlers
+            if (continueShopping) {
+                continueShopping.addEventListener('click', function () {
+                    successModal.classList.add('hidden');
+                });
+            }
+
+            // Close modal when clicking outside
+            successModal.addEventListener('click', function (e) {
+                if (e.target === successModal) {
+                    successModal.classList.add('hidden');
                 }
             });
         });
-    });
-</script>
-</body>
-</html>
+    </script>
+{% endblock %}

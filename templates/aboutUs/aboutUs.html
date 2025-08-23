@@ -1,0 +1,221 @@
+{% extends 'partials/base.html' %}
+
+{% block title %}За Нас | SW SHOP{% endblock %}
+
+{% block content %}
+    <!-- Херо Секција -->
+    <section class="hero-pattern py-16 md:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-6">Нашата Приказна</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                SW SHOP е создаден од страст кон стилот, квалитетот и желбата да ја направиме модата достапна за сите.
+            </p>
+        </div>
+    </section>
+
+    <!-- Воведна Секција -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-display font-semibold mb-6">Добредојдовте во SW SHOP</h2>
+                    <p class="text-gray-600 mb-4">
+                        Основан во 2015 година, SW SHOP се разви од мала бутика во водечка модна дестинација.
+                        Веруваме дека секој заслужува да го изрази својот уникатен стил со самодоверба.
+                    </p>
+                    <p class="text-gray-600 mb-4">
+                        Нашите внимателно курирани колекции ги комбинираат современите трендови со вечната елеганција,
+                        обезбедувајќи дека секогаш ќе најдете нешто посебно што одговара на вашиот личен стил.
+                    </p>
+                    <p class="text-gray-600">
+                        Се ангажираме за одржливост и етички практики, соработувајќи со партнери кои ги делат нашите вредности и визија за подобра модна индустрија.
+                    </p>
+                </div>
+                <div class="relative">
+                    <div class="bg-pink-100 rounded-2xl overflow-hidden shadow-lg">
+                        <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"
+                             alt="Модна бутика" class="w-full h-96 object-cover">
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-lg p-6 w-64">
+                        <div class="text-4xl font-bold text-pink-500">8+</div>
+                        <div class="text-gray-600">Години извонредност</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Мисија и Визија -->
+    <section class="py-16 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-bullseye text-3xl text-pink-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-display font-semibold mb-4">Нашата Мисија</h3>
+                    <p class="text-gray-600">
+                        Да инспирираме самодоверба и самоизразување преку внимателно дизајнирана,
+                        висококвалитетна мода достапна за сите. Се стремиме да создадеме
+                        шопинг искуство кое е лично, радосно и овластувачко.
+                    </p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-eye text-3xl text-purple-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-display font-semibold mb-4">Нашата Визија</h3>
+                    <p class="text-gray-600">
+                        Да станеме најсакањето модно брендирање кое го слави индивидуализмот и промовира одржливи практики.
+                        Замислуваме свет каде модата е сила за добро, овластувајќи и носителите и креаторите низ целиот синџир на снабдување.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Вредности -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-display font-semibold text-center mb-16">Нашите Вредности</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="values-card bg-white p-8 rounded-2xl shadow-md text-center">
+                    <div class="values-icon w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-star text-3xl text-pink-500"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Квалитет</h3>
+                    <p class="text-gray-600">
+                        Никогаш не правиме компромис со квалитетот. Секој парче во нашата колекција е внимателно
+                        избрано или дизајнирано за да ги исполни нашите високи стандарди за изработка и издржливост.
+                    </p>
+                </div>
+                <div class="values-card bg-white p-8 rounded-2xl shadow-md text-center">
+                    <div class="values-icon w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-heart text-3xl text-purple-500"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Љубов кон Клиентите</h3>
+                    <p class="text-gray-600">
+                        Нашите клиенти се во центарот на сè што правиме. Се стремиме да создадеме
+                        исклучителни искуства што ве прават да се чувствувате вреднувано и разбрано.
+                    </p>
+                </div>
+                <div class="values-card bg-white p-8 rounded-2xl shadow-md text-center">
+                    <div class="values-icon w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-leaf text-3xl text-blue-500"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Одржливост</h3>
+                    <p class="text-gray-600">
+                        Се ангажираме да го намалиме нашиот влијание врз животната средина преку одговорно
+                        набавување, етичко производство и внимателни бизнис практики.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Статистики -->
+    <section class="py-16 bg-gradient-to-r from-pink-50 to-purple-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="stat-card bg-white p-6 rounded-2xl shadow-md text-center">
+                    <div class="text-4xl font-bold gradient-text mb-2">50K+</div>
+                    <div class="text-gray-600">Задоволни Клиенти</div>
+                </div>
+                <div class="stat-card bg-white p-6 rounded-2xl shadow-md text-center">
+                    <div class="text-4xl font-bold gradient-text mb-2">5K+</div>
+                    <div class="text-gray-600">Продукти</div>
+                </div>
+                <div class="stat-card bg-white p-6 rounded-2xl shadow-md text-center">
+                    <div class="text-4xl font-bold gradient-text mb-2">15+</div>
+                    <div class="text-gray-600">Земји</div>
+                </div>
+                <div class="stat-card bg-white p-6 rounded-2xl shadow-md text-center">
+                    <div class="text-4xl font-bold gradient-text mb-2">98%</div>
+                    <div class="text-gray-600">Степен на Задоволство</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Тим -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-center mb-6 text-gray-900">
+                Запознајте го Нашиот Тим
+            </h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">
+                Страсни индивидуалци посветени да ви донесат најдобро модно искуство во SW SHOP.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+
+                <!-- Член на тимот 1 -->
+                <div class="team-member bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl transition-shadow duration-300">
+                    <div class="w-16 h-16 flex items-center justify-center bg-pink-100 rounded-full mb-4 text-pink-600 font-bold text-lg">
+                        IO
+                    </div>
+                    <h3 class="text-xl font-semibold mb-1">Исен Осман</h3>
+                    <p class="text-pink-500 font-medium mb-3">Основач & Креативен Директор</p>
+                    <p class="text-gray-600 text-sm">
+                        Над 15 години искуство во обликување на модната индустрија со иновативни идеи.
+                    </p>
+                </div>
+
+                <!-- Член на тимот 2 -->
+                <div class="team-member bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl transition-shadow duration-300">
+                    <div class="w-16 h-16 flex items-center justify-center bg-pink-100 rounded-full mb-4 text-pink-600 font-bold text-lg">
+                        AO
+                    </div>
+                    <h3 class="text-xl font-semibold mb-1">Амир Осман</h3>
+                    <p class="text-pink-500 font-medium mb-3">Раководител на Дизајн</p>
+                    <p class="text-gray-600 text-sm">
+                        Води дизајн тим со креативност и внимание кон детали.
+                    </p>
+                </div>
+
+                <!-- Член на тимот 3 -->
+                <div class="team-member bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl transition-shadow duration-300">
+                    <div class="w-16 h-16 flex items-center justify-center bg-pink-100 rounded-full mb-4 text-pink-600 font-bold text-lg">
+                        SO
+                    </div>
+                    <h3 class="text-xl font-semibold mb-1">Сабрија Осман</h3>
+                    <p class="text-pink-500 font-medium mb-3">Маркетинг Директор</p>
+                    <p class="text-gray-600 text-sm">
+                        Ја поврзува нашата марка со модните ентузијасти ширум светот.
+                    </p>
+                </div>
+
+                <!-- Член на тимот 4 -->
+                <div class="team-member bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl transition-shadow duration-300">
+                    <div class="w-16 h-16 flex items-center justify-center bg-pink-100 rounded-full mb-4 text-pink-600 font-bold text-lg">
+                        RO
+                    </div>
+                    <h3 class="text-xl font-semibold mb-1">Рустем Осман</h3>
+                    <p class="text-pink-500 font-medium mb-3">Раководител на Операции</p>
+                    <p class="text-gray-600 text-sm">
+                        Гарантира непречени операции од набавка до испорака.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 bg-pink-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-display font-semibold mb-6">Придружете се на Нашата Заедница</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-8">
+                Претплатете се на нашиот билтен и бидете први што ќе дознаат за новите колекции, ексклузивни понуди и модни совети.
+            </p>
+            <div class="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
+                <input type="email" placeholder="Вашата е-маил адреса"
+                       class="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-300">
+                <button class="px-6 py-3 bg-pink-500 text-white rounded-lg font-medium hover:bg-pink-600 transition duration-300">
+                    Претплати се
+                </button>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

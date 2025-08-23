@@ -1,40 +1,52 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-
-import orders.views
-from app import views
-from wishlist import views as wishlist_views
 from django.urls import path, include
 
-urlpatterns = [
-    path('accounts/', include('allauth.urls')),  # AllAuth URL-и
+from app import views
+from wishlist import views as wishlist_views
+from orders import views as order_views
 
+urlpatterns = [
+    # AllAuth URL-и
+    path('accounts/', include('allauth.urls')),
+
+    # Admin
     path('admin/', admin.site.urls),
 
+    # Home / Products
     path('', views.recently_added_products, name='home'),
+    path('products/', views.product_list, name='products'),
     path('product/add/', views.product_add, name='product_add'),
     path('product/<int:product_id>/delete/', views.product_delete, name='product_delete'),
     path('product/<int:product_id>/edit/', views.product_edit, name='product_edit'),
     path('product/<int:pk>/', views.product_detail, name='product_detail'),
-    path('products/', views.product_list, name='products'),
-    path('products/category/<int:category_id>/', views.product_list, name='products_by_category'),
+    path('products/delete/<int:pk>/', views.product_delete, name='product_delete'),
+    path('search/', views.search_view, name='search'),
 
+    # Collections
     path('collections/', views.collections_page, name='collections'),
-    path('wishlist', wishlist_views.wishlist_view, name='wishlist'),
+
+    # Wishlist
+    path('wishlist/', wishlist_views.wishlist_view, name='wishlist'),
     path('add/<int:product_id>/', wishlist_views.wishlist_add, name='wishlist_add'),
-    path('remove/<int:product_id>/', wishlist_views.wishlist_remove, name='wishlist_remove'),
 
-    path('admin/', admin.site.urls),
-    path('create-order/', orders.views.create_order, name='create_order'),
-    path('order-success/<int:order_id>/', orders.views.order_success, name='order_success'),
-    path('collections/', views.collections_page, name='collections'),
-
-    # urls.py
-    path('products/category/<str:category_name>/', views.products_by_category, name='products_by_category'),
-
+    # Profile & Google login
     path('profile/', views.profile_view, name='profile_page'),
-    path('google-login/', views.google_login_view, name='google_login_page'),
+    path('logout/', views.custom_logout, name='logout'),
+
+    # Orders
+    path('create-order/', order_views.create_order, name='create_order'),
+    path('order-success/<int:order_id>/', order_views.order_success, name='order_success'),
+    path('order-confirmation/<int:order_id>/', order_views.order_confirmation, name='order_confirmation'),
+
+    path('about/', views.about_us, name='about_us'),
+    path('contact/', views.contact_view, name='contact'),
+    # path('contact/submit/', contact_view, name='contact_submit'),  # ова е важно
+
+    path('category/<str:category_name>/', views.products_by_category, name='category_products'),
+
+    path('wishlist/remove/<int:product_id>/', wishlist_views.wishlist_remove, name='wishlist_remove'),
 
 ]
 

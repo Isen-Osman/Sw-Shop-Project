@@ -12,11 +12,11 @@ class Size(models.TextChoices):
 
 
 class Color(models.TextChoices):
-    RED = "RED", "Red"
-    BLUE = "BLUE", "Blue"
-    GREEN = "GREEN", "Green"
-    BLACK = "BLACK", "Black"
-    WHITE = "WHITE", "White"
+    RED = "RED", "Црвена"
+    BLUE = "BLUE", "Плава"
+    GREEN = "GREEN", "Зелена"
+    BLACK = "BLACK", "Црна"
+    WHITE = "WHITE", "Бела"
 
 
 class Category(models.TextChoices):
