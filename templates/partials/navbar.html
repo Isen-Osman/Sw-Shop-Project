@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SW SHOP Navbar со Popust Bar</title>
+    <title>SW SHOP - Fixed Navbar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -81,13 +81,6 @@
             }
         }
 
-        /* Navbar */
-        .nav-scrolled {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
         .nav-text {
             color: #1f2937;
             transition: color 0.3s ease;
@@ -114,6 +107,7 @@
             z-index: 50;
             padding: 1.5rem;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
         }
 
         .mobile-menu.open {
@@ -157,13 +151,6 @@
             transform: translateY(-2px);
         }
 
-        .nav-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-
         .nav-categories {
             display: flex;
             justify-content: center;
@@ -179,9 +166,17 @@
             margin-left: auto;
             gap: 0.5rem;
         }
+
+        /* Demo content */
+        .demo-content {
+            height: 200vh;
+            padding-top: 120px;
+            text-align: center;
+            background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+        }
     </style>
 </head>
-<body class="{% if request.path == '/' %}home-page{% endif %}">
+<body class="home-page">
 
 <!-- Announcement Bar -->
 <div class="announcement-bar">
@@ -189,23 +184,20 @@
     <div class="announcement-text">
         <span>20% попуст на сите продукти! Купи сега и добиј бесплатна испорака! 🎉</span>
     </div>
-    <button class="close-btn">
-        <i class="fas fa-times"></i>
-    </button>
 </div>
 
 <!-- Navbar -->
 <nav id="mainNav" class="fixed w-full top-8 left-0 z-50 transition-all duration-500 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <!-- Logo -->
-        <a href="{% url 'home' %}"
+        <a href="#"
            class="text-2xl lg:text-3xl font-light tracking-wide nav-text flex items-center gap-1">
             <span>SW</span><span class="font-semibold text-pink-500">SHOP</span>
         </a>
 
         <!-- Desktop Categories -->
         <div class="hidden md:flex nav-categories space-x-1">
-            <a href="{% url 'products' %}" class="desktop-nav-item nav-text">Сите продукти</a>
+            <a href="{% url 'home' %}" class="desktop-nav-item nav-text">Сите продукти</a>
             <a href="{% url 'category_products' 'bras' %}" class="desktop-nav-item nav-text">Градници</a>
             <a href="{% url 'category_products' 'panties' %}" class="desktop-nav-item nav-text">Килоти</a>
             <a href="{% url 'category_products' 'pajamas' %}" class="desktop-nav-item nav-text">Пижами</a>
@@ -216,26 +208,13 @@
 
         <!-- User & Mobile -->
         <div class="nav-actions">
-            <a href="{% if user.is_authenticated %}{% url 'wishlist' %}{% else %}{% url 'profile_page' %}{% endif %}"
+            <a href="#"
                class="relative p-2 rounded-full hover:bg-gray-200 transition">
                 <i class="fas fa-shopping-cart text-xl nav-text"></i>
-                {% if user.is_authenticated and wishlist_items_count|default:0 > 0 %}
-                    <span class="absolute -top-1 -right-1 bg-pink-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
-                        {{ wishlist_items_count }}
-                    </span>
-                {% endif %}
+                <span class="absolute -top-1 -right-1 bg-pink-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">3</span>
             </a>
-            <a href="{% url 'profile_page' %}" class="p-2 rounded-full hover:bg-gray-200 transition">
-                {% if user.is_authenticated and user.socialaccount_set.first %}
-                    {% if user.socialaccount_set.first.get_avatar_url %}
-                        <img src="{{ user.socialaccount_set.first.get_avatar_url }}" alt="Аватар"
-                             class="w-8 h-8 rounded-full object-cover border-2 border-pink-500">
-                    {% else %}
-                        <i class="far fa-user text-xl nav-text"></i>
-                    {% endif %}
-                {% else %}
-                    <i class="far fa-user text-xl nav-text"></i>
-                {% endif %}
+            <a href="#" class="p-2 rounded-full hover:bg-gray-200 transition">
+                <i class="far fa-user text-xl nav-text"></i>
             </a>
             <button id="menuToggle" class="md:hidden p-2 rounded-full hover:bg-gray-200 transition">
                 <i class="fas fa-bars text-xl nav-text"></i>
@@ -248,8 +227,8 @@
 
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="mobile-menu">
-        <div class="flex justify-between items-center mb-8">
-            <h2 class="text-xl font-bold text-gray-800">Мену</h2>
+        <div class="flex justify-between items-center my-8">
+            <h2 class="text-xl font-bold text-gray-800">Мени</h2>
             <button id="closeMenu" class="focus:outline-none text-gray-800">
                 <i class="fas fa-times text-lg"></i>
             </button>
@@ -277,6 +256,7 @@
 </nav>
 
 <script>
+    // Mobile menu functionality
     const menuToggle = document.getElementById('menuToggle');
     const closeMenu = document.getElementById('closeMenu');
     const mobileMenu = document.getElementById('mobileMenu');
@@ -287,11 +267,13 @@
         mobileMenuOverlay.style.display = 'block';
         document.body.style.overflow = 'hidden';
     });
+
     closeMenu.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
         mobileMenuOverlay.style.display = 'none';
         document.body.style.overflow = '';
     });
+
     mobileMenuOverlay.addEventListener('click', () => {
         mobileMenu.classList.remove('open');
         mobileMenuOverlay.style.display = 'none';
@@ -300,12 +282,27 @@
 
     // Navbar scroll effect
     const nav = document.getElementById('mainNav');
+    const announcementBar = document.querySelector('.announcement-bar');
+    const announcementHeight = announcementBar.offsetHeight;
+
+    // Set initial position based on announcement bar
+    nav.style.top = `${announcementHeight}px`;
+
     if (document.body.classList.contains('home-page')) {
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 10) nav.classList.add('nav-scrolled');
-            else nav.classList.remove('nav-scrolled');
+            if (window.scrollY > 10) {
+                nav.classList.add('nav-scrolled');
+                nav.style.background = 'white';
+                nav.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+            } else {
+                nav.classList.remove('nav-scrolled');
+                nav.style.background = 'transparent';
+                nav.style.boxShadow = 'none';
+            }
         });
-    } else nav.classList.add('nav-scrolled');
+    } else {
+        nav.classList.add('nav-scrolled');
+    }
 
     // Announcement bar close functionality
     document.querySelector('.announcement-bar .close-btn').addEventListener('click', function () {
@@ -313,6 +310,15 @@
         announcementBar.style.display = 'none';
         document.getElementById('mainNav').style.top = '0';
     });
+
+    // Fix for mobile viewport height
+    function setVH() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    setVH();
+    window.addEventListener('resize', setVH);
 </script>
 
 </body>
