@@ -102,16 +102,20 @@
                                 <select name="color" id="color" required
                                         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
                                     <option value="">Изберете боја</option>
-                                    <option value="RED" {% if form.color.value == "RED" %}selected{% endif %}>Црвена
+                                    <option value="RED" {% if form.color.value == "RED" %}selected{% endif %}>
+                                        Црвена
                                     </option>
-                                    <option value="BLUE" {% if form.color.value == "BLUE" %}selected{% endif %}>Сина
+                                    <option value="BLUE" {% if form.color.value == "BLUE" %}selected{% endif %}>
+                                        Сина
                                     </option>
                                     <option value="GREEN" {% if form.color.value == "GREEN" %}selected{% endif %}>
                                         Зелена
                                     </option>
-                                    <option value="BLACK" {% if form.color.value == "BLACK" %}selected{% endif %}>Црна
+                                    <option value="BLACK" {% if form.color.value == "BLACK" %}selected{% endif %}>
+                                        Црна
                                     </option>
-                                    <option value="WHITE" {% if form.color.value == "WHITE" %}selected{% endif %}>Бела
+                                    <option value="WHITE" {% if form.color.value == "WHITE" %}selected{% endif %}>
+                                        Бела
                                     </option>
                                 </select>
                                 {% if form.color.errors %}

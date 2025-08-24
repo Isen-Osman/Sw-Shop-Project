@@ -1,68 +1,185 @@
 <!DOCTYPE html>
 <html lang="mk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SW SHOP Navbar со Popust Bar</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<style>
-/* Announcement Bar */
-.announcement-bar {
-    background: linear-gradient(90deg, #ec4899 0%, #db2777 100%);
-    color: white;
-    text-align: center;
-    padding: 0.6rem;
-    font-size: 0.9rem;
-    z-index: 60;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SW SHOP Navbar со Popust Bar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Announcement Bar */
+        .announcement-bar {
+            background: linear-gradient(90deg, #ec4899 0%, #db2777 100%);
+            color: white;
+            text-align: center;
+            padding: 0.6rem;
+            font-size: 0.9rem;
+            z-index: 60;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
 
-.announcement-bar .icon { animation: pulse 2s infinite; }
-@keyframes pulse { 0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);} }
+        .announcement-bar .icon {
+            animation: pulse 2s infinite;
+        }
 
-.announcement-bar .close-btn {
-    position: absolute; right: 15px;
-    background:none; border:none; color:white; cursor:pointer; font-size:1rem;
-    opacity:0.8; transition:opacity 0.2s;
-}
-.announcement-bar .close-btn:hover { opacity:1; }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
 
-.announcement-text { overflow:hidden; white-space:nowrap; box-sizing:border-box; }
-.announcement-text span { display:inline-block; padding-left:100%; animation:marquee 15s linear infinite; }
-@keyframes marquee { 0%{transform:translate(0,0);}100%{transform:translate(-100%,0);} }
+        .announcement-bar .close-btn {
+            position: absolute;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
 
-/* Navbar */
-.nav-scrolled { background-color: rgba(255,255,255,0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-.nav-text { color:#1f2937; transition:color 0.3s ease; }
-body.home-page .nav-text { color:white; }
-body.home-page .nav-scrolled .nav-text { color:#1f2937; }
+        .announcement-bar .close-btn:hover {
+            opacity: 1;
+        }
 
-/* Mobile Menu */
-.mobile-menu { position:fixed; top:0; left:0; height:100vh; width:20rem; background:white; transform:translateX(-100%); transition:transform 0.3s ease; z-index:50; padding:1.5rem; box-shadow:0 10px 25px rgba(0,0,0,0.1);}
-.mobile-menu.open { transform:translateX(0); }
-#mobileMenuOverlay { position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:40; display:none; }
+        .announcement-text {
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
 
-/* Desktop Nav Items */
-.desktop-nav-item { position:relative; padding:0.5rem 0.8rem; font-weight:500; transition: all 0.3s ease; }
-.desktop-nav-item::after { content:''; position:absolute; bottom:0; left:50%; width:0; height:2px; background:#ec4899; transform:translateX(-50%); transition: all 0.3s ease; }
-.desktop-nav-item:hover::after { width:80%; }
-.desktop-nav-item:hover { color:#ec4899; transform:translateY(-2px); }
+        .announcement-text span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+        }
 
-.nav-container { display:flex; align-items:center; justify-content:space-between; width:100%; }
-.nav-categories { display:flex; justify-content:center; flex:1; position:absolute; left:50%; transform:translateX(-50%); }
-.nav-actions { display:flex; align-items:center; margin-left:auto; gap:0.5rem; }
-</style>
+        @keyframes marquee {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(-100%, 0);
+            }
+        }
+
+        /* Navbar */
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-text {
+            color: #1f2937;
+            transition: color 0.3s ease;
+        }
+
+        body.home-page .nav-text {
+            color: white;
+        }
+
+        body.home-page .nav-scrolled .nav-text {
+            color: #1f2937;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 20rem;
+            background: white;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 50;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        #mobileMenuOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 40;
+            display: none;
+        }
+
+        /* Desktop Nav Items */
+        .desktop-nav-item {
+            position: relative;
+            padding: 0.5rem 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .desktop-nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #ec4899;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+        }
+
+        .desktop-nav-item:hover::after {
+            width: 80%;
+        }
+
+        .desktop-nav-item:hover {
+            color: #ec4899;
+            transform: translateY(-2px);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .nav-categories {
+            display: flex;
+            justify-content: center;
+            flex: 1;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            gap: 0.5rem;
+        }
+    </style>
 </head>
 <body class="{% if request.path == '/' %}home-page{% endif %}">
 
@@ -81,24 +198,26 @@ body.home-page .nav-scrolled .nav-text { color:#1f2937; }
 <nav id="mainNav" class="fixed w-full top-8 left-0 z-50 transition-all duration-500 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <!-- Logo -->
-        <a href="{% url 'home' %}" class="text-2xl lg:text-3xl font-light tracking-wide nav-text flex items-center gap-1">
+        <a href="{% url 'home' %}"
+           class="text-2xl lg:text-3xl font-light tracking-wide nav-text flex items-center gap-1">
             <span>SW</span><span class="font-semibold text-pink-500">SHOP</span>
         </a>
 
         <!-- Desktop Categories -->
         <div class="hidden md:flex nav-categories space-x-1">
             <a href="{% url 'products' %}" class="desktop-nav-item nav-text">Сите продукти</a>
-            <a href="{% url 'category_products' 'bras' %}" class="desktop-nav-item nav-text">Бра</a>
-            <a href="{% url 'category_products' 'panties' %}" class="desktop-nav-item nav-text">Слип</a>
-            <a href="{% url 'category_products' 'lingerie' %}" class="desktop-nav-item nav-text">Ланжери</a>
+            <a href="{% url 'category_products' 'bras' %}" class="desktop-nav-item nav-text">Градници</a>
+            <a href="{% url 'category_products' 'panties' %}" class="desktop-nav-item nav-text">Килоти</a>
             <a href="{% url 'category_products' 'pajamas' %}" class="desktop-nav-item nav-text">Пижами</a>
+            <a href="{% url 'category_products' 'lingerie' %}" class="desktop-nav-item nav-text">Приватна</a>
             <a href="{% url 'about_us' %}" class="desktop-nav-item nav-text">За нас</a>
             <a href="{% url 'contact' %}" class="desktop-nav-item nav-text">Контакт</a>
         </div>
 
         <!-- User & Mobile -->
         <div class="nav-actions">
-            <a href="{% if user.is_authenticated %}{% url 'wishlist' %}{% else %}{% url 'profile_page' %}{% endif %}" class="relative p-2 rounded-full hover:bg-gray-200 transition">
+            <a href="{% if user.is_authenticated %}{% url 'wishlist' %}{% else %}{% url 'profile_page' %}{% endif %}"
+               class="relative p-2 rounded-full hover:bg-gray-200 transition">
                 <i class="fas fa-shopping-cart text-xl nav-text"></i>
                 {% if user.is_authenticated and wishlist_items_count|default:0 > 0 %}
                     <span class="absolute -top-1 -right-1 bg-pink-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
@@ -109,7 +228,8 @@ body.home-page .nav-scrolled .nav-text { color:#1f2937; }
             <a href="{% url 'profile_page' %}" class="p-2 rounded-full hover:bg-gray-200 transition">
                 {% if user.is_authenticated and user.socialaccount_set.first %}
                     {% if user.socialaccount_set.first.get_avatar_url %}
-                        <img src="{{ user.socialaccount_set.first.get_avatar_url }}" alt="Аватар" class="w-8 h-8 rounded-full object-cover border-2 border-pink-500">
+                        <img src="{{ user.socialaccount_set.first.get_avatar_url }}" alt="Аватар"
+                             class="w-8 h-8 rounded-full object-cover border-2 border-pink-500">
                     {% else %}
                         <i class="far fa-user text-xl nav-text"></i>
                     {% endif %}
@@ -135,55 +255,64 @@ body.home-page .nav-scrolled .nav-text { color:#1f2937; }
             </button>
         </div>
         <ul class="space-y-4">
-            <li><a href="{% url 'home' %}" class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Дома</a></li>
-            <li><a href="{% url 'products' %}" class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Сите продукти</a></li>
-            <li><a href="{% url 'category_products' '1' %}" class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Бра</a></li>
-            <li><a href="{% url 'category_products' '2' %}" class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Слип</a></li>
-            <li><a href="{% url 'category_products' '3' %}" class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Ланжери</a></li>
-            <li><a href="{% url 'category_products' '4' %}" class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Пижами</a></li>
-            <li><a href="{% url 'about_us' %}" class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">За нас</a></li>
-            <li><a href="{% url 'contact' %}" class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Контакт</a></li>
+            <li><a href="{% url 'home' %}"
+                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Дома</a></li>
+            <li><a href="{% url 'products' %}"
+                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Сите продукти</a>
+            </li>
+            <li><a href="{% url 'category_products' 'bras' %}"
+                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Градници</a></li>
+            <li><a href="{% url 'category_products' 'panties' %}"
+                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Килоти</a></li>
+            <li><a href="{% url 'category_products' 'pajamas' %}"
+                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Пижами</a></li>
+            <li><a href="{% url 'category_products' 'lingerie' %}"
+                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Приватна</a></li>
+            <li><a href="{% url 'about_us' %}"
+                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">За нас</a></li>
+            <li><a href="{% url 'contact' %}"
+                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Контакт</a></li>
         </ul>
     </div>
 </nav>
 
 <script>
-const menuToggle = document.getElementById('menuToggle');
-const closeMenu = document.getElementById('closeMenu');
-const mobileMenu = document.getElementById('mobileMenu');
-const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+    const menuToggle = document.getElementById('menuToggle');
+    const closeMenu = document.getElementById('closeMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
 
-menuToggle.addEventListener('click', () => {
-    mobileMenu.classList.add('open');
-    mobileMenuOverlay.style.display = 'block';
-    document.body.style.overflow = 'hidden';
-});
-closeMenu.addEventListener('click', () => {
-    mobileMenu.classList.remove('open');
-    mobileMenuOverlay.style.display = 'none';
-    document.body.style.overflow = '';
-});
-mobileMenuOverlay.addEventListener('click', () => {
-    mobileMenu.classList.remove('open');
-    mobileMenuOverlay.style.display = 'none';
-    document.body.style.overflow = '';
-});
-
-// Navbar scroll effect
-const nav = document.getElementById('mainNav');
-if (document.body.classList.contains('home-page')) {
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 10) nav.classList.add('nav-scrolled');
-        else nav.classList.remove('nav-scrolled');
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.add('open');
+        mobileMenuOverlay.style.display = 'block';
+        document.body.style.overflow = 'hidden';
     });
-} else nav.classList.add('nav-scrolled');
+    closeMenu.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        mobileMenuOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+    });
+    mobileMenuOverlay.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        mobileMenuOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+    });
 
-// Announcement bar close functionality
-document.querySelector('.announcement-bar .close-btn').addEventListener('click', function() {
-    const announcementBar = document.querySelector('.announcement-bar');
-    announcementBar.style.display = 'none';
-    document.getElementById('mainNav').style.top = '0';
-});
+    // Navbar scroll effect
+    const nav = document.getElementById('mainNav');
+    if (document.body.classList.contains('home-page')) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) nav.classList.add('nav-scrolled');
+            else nav.classList.remove('nav-scrolled');
+        });
+    } else nav.classList.add('nav-scrolled');
+
+    // Announcement bar close functionality
+    document.querySelector('.announcement-bar .close-btn').addEventListener('click', function () {
+        const announcementBar = document.querySelector('.announcement-bar');
+        announcementBar.style.display = 'none';
+        document.getElementById('mainNav').style.top = '0';
+    });
 </script>
 
 </body>
