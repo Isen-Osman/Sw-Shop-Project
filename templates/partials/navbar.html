@@ -206,15 +206,29 @@
             <a href="{% url 'contact' %}" class="desktop-nav-item nav-text">Контакт</a>
         </div>
 
+
         <!-- User & Mobile -->
         <div class="nav-actions">
-            <a href="#"
+            <a href="{% if user.is_authenticated %}{% url 'wishlist' %}{% else %}{% url 'profile_page' %}{% endif %}"
                class="relative p-2 rounded-full hover:bg-gray-200 transition">
                 <i class="fas fa-shopping-cart text-xl nav-text"></i>
-                <span class="absolute -top-1 -right-1 bg-pink-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">3</span>
+                {% if user.is_authenticated and wishlist_items_count|default:0 > 0 %}
+                    <span class="absolute -top-1 -right-1 bg-pink-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+                        {{ wishlist_items_count }}
+                    </span>
+                {% endif %}
             </a>
-            <a href="#" class="p-2 rounded-full hover:bg-gray-200 transition">
-                <i class="far fa-user text-xl nav-text"></i>
+            <a href="{% url 'profile_page' %}" class="p-2 rounded-full hover:bg-gray-200 transition">
+                {% if user.is_authenticated and user.socialaccount_set.first %}
+                    {% if user.socialaccount_set.first.get_avatar_url %}
+                        <img src="{{ user.socialaccount_set.first.get_avatar_url }}" alt="Аватар"
+                             class="w-8 h-8 rounded-full object-cover border-2 border-pink-500">
+                    {% else %}
+                        <i class="far fa-user text-xl nav-text"></i>
+                    {% endif %}
+                {% else %}
+                    <i class="far fa-user text-xl nav-text"></i>
+                {% endif %}
             </a>
             <button id="menuToggle" class="md:hidden p-2 rounded-full hover:bg-gray-200 transition">
                 <i class="fas fa-bars text-xl nav-text"></i>
