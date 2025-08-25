@@ -92,10 +92,22 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
+        .back-button {
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            transform: translateX(-5px);
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
     <div class="w-full max-w-md animate-fade-in">
+        <!-- Back Button -->
+        <a href="{% url 'home' %}" class="back-button inline-flex items-center text-primary-600 hover:text-primary-800 font-medium mb-4">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Назад кон почетна
+        </a>
+
         {% if user.is_authenticated %}
         <!-- Authenticated User View -->
         <div class="glass-effect rounded-2xl overflow-hidden shadow-xl card-hover">
@@ -201,7 +213,7 @@
 
         <!-- Footer -->
         <div class="text-center text-gray-500 text-xs mt-6">
-            &copy; 2023 Сите права се задржани.
+            &copy; 2025 Сите права се задржани.
         </div>
     </div>
 </body>
