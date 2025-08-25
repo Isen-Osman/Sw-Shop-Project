@@ -1,8 +1,51 @@
 from django import forms
 from .models import Order
+import re
+
+MACEDONIAN_CITIES = [
+    ("Аеродром", "Аеродром"),
+    ("Берово", "Берово"),
+    ("Битола", "Битола"),
+    ("Богданци", "Богданци"),
+    ("Валандово", "Валандово"),
+    ("Велес", "Велес"),
+    ("Виница", "Виница"),
+    ("Гевгелија", "Гевгелија"),
+    ("Гостивар", "Гостивар"),
+    ("Дебар", "Дебар"),
+    ("Делчево", "Делчево"),
+    ("Кавадарци", "Кавадарци"),
+    ("Кичево", "Кичево"),
+    ("Кочани", "Кочани"),
+    ("Кратово", "Кратово"),
+    ("Крива Паланка", "Крива Паланка"),
+    ("Крушево", "Крушево"),
+    ("Куманово", "Куманово"),
+    ("Македонска Каменица", "Македонска Каменица"),
+    ("Македонски Брод", "Македонски Брод"),
+    ("Неготино", "Неготино"),
+    ("Охрид", "Охрид"),
+    ("Пехчево", "Пехчево"),
+    ("Прилеп", "Прилеп"),
+    ("Пробиштип", "Пробиштип"),
+    ("Радовиш", "Радовиш"),
+    ("Ресен", "Ресен"),
+    ("Свети Николе", "Свети Николе"),
+    ("Скопје", "Скопје"),
+    ("Струмица", "Струмица"),
+    ("Струга", "Струга"),
+    ("Тетово", "Тетово"),
+    ("Штип", "Штип"),
+]
 
 
 class OrderForm(forms.ModelForm):
+    city = forms.ChoiceField(
+        choices=[("", "Избери град")] + MACEDONIAN_CITIES,
+        widget=forms.Select(attrs={'class': 'input-class'}),
+        label='Град'
+    )
+
     class Meta:
         model = Order
         fields = ['first_name', 'last_name', 'city', 'phone_number', 'address', 'comment']
@@ -10,33 +53,51 @@ class OrderForm(forms.ModelForm):
         labels = {
             'first_name': 'Име',
             'last_name': 'Презиме',
-            'city': 'Град',
-            'phone_number': 'Број',
+            'phone_number': 'Телефонски број',
             'address': 'Адреса',
             'comment': 'Коментар'
-
         }
 
         widgets = {
-            'first_name': forms.TextInput(attrs={'class': 'input-class'}),
-            'last_name': forms.TextInput(attrs={'class': 'input-class'}),
-            'city': forms.TextInput(attrs={'class': 'input-class'}),
-            'phone_number': forms.TextInput(attrs={'class': 'input-class'}),
-            'address': forms.Textarea(attrs={'class': 'input-class', 'rows': 3}),
-            'cargo': forms.NumberInput(attrs={'class': 'input-class'}),
+            'first_name': forms.TextInput(attrs={'class': 'input-class', 'placeholder': 'Име'}),
+            'last_name': forms.TextInput(attrs={'class': 'input-class', 'placeholder': 'Презиме'}),
+            'phone_number': forms.TextInput(attrs={
+                'class': 'input-class',
+                'placeholder': '070 123 456',
+            }),
+            'address': forms.Textarea(attrs={'class': 'input-class', 'rows': 3, 'placeholder': 'Адреса'}),
+            'comment': forms.Textarea(attrs={'class': 'input-class', 'rows': 2, 'placeholder': 'Коментар (опционално)'}),
         }
+
         error_messages = {
             'first_name': {'required': 'Ова поле е задолжително'},
             'last_name': {'required': 'Ова поле е задолжително'},
             'city': {'required': 'Ова поле е задолжително'},
             'phone_number': {'required': 'Ова поле е задолжително'},
             'address': {'required': 'Ова поле е задолжително'},
-            'cargo': {'required': 'Ова поле е задолжително'},
         }
 
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        if first_name and len(first_name.strip()) < 3:
+            raise forms.ValidationError("Името мора да има најмалку 3 букви")
+        return first_name
 
-def __init__(self, *args, **kwargs):
-    super().__init__(*args, **kwargs)
-    for field_name in self.fields:
-        self.fields[field_name].required = False  # полето не е обврзувачко, корисникот може да го пополни
-        self.fields[field_name].widget.attrs.update({'placeholder': field_name.replace('_', ' ').capitalize()})
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        if last_name and len(last_name.strip()) < 3:
+            raise forms.ValidationError("Презимето мора да има најмалку 3 букви")
+        return last_name
+
+    def clean_phone_number(self):
+        phone = self.cleaned_data.get('phone_number')
+        if phone:
+            phone = re.sub(r'[\s\-]', '', phone)
+            if phone.startswith('0'):
+                phone = '+389' + phone[1:]
+            elif phone.startswith('7'):
+                phone = '+389' + phone
+            if not re.match(r'^\+3897\d{6}$', phone):
+                raise forms.ValidationError("Телефонскиот број мора да биде во формат: 070 123 456 или 07123456")
+            phone = f"{phone[:4]} {phone[4:6]} {phone[6:9]} {phone[9:]}"
+        return phone

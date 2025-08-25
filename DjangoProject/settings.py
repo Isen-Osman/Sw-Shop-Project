@@ -176,3 +176,58 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 ALLOWED_HOSTS = ['192.168.1.196', '192.168.1.187', 'localhost', '127.0.0.1', '192.168.1.185', ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
+
+
+# ==========================================
+# Django Security Settings
+# ==========================================
+
+# --- HTTPS & SSL ---
+SECURE_SSL_REDIRECT = True  # Принудува HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Ако имаш reverse proxy
+SECURE_HSTS_SECONDS = 3600  # HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# --- Cookies Security ---
+SESSION_COOKIE_SECURE = True  # Сесиите само преку HTTPS
+CSRF_COOKIE_SECURE = True  # CSRF cookies само преку HTTPS
+SESSION_COOKIE_HTTPONLY = True  # JavaScript не може да чита session cookie
+CSRF_COOKIE_HTTPONLY = False  # CSRF треба да биде достапен за формите
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Сесијата се брише при затворање на прелистувач
+
+
+# --- XSS & Content Type ---
+SECURE_BROWSER_XSS_FILTER = True  # Вграден XSS филтер во прелистувач
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Браузерот не ја „угаѓа“ MIME type
+
+X_FRAME_OPTIONS = 'DENY'  # Забранува вчитување на сајтот во iframe
+
+SECURE_REFERRER_POLICY = 'same-origin'  # Не праќа referrer информации надвор од твојот домен
+
+
+# --- Admin & Permissions ---
+# Само superusers треба да имаат пристап до admin site
+# Ограничувај пристап преку IP (опционално)
+# Ограничувај create/update/delete права за корисници
+# Препорачливо е да користиш custom user групи
+
+# --- Rate Limiting & Brute Force Protection (Optional) ---
+# pip install django-ratelimit
+# Можеш да го додадеш во login views или forms
+
+# --- Other Security Best Practices ---
+# DEBUG = False  # Никогаш не го оставај на True во production
+# ALLOWED_HOSTS = ['tvojdomain.com', 'www.tvojdomain.com']  # Сите дозволени домени
+# SECURE_BROWSER_XSS_FILTER = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+
+
+#
+# HTTPS & HSTS (SECURE_SSL_REDIRECT, SECURE_HSTS_SECONDS) – гарантира дека целиот сообраќај е криптиран. Без тоа, податоците можат да се пресретнат.
+# Cookies Security (SESSION_COOKIE_SECURE, CSRF_COOKIE_SECURE) – без овие, cookies можат да се крадат или користат во XSS напади.
+# XSS & Content Type Filters (SECURE_BROWSER_XSS_FILTER, SECURE_CONTENT_TYPE_NOSNIFF) – штити од најчести напади преку веб прелистувачи.
+# Clickjacking (X_FRAME_OPTIONS) – без ова, некој може да вгради твојот сајт во iframe и да изведува „clickjacking“ напади.
+# Referrer & CSP – го ограничуваат кој може да вчитува ресурси и од каде се праќаат информации. Не е задолжително, но многу го зголемува security.
+# DEBUG = False & ALLOWED_HOSTS – задолжително за production, во спротивно сајтот е ранлив.
+# Admin & Permissions – само superuser треба да има пристап до admin; без ова, секој може да модифицира data.
