@@ -178,6 +178,7 @@ ALLOWED_HOSTS = ['192.168.1.196', '192.168.1.187', 'localhost', '127.0.0.1', '19
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 
+
 # ==========================================
 # Django Security Settings
 # ==========================================
@@ -204,6 +205,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True  # Браузерот не ја „угаѓа
 X_FRAME_OPTIONS = 'DENY'  # Забранува вчитување на сајтот во iframe
 
 SECURE_REFERRER_POLICY = 'same-origin'  # Не праќа referrer информации надвор од твојот домен
+
 
 
 # --- Admin & Permissions ---

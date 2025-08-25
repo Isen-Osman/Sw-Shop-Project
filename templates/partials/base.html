@@ -1,6 +1,4 @@
-{% load socialaccount %}
-{% providers_media_js %}
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="mk">
 <head>
@@ -15,13 +13,46 @@
 {% include "partials/navbar.html" %}
 
 <!-- Main content -->
-<main class="pt-20">  {# padding-top еднакво на висината на navbar #}
-    {% block content %}
-    {% endblock %}
+<main class="pt-20">
+    {% block content %}{% endblock %}
 </main>
 
 <!-- Footer -->
 {% include "partials/footer.html" %}
+
+<!-- Cookie Banner -->
+{% if not request.COOKIES.cookies_accepted %}
+<div id="cookie-banner" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white rounded-lg shadow-lg p-4 sm:p-6 w-11/12 sm:w-3/4 md:w-1/2 opacity-0 translate-y-8 transition-all duration-500 z-50">
+    <div class="flex flex-col gap-3 text-center">
+        <p class="text-sm sm:text-base">
+            Оваа страна користи колачиња (’’cookies’’) за непречена работа на веб страницата.
+        </p>
+
+        <div class="flex flex-col sm:flex-row sm:justify-center gap-3 mt-2">
+            <a href="/cookies-policy/" target="_blank" class="text-pink-400 hover:underline text-sm sm:text-base">
+                ДОЗНАЈ ПОВЕЌЕ
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const banner = document.getElementById('cookie-banner');
+    setTimeout(() => {
+        banner.classList.remove('opacity-0', 'translate-y-8');
+        banner.classList.add('opacity-100', 'translate-y-0');
+    }, 200);
+
+    // Автоматско сокривање после 4 секунди
+    setTimeout(() => {
+        banner.classList.add('opacity-0', 'translate-y-8');
+        setTimeout(() => banner.remove(), 500);
+        document.cookie = "cookies_accepted=true;path=/;max-age=" + 60*60*24*365 + ";SameSite=Lax";
+    }, 4000);
+});
+</script>
+{% endif %}
 
 </body>
 </html>
