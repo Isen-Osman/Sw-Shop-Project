@@ -204,7 +204,10 @@
                         <td>
                             <div class="product-cell">
                                 <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}">
-                                <span>{{ item.product.name }}</span>
+                                <div>
+                                    <span>{{ item.product.name }}</span><br>
+                                    <small style="color:#666;">Големина: {{ item.size }}</small>
+                                </div>
                             </div>
                         </td>
                         <td style="text-align:center;">{{ item.quantity }}</td>

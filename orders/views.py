@@ -9,6 +9,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
 
+
 @login_required
 def create_order(request):
     wishlist = request.user.wishlist
@@ -23,6 +24,16 @@ def create_order(request):
 
     # Земаме size од session
     wishlist_sizes = request.session.get('wishlist_sizes', {})
+    product_size = request.session.get('product_size', {})
+
+    # Додавање на products_with_sizes за template
+    products_with_sizes = []
+    for product in products:
+        size = wishlist_sizes.get(str(product.id), 'Неодредена')
+        products_with_sizes.append({
+            'product': product,
+            'size': size
+        })
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -56,11 +67,16 @@ def create_order(request):
     return render(request, 'order/create_order.html', {
         'form': form,
         'products': products,
+        'products_with_sizes': products_with_sizes,  # <-- додадено за size
         'total_price': total_price,
         'shipping_price': shipping_price,
         'final_price': final_price,
         'wishlist_items_count': products.count(),
+        'wishlist_sizes': wishlist_sizes,
+        'product_size': product_size,
     })
+
+
 
 
 @login_required
