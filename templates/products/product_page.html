@@ -21,17 +21,34 @@
             <nav class="mb-8 flex justify-center perspective-1000" aria-label="Breadcrumb">
                 <ol class="list-none p-0 inline-flex items-center space-x-3 bg-white/50 backdrop-blur-md px-6 py-3 rounded-full shadow-xl transform transition-all duration-300 hover:rotate-x-3 hover:rotate-y-3">
                     <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
-                        <a href="/"
+                        <a href="{% url 'home' %}"
                            class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Home</a>
                         <span class="mx-2 text-gray-400">›</span>
                     </li>
                     <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
-                        <a href="#" class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Products</a>
+                        <a href="{% url 'products' %}"
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Products</a>
                         <span class="mx-2 text-gray-400">›</span>
                     </li>
                     <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
                         <span class="bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 text-transparent bg-clip-text font-bold uppercase tracking-wide">{{ category_name }}</span>
                     </li>
+                </ol>
+            </nav>
+        {% else %}
+            <nav class="mb-8 flex justify-center perspective-1000" aria-label="Breadcrumb">
+                <ol class="list-none p-0 inline-flex items-center space-x-3 bg-white/50 backdrop-blur-md px-6 py-3 rounded-full shadow-xl transform transition-all duration-300 hover:rotate-x-3 hover:rotate-y-3">
+                    <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+                        <a href="{% url 'home' %}"
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Home</a>
+                        <span class="mx-2 text-gray-400">›</span>
+                    </li>
+                    <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+                        <a href="{% url 'products' %}"
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Products</a>
+                        <span class="mx-2 text-gray-400">›</span>
+                    </li>
+
                 </ol>
             </nav>
         {% endif %}
