@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.db.models import Q
 from .forms import ProductForm
-from .models import Product, ProductQuantity, ProductImage, Size
+from .models import Product, ProductQuantity, ProductImage, Size,Category
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -155,16 +155,23 @@ def product_detail(request, pk):
 
 
 def products_by_category(request, category_name):
-    products = Product.objects.filter(category=category_name)
+    # Проверуваме дали е валидна категорија од Enum-от
+    try:
+        category_value = Category[category_name.upper()].value
+    except KeyError:
+        return render(request, "404.html", {"error": "Категоријата не постои."})
 
+    # Филтрираме продукти според Enum вредност
+    products = Product.objects.filter(category=category_value)
+
+    # Пример: да додадеме 200 ден. на price за new_price (како што имаш ти)
     for product in products:
         product.new_price = product.price + 200
 
-    return render(request, 'products/product_page.html', {
-        'products': products,
-        'category_name': category_name.capitalize()
+    return render(request, "products/product_page.html", {
+        "products": products,
+        "category_name": dict(Category.choices).get(category_value, category_name.capitalize())
     })
-
 
 def collections_page(request):
     return render(request, 'lg/collections_page.html')

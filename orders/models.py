@@ -1,4 +1,6 @@
 # orders/models.py
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import User
 from app.models import Product
@@ -10,10 +12,12 @@ class Order(models.Model):
     last_name = models.CharField(max_length=100)
     email = models.EmailField()
     city = models.CharField(max_length=100)
-    address = models.CharField(max_length=255)
+    address = models.CharField(max_length=50)
     cargo = models.CharField(max_length=50, choices=(("Standard", "Standard"), ("Express", "Express")))
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    phone_number = models.CharField(max_length=20)
+    comment = models.TextField(max_length=100,blank=True)
 
     def __str__(self):
         return f"Order #{self.id} од {self.user.username}"

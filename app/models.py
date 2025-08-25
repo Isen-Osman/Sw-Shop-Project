@@ -20,10 +20,10 @@ class Color(models.TextChoices):
 
 
 class Category(models.TextChoices):
-    BRAS = "bras", "Bras"
-    PANTIES = "panties", "Panties"
-    LINGERIE = "lingerie", "Lingerie"
-    PAJAMAS = "pajamas", "Pajamas"
+    BRAS = "bras", "Градници"
+    PANTIES = "panties", "Килоти"
+    LINGERIE = "lingerie", "Приватна"
+    PAJAMAS = "pajamas", "Пижами"
 
 
 # Главен модел Product
@@ -56,5 +56,3 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.product.name}"
-
-

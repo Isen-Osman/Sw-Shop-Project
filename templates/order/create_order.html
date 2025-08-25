@@ -5,125 +5,182 @@
 {% block title %}Креирај нарачка{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto py-8 px-4">
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">Креирај Нарачка</h2>
+    <div class="max-w-full sm:max-w-3xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
 
-        <!-- Тековни продукти од Wishlist -->
-        <div class="mb-8">
-            <h3 class="text-lg font-semibold text-gray-700 mb-4 pb-2 border-b border-gray-200">Твоја кошничка</h3>
 
-            {% if products %}
-                <ul class="divide-y divide-gray-200">
-                    {% for product in products %}
-                    <li class="py-4 flex items-start">
-                        <div class="flex-shrink-0 h-16 w-16 rounded-md overflow-hidden bg-gray-100">
-                            {% if product.images.all %}
-                                <img src="{{ product.images.first.image.url }}"
-                                     alt="{{ product.name }}"
-                                     class="h-full w-full object-cover object-center">
-                            {% else %}
-                                <div class="h-full w-full flex items-center justify-center text-gray-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
+        <!-- Breadcrumb -->
+        <nav class="mb-6 flex justify-center perspective-1000" aria-label="Breadcrumb">
+            <ol class="list-none p-0 inline-flex items-center space-x-2 bg-white/40 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
+                <li class="flex items-center">
+                    <a href="/"
+                       class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide text-sm transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+                        Home
+                    </a>
+                    <span class="mx-1 text-gray-400 text-sm">›</span>
+                </li>
+                <li class="flex items-center">
+                    <a href="{% url 'wishlist' %}"
+                       class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide text-sm transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+                        Кошничка
+                    </a>
+                    <span class="mx-1 text-gray-400 text-sm">›</span>
+                </li>
+                <li class="flex items-center">
+                    <span class="text-gray-900 font-bold text-sm uppercase tracking-wide">Креирај Нарачка</span>
+                </li>
+            </ol>
+        </nav>
+        <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center sm:text-left">Креирај
+                Нарачка</h2>
+
+            <!-- Тековни продукти од Wishlist -->
+            <div class="mb-6 sm:mb-8">
+                <h3 class="text-base sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4 pb-1 sm:pb-2 border-b border-gray-200">
+                    Твоја кошничка</h3>
+
+                {% if products %}
+                    <ul class="divide-y divide-gray-200">
+                        {% for product in products %}
+                            <li class="py-3 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center">
+                                <div class="flex-shrink-0 h-16 w-16 rounded-md overflow-hidden bg-gray-100">
+                                    {% if product.images.all %}
+                                        <img src="{{ product.images.first.image.url }}"
+                                             alt="{{ product.name }}"
+                                             class="h-full w-full object-cover object-center">
+                                    {% else %}
+                                        <div class="h-full w-full flex items-center justify-center text-gray-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-8 sm:w-8"
+                                                 fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+                                        </div>
+                                    {% endif %}
+
                                 </div>
-                            {% endif %}
-                        </div>
-                        <div class="ml-4 flex-1">
-                            <div class="flex justify-between text-base font-medium text-gray-900">
-                                <h3>{{ product.name }}</h3>
-                                <p class="ml-4">{{ product.price|floatformat:0|intcomma }} ден</p>
-                            </div>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
+                                <div class="mt-2 sm:mt-0 sm:ml-4 flex-1 w-full flex justify-between items-center">
+                                    <h3 class="text-sm sm:text-base font-medium text-gray-900">{{ product.name }}</h3>
+                                    <p class="text-sm sm:text-base text-gray-900 ml-2">{{ product.price|floatformat:0|intcomma }}
+                                        ден</p>
+                                </div>
 
-                <!-- Вкупни цени -->
-                <div class="border-t border-gray-200 mt-6 pt-6 space-y-3">
-                    <div class="flex justify-between text-base font-medium text-gray-900">
-                        <p>Вкупно продукти:</p>
-                        <p>{{ total_price|floatformat:0|intcomma }} ден</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <!-- Вкупни цени -->
+                    <div class="border-t border-gray-200 mt-4 sm:mt-6 pt-4 sm:pt-6 space-y-2 sm:space-y-3">
+                        <div class="flex justify-between text-sm sm:text-base font-medium text-gray-900">
+                            <p>Вкупно продукти:</p>
+                            <p>{{ total_price|floatformat:0|intcomma }} ден</p>
+                        </div>
+                        <div class="flex justify-between text-sm sm:text-base font-medium text-gray-900 items-center">
+                            <p>Карго:
+                                <span class="relative group ml-1 cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-3 w-3 sm:h-4 sm:w-4 inline-block text-pink-600"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+                                </svg>
+                                <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 sm:mb-2 w-40 sm:w-48 bg-gray-700 text-white text-xs sm:text-sm rounded-md p-1 sm:p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-center">
+                                    Бесплатна достава за нарачки над 2000 ден!
+                                </span>
+                            </span>
+                            </p>
+                            <p>{{ shipping_price|floatformat:0|intcomma }} ден</p>
+                        </div>
+                        <div class="flex justify-between text-sm sm:text-lg font-bold text-gray-900 pt-2 border-t border-gray-200">
+                            <p>Вкупно за плаќање:</p>
+                            <p>{{ final_price|floatformat:0|intcomma }} ден</p>
+                        </div>
+
+                        <div class="mt-3 sm:mt-4 p-3 sm:p-4 bg-pink-50 border border-pink-200 rounded-md text-xs sm:text-sm text-pink-700">
+                            <p><strong>Информации за достава:</strong></p>
+                            <ul class="list-disc list-inside mt-1">
+                                <li>Стандардна достава: 2-4 работни дена.</li>
+                                <li>Експрес достава: 1-2 работни дена (дополнително 150 ден).</li>
+                                <li>Бесплатна достава за нарачки над 2000 ден.</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="flex justify-between text-base font-medium text-gray-900">
-                        <p>Карго:</p>
-                        <p>{{ shipping_price|floatformat:0|intcomma }} ден</p>
+
+                {% else %}
+                    <div class="text-center py-6 sm:py-8">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400"
+                             fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <h3 class="mt-2 text-sm sm:text-lg font-medium text-gray-900">Вашата кошничка е празна</h3>
+                        <p class="mt-1 text-xs sm:text-sm text-gray-500">Додадете продукти за да креирате нарачка.</p>
+                        <div class="mt-4 sm:mt-6">
+                            <a href="{% url 'products' %}"
+                               class="inline-flex items-center px-3 sm:px-4 py-2 sm:py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-pink-600 hover:bg-pink-700">
+                                Кон продукти
+                            </a>
+                        </div>
                     </div>
-                    <div class="flex justify-between text-lg font-bold text-gray-900 pt-2 border-t border-gray-200">
-                        <p>Вкупно за плаќање:</p>
-                        <p>{{ final_price|floatformat:0|intcomma }} ден</p>
-                    </div>
-                </div>
-            {% else %}
-                <div class="text-center py-8">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <h3 class="mt-2 text-lg font-medium text-gray-900">Вашата кошничка е празна</h3>
-                    <p class="mt-1 text-gray-500">Додадете продукти за да креирате нарачка.</p>
-                    <div class="mt-6">
-                        <a href="{% url 'products' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-pink-600 hover:bg-pink-700">
-                            Кон продукти
-                        </a>
-                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Форма за креирање на нарачка -->
+            {% if products %}
+                <div class="mt-6 sm:mt-8 border-t border-gray-200 pt-4 sm:pt-6">
+                    <h3 class="text-sm sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4">Детали за нарачката</h3>
+                    <form method="post" class="space-y-3 sm:space-y-4">
+                        {% csrf_token %}
+
+                        <div class="grid grid-cols-1 gap-y-3 gap-x-4 sm:grid-cols-2">
+                            {% for field in form %}
+                                <div class="sm:col-span-{% if field.field.widget.input_type == 'textarea' %}2{% else %}1{% endif %}">
+                                    <label for="{{ field.for_label }}"
+                                           class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                                        {{ field.label }}
+                                        {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                                    </label>
+                                    <div class="mt-1">
+                                        {% render_field field class="block w-full rounded-md border border-gray-300 bg-gray-50 p-2 sm:p-2.5 text-xs sm:text-sm text-gray-900 shadow-sm focus:border-pink-500 focus:ring-pink-500" %}
+                                        {% if field.errors %}
+                                            <p class="mt-1 text-xs sm:text-sm text-red-600">
+                                                {% for error in field.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="pt-3 sm:pt-4">
+                            <button type="submit"
+                                    class="w-full flex justify-center items-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent rounded-md shadow-sm text-xs sm:text-base font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-colors duration-200">
+                                Потврди нарачка
+                            </button>
+                        </div>
+                    </form>
                 </div>
             {% endif %}
         </div>
-
-        <!-- Форма за креирање на нарачка -->
-        {% if products %}
-        <div class="mt-8 border-t border-gray-200 pt-6">
-            <h3 class="text-lg font-semibold text-gray-700 mb-4">Детали за нарачката</h3>
-            <form method="post" class="space-y-4">
-                {% csrf_token %}
-
-                <div class="grid grid-cols-1 gap-y-4 gap-x-6 sm:grid-cols-2">
-                    {% for field in form %}
-                    <div class="sm:col-span-{% if field.field.widget.input_type == 'textarea' %}2{% else %}1{% endif %}">
-                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
-                            {{ field.label }}
-                            {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
-                        </label>
-                        <div class="mt-1">
-                            {% render_field field class="block w-full rounded-md border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 shadow-sm focus:border-pink-500 focus:ring-pink-500" %}
-                            {% if field.errors %}
-                                <p class="mt-1 text-sm text-red-600">
-                                    {% for error in field.errors %}
-                                        {{ error|add:"This field is required,Ова поле е задолжително" }}
-                                    {% endfor %}
-                                </p>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-
-                <div class="pt-4">
-                    <button type="submit"
-                            class="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-colors duration-200">
-                        Потврди нарачка
-                    </button>
-                </div>
-            </form>
-        </div>
-        {% endif %}
     </div>
-</div>
 
-<style>
-    /* Additional styling for better form appearance */
-    input[type="text"],
-    input[type="email"],
-    select,
-    textarea {
-        transition: all 0.2s ease;
-    }
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    select:focus,
-    textarea:focus {
-        box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
-    }
-</style>
+    <style>
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+        }
+    </style>
 {% endblock %}

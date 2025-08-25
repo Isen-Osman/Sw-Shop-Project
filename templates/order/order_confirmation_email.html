@@ -1,332 +1,254 @@
 <!DOCTYPE html>
-<html>
+<html lang="mk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Потврда за нарачка - SW Shop</title>
+    <title>Потврда на нарачка - SW SHOP</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@700&display=swap');
+
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #f9f6f2;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7f6;
             margin: 0;
             padding: 0;
-            color: #333333;
-            line-height: 1.6;
+            color: #333;
         }
-        
+
         .container {
-            max-width: 650px;
-            margin: 30px auto;
-            background-color: #ffffff;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
-        
+
         .header {
-            background: linear-gradient(135deg, #8B5A3C 0%, #C8957A 100%);
-            padding: 30px;
+            background-color: #e8f5e9;
             text-align: center;
-            color: white;
+            padding: 40px 25px;
         }
-        
-        .logo {
+
+        .header .checkmark {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 20px;
+        }
+
+        .header .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
+            color: #2e7d32;
+            margin-bottom: 5px;
         }
-        
-        .tagline {
-            font-size: 14px;
-            opacity: 0.9;
+
+        .header .tagline {
+            font-size: 16px;
+            color: #4caf50;
+            margin: 0;
             letter-spacing: 1.5px;
             text-transform: uppercase;
         }
-        
+
         .content {
-            padding: 40px;
+            padding: 30px;
         }
-        
-        .greeting {
-            font-size: 24px;
-            color: #8B5A3C;
-            margin-bottom: 25px;
+
+        h2 {
+            color: #2e7d32;
+            font-size: 22px;
             font-weight: 600;
-        }
-        
-        .message {
-            margin-bottom: 30px;
-            line-height: 1.8;
-            color: #555555;
-        }
-        
-        .order-details {
-            background-color: #f9f6f2;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .order-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 20px;
-            color: #8B5A3C;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e8f5e9;
             padding-bottom: 10px;
-            border-bottom: 1px solid #e0d6ce;
         }
-        
+
+        p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0 0 10px 0;
+        }
+
+        .intro-text {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-        }
-        
-        th {
-            text-align: left;
-            padding: 12px 15px;
-            background-color: #f0e8e2;
-            font-weight: 600;
-            color: #8B5A3C;
-        }
-        
-        td {
-            padding: 15px;
-            border-bottom: 1px solid #f0e8e2;
-        }
-        
-        tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .product-name {
-            font-weight: 500;
-            color: #333333;
-        }
-        
-        .quantity {
-            text-align: center;
-        }
-        
-        .price {
-            text-align: right;
-            font-weight: 500;
-        }
-        
-        .total-row {
-            background-color: #f9f6f2;
-        }
-        
-        .total-label {
-            text-align: right;
-            font-weight: 600;
-            color: #8B5A3C;
-            padding-right: 15px;
-        }
-        
-        .total-value {
-            text-align: right;
-            font-weight: 700;
-            font-size: 18px;
-            color: #8B5A3C;
-        }
-        
-        .order-info {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .info-box {
-            flex: 1;
-            min-width: 250px;
-            background-color: #f9f6f2;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 0 10px 20px;
-        }
-        
-        .info-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            color: #8B5A3C;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e0d6ce;
-        }
-        
-        .info-content {
-            color: #555555;
-        }
-        
-        .footer {
-            background-color: #f0e8e2;
-            padding: 25px;
-            text-align: center;
-            color: #666666;
-            font-size: 14px;
-        }
-        
-        .social-links {
             margin: 20px 0;
         }
-        
-        .social-links a {
-            display: inline-block;
-            margin: 0 10px;
-            color: #8B5A3C;
-            text-decoration: none;
-            font-weight: 500;
+
+        th, td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
         }
-        
-        .contact {
-            margin-top: 20px;
-            line-height: 1.6;
+
+        th {
+            background-color: #f1f8e9;
+            color: #2e7d32;
+            font-weight: 600;
+            text-align: left;
         }
-        
+
+        .product-cell {
+            display: flex;
+            align-items: center;
+        }
+
+        .product-cell img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        td.price, td.quantity, td.total {
+            text-align: right;
+        }
+
+        .order-summary tr:last-child td {
+            border-bottom: none;
+        }
+
+        .total-row td {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .grand-total-row td {
+            font-size: 18px;
+            color: #2e7d32;
+        }
+
+        .info-box {
+            background-color: #f9fbe7;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #c5e1a5;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
         .button {
             display: inline-block;
-            background-color: #8B5A3C;
+            background-color: #4caf50;
             color: white;
             padding: 14px 30px;
-            text-decoration: none;
             border-radius: 30px;
+            text-decoration: none;
             font-weight: 600;
             margin-top: 20px;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease;
         }
-        
+
         .button:hover {
-            background-color: #6d4630;
-            transform: translateY(-2px);
+            background-color: #388e3c;
         }
-        
-        .thank-you {
+
+        .footer {
+            background-color: #e8f5e9;
             text-align: center;
-            margin: 30px 0;
-            font-style: italic;
-            color: #8B5A3C;
+            padding: 20px;
+            font-size: 13px;
+            color: #666;
+            border-top: 1px solid #dcdcdc;
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 16px;
         }
-        
-        .divider {
-            height: 1px;
-            background: linear-gradient(to right, transparent, #e0d6ce, transparent);
-            margin: 30px 0;
+
+        .footer a {
+            color: #4caf50;
+            text-decoration: none;
         }
-        
-        @media (max-width: 650px) {
-            .container {
-                margin: 0;
-                border-radius: 0;
-            }
-            
-            .content {
-                padding: 25px;
-            }
-            
-            .info-box {
-                min-width: 100%;
-                margin: 0 0 20px 0;
-            }
-            
-            th, td {
-                padding: 10px 8px;
-            }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">MODERN SHOP</div>
-            <div class="tagline">Потврда за вашата нарачка</div>
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="25" fill="none" stroke="#4caf50" stroke-width="3"/>
+                <path fill="none" stroke="#4caf50" stroke-width="3" d="M14 27 L22 35 L38 19"/>
+            </svg>
+            <div class="logo">SW SHOP</div>
+            <p class="tagline">Вашата нарачка е потврдена</p>
         </div>
-        
         <div class="content">
-            <div class="greeting">Здраво {{ order.user.first_name }} {{ order.user.last_name }},</div>
-            
-            <div class="message">
-                Ви благодариме за вашата нарачка! Ве известуваме дека вашата нарачка е успешно прифатена и е во процес на обработка. 
-                Подолу се деталите за вашата нарачка.
+            <p class="intro-text">Здраво <strong>{{ order.user.first_name }} {{ order.user.last_name }}</strong>, </p>
+            <p>Ви благодариме за вашата нарачка! Таа е успешно прифатена и ќе биде испратена наскоро. Подолу се деталите за вашата нарачка <strong>#{{ order.id }}</strong>.</p>
+
+            <h2>Детали за нарачката</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width:50%;">Продукт</th>
+                        <th style="text-align:center;">Количина</th>
+                        <th style="text-align:right;">Цена</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td>
+                            <div class="product-cell">
+                                <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}">
+                                <span>{{ item.product.name }}</span>
+                            </div>
+                        </td>
+                        <td style="text-align:center;">{{ item.quantity }}</td>
+                        <td style="text-align:right;">{{ item.price }} ден.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <table class="order-summary">
+                <tbody>
+                    <tr class="total-row">
+                        <td style="text-align:right; border-top: 1px solid #e0e0e0;">Вкупно:</td>
+                        <td style="text-align:right; border-top: 1px solid #e0e0e0;">{{ order.total_price }} ден.</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td style="text-align:right;">Испорака (КАРГО):</td>
+                        <td style="text-align:right;">150 ден.</td>
+                    </tr>
+                    <tr class="grand-total-row">
+                        <td style="text-align:right;">Вкупно за плаќање:</td>
+                        <td style="text-align:right;"><strong>{{ order.total_price|add:150 }} ден.</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box">
+                <strong>Информации за испорака:</strong>
+                <p><strong>Адреса:</strong> {{ order.address }}, {{ order.city }}</p>
+                <p><strong>Телефон:</strong> {{ order.phone_number }}</p>
+                {% if order.comment %}
+                <p><strong>Коментар:</strong> {{ order.comment }}</p>
+                {% endif %}
             </div>
-            
-            <div class="order-details">
-                <div class="order-title">Детали за нарачката #{{ order.id }}</div>
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Продукт</th>
-                            <th class="quantity">Количина</th>
-                            <th class="price">Цена (ден)</th>
-                            <th class="price">Вкупно (ден)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in order.items.all %}
-                        <tr>
-                            <td class="product-name">{{ item.product.name }}</td>
-                            <td class="quantity">{{ item.quantity }}</td>
-                            <td class="price">{{ item.price }}</td>
-{#                            <td class="price">{{ item.price * item.quantity }}</td>#}
-                        </tr>
-                        {% endfor %}
-                        
-                        <tr class="total-row">
-                            <td colspan="3" class="total-label">Вкупно:</td>
-                            <td class="total-value">{{ order.total_price }} ден.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="order-info">
-                <div class="info-box">
-                    <div class="info-title">Информации за испорака</div>
-                    <div class="info-content">
-                        Вашата нарачка ќе биде испратена на адресата што ја наведовте при нарачувањето. 
-                        Очекувајте дополнителни информации за испораката на вашата е-пошта.
-                    </div>
-                </div>
-                
-                <div class="info-box">
-                    <div class="info-title">Контакт информации</div>
-                    <div class="info-content">
-                        Имате прашања во врска со вашата нарачка?<br>
-                        Контактирајте не на:<br>
-                        Телефон: +389 70 123 456<br>
-                        Е-пошта: info@modernshop.mk
-                    </div>
-                </div>
-            </div>
-            
-            <div class="divider"></div>
-            
-            <div style="text-align: center;">
-                <a href="https://modernshop.mk" class="button">Продолжете со пазарење</a>
-            </div>
-            
-            <div class="thank-you">
-                Благодариме што не избравте нас! <br>
-                Со почит, Modern Shop тимот
+
+            <p style="text-align:center;">Имате прашања? Слободно контактирајте нè!</p>
+
+            <div style="text-align:center;">
+                <a href="https://swshop.mk" class="button">Продолжете со пазарење</a>
             </div>
         </div>
-        
         <div class="footer">
-            <div class="social-links">
-                <a href="#">Facebook</a> • 
-                <a href="#">Instagram</a> • 
-                <a href="#">Twitter</a>
-            </div>
-            
-            <div class="contact">
-                Modern Shop © 2023. Сите права се задржани.<br>
-                Улица Пример бр. 123, 1000 Скопје, Северна Македонија
-            </div>
+            SW SHOP © 2025. Сите права се задржани. | <a href="mailto:info@swshop.mk">info@swshop.mk</a><br>
+            Улица Пример бр. 123, 1000 Скопје, Северна Македонија
         </div>
     </div>
 </body>
