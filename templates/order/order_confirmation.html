@@ -56,59 +56,48 @@
 
 <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-lg w-full mx-4 sm:mx-auto animate-fade-in">
     <div class="w-full max-w-3xl mx-auto mb-8">
-        <div class="relative flex justify-between items-center">
+        <!-- Modern Progress Bar -->
+        <div class="w-full max-w-3xl mx-auto mb-12 relative">
+            <!-- Progress Steps -->
+            <div class="relative flex justify-between z-10">
+                <!-- Step 1: Cart -->
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold bg-gradient-to-r from-pink-500 to-pink-600 shadow-lg relative z-10">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs mt-3 text-pink-600 font-semibold bg-pink-50 px-3 py-1 rounded-full">Кошничка</span>
+                </div>
 
-            <!-- Background Line -->
-            <div class="absolute top-1/2 left-0 w-full h-1 bg-gray-200 transform -translate-y-1/2 rounded-full"></div>
+                <!-- Step 2: Order -->
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold bg-white bg-white bg-gradient-to-r from-pink-500 to-pink-600 text-white relative z-10">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs mt-3 text-pink-600 font-semibold bg-pink-50 px-3 py-1 rounded-full">Креирање нарачка</span>
+                </div>
 
+                <!-- Step 3: Success -->
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold bg-white bg-gradient-to-r from-pink-500 to-pink-600 text-white relative z-10">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs mt-3 text-pink-600 font-semibold bg-pink-50 px-3 py-1 rounded-full">Успешна нарачка</span>
+                </div>
+            </div>
 
             <!-- Progress Line -->
-            <div class="absolute top-1/2 left-0 h-1 bg-pink-500 rounded-full animate-progress" style="width:0%;"></div>
-
-            <style>
-                @keyframes fillProgressSuccess {
-                    from {
-                        width: 1%;
-                    }
-                    to {
-                        width: 100%;
-                    }
-                    /* Целосно пополнување за Success */
-                }
-
-                .animate-progress {
-                    animation: fillProgressSuccess 1s ease-out forwards;
-                }
-            </style>
-
-            <!-- Step 1: Wishlist -->
-            <div class="flex flex-col items-center z-10">
-                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white font-bold bg-pink-500">
-                    1
-                </div>
-                <span class="text-xs sm:text-sm mt-2 text-gray-700 font-semibold">Кошничка</span>
-            </div>
-
-            <!-- Step 2: Order -->
-            <div class="flex flex-col items-center z-10">
-                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white font-bold bg-pink-500">
-                    2
-                </div>
-                <span class="text-xs sm:text-sm mt-2 text-gray-700 font-semibold">Креирање нарачка</span>
-            </div>
-
-            <!-- Step 3: Success -->
-            <div class="flex flex-col items-center z-10">
-                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white font-bold bg-pink-500">
-                    3
-                </div>
-                <span class="text-xs sm:text-sm mt-2 text-gray-700 font-semibold">Успешна нарачка</span>
-
-
-            </div>
-
+            <div class="absolute top-5 left-0 w-full h-1 bg-gray-200 transform -translate-y-1/2 rounded-full z-0"></div>
+            <div class="absolute top-5 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-pink-600 transform -translate-y-1/2 rounded-full z-0 transition-all duration-700 ease-in-out animate-progress"></div>
         </div>
-
 
         <!-- Success Header -->
         <div class="text-center mb-8">

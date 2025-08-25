@@ -92,12 +92,12 @@ class OrderForm(forms.ModelForm):
     def clean_phone_number(self):
         phone = self.cleaned_data.get('phone_number')
         if phone:
+            # Отстрани празни места и цртички
             phone = re.sub(r'[\s\-]', '', phone)
-            if phone.startswith('0'):
-                phone = '+389' + phone[1:]
-            elif phone.startswith('7'):
-                phone = '+389' + phone
-            if not re.match(r'^\+3897\d{6}$', phone):
-                raise forms.ValidationError("Телефонскиот број мора да биде во формат: 070 123 456 или 07123456")
-            phone = f"{phone[:4]} {phone[4:6]} {phone[6:9]} {phone[9:]}"
+
+            # Проверка дали бројот е валиден за Македонија
+            if not re.match(r'^07\d{7}$', phone):
+                raise forms.ValidationError(
+                    "Телефонскиот број мора да биде во формат: 070123456"
+                )
         return phone
