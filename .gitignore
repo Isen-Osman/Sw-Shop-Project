@@ -1,2 +1,10 @@
 __pycache__/
 *.pyc
+SECRET_KEY=super_secure_django_secret_key
+DEBUG=True
+DB_NAME=myswshop_db
+DB_USER=myshop_user
+DB_PASSWORD=swshop
+DB_HOST=localhost
+DB_PORT=5432
+.env

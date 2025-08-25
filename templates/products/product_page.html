@@ -1,0 +1,233 @@
+{% extends "partials/base.html" %}
+
+{% block title %}Продукти | SW SHOP{% endblock %}
+
+{% block content %}
+    <style>
+        div {
+            font-family: "PPRadioGrotesk", Arial, sans-serif;
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+
+    <div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+        {% if category_name %}
+            <nav class="mb-8 flex justify-center perspective-1000" aria-label="Breadcrumb">
+                <ol class="list-none p-0 inline-flex items-center space-x-3 bg-white/50 backdrop-blur-md px-6 py-3 rounded-full shadow-xl transform transition-all duration-300 hover:rotate-x-3 hover:rotate-y-3">
+                    <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+                        <a href="{% url 'home' %}"
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Home</a>
+                        <span class="mx-2 text-gray-400">›</span>
+                    </li>
+                    <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+                        <a href="{% url 'products' %}"
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Products</a>
+                        <span class="mx-2 text-gray-400">›</span>
+                    </li>
+                    <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+                        <span class="bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 text-transparent bg-clip-text font-bold uppercase tracking-wide">{{ category_name }}</span>
+                    </li>
+                </ol>
+            </nav>
+        {% else %}
+            <nav class="mb-8 flex justify-center perspective-1000" aria-label="Breadcrumb">
+                <ol class="list-none p-0 inline-flex items-center space-x-3 bg-white/50 backdrop-blur-md px-6 py-3 rounded-full shadow-xl transform transition-all duration-300 hover:rotate-x-3 hover:rotate-y-3">
+                    <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+                        <a href="{% url 'home' %}"
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Home</a>
+                        <span class="mx-2 text-gray-400">›</span>
+                    </li>
+                    <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
+                        <a href="{% url 'products' %}"
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Products</a>
+                        <span class="mx-2 text-gray-400">›</span>
+                    </li>
+
+                </ol>
+            </nav>
+        {% endif %}
+
+
+
+
+
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+
+
+            {% for product in products %}
+                <div class="relative overflow-hidden duration-300 group rounded-xl bg-white shadow-sm">
+
+                    <!-- Product Link Overlay -->
+                    <a href="{% url 'product_detail' product.id %}" class="absolute inset-0 z-10"></a>
+
+                    <!-- Product Image -->
+                    <div class="relative h-64 sm:h-80 bg-gray-200 overflow-hidden rounded-t-xl">
+                        {% if product.images.all %}
+                            <img src="{{ product.images.first.image.url }}"
+                                 alt="{{ product.name }}"
+                                 class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+                            {% if product.images.count > 1 %}
+                                <div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded-full z-20">
+                                    +{{ product.images.count|add:"-1" }}
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                <svg class="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                        {% endif %}
+
+                        <!-- Discount Badge -->
+                        {% if product.new_price %}
+                            <div class="absolute top-2 left-2 bg-red-500 text-white text-xs sm:text-sm font-bold px-2 py-1 rounded-md z-20">
+                                {{ product.discount_percentage }}% попуст
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Product Info -->
+                    <div class="pt-3 sm:pt-4 pb-4 px-3 sm:px-4 relative z-20">
+                        <h3 class="font-medium text-gray-800 mb-1 text-sm sm:text-base line-clamp-2">{{ product.name }}</h3>
+
+                        <div class="flex flex-col mb-3">
+                            {% if product.new_price %}
+                                <div class="flex items-baseline gap-2">
+                                    <span class="text-sm sm:text-base text-red-500">{{ product.price }} ден</span>
+                                    <span class="text-xs sm:text-sm line-through">{{ product.new_price }} ден</span>
+                                </div>
+                            {% else %}
+                                <div>
+                                    <span class="text-sm sm:text-base font-bold text-gray-900">{{ product.price }} ден</span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Superuser Actions -->
+                        {% if request.user.is_superuser %}
+                            <div class="flex space-x-2 mt-2">
+                                <a href="{% url 'product_edit' product.id %}"
+                                   class="bg-yellow-500 hover:bg-yellow-600 text-white p-1 sm:p-2 rounded-lg transition-colors duration-200 z-30">
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                </a>
+                                <button onclick="showDeleteModal('{{ product.id }}', '{{ product.name }}')"
+                                        class="bg-red-500 hover:bg-red-600 text-white p-1 sm:p-2 rounded-lg transition-colors duration-200 z-30">
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-span-full text-center py-12">
+                    <h3 class="mt-2 text-sm sm:text-base font-medium text-gray-900">Нема производи</h3>
+                    <p class="mt-1 text-xs sm:text-sm text-gray-500">Започнете со додавање на вашиот прв продукт.</p>
+                    {% if request.user.is_superuser %}
+                        <div class="mt-6">
+                            <a href="{% url 'product_add' %}"
+                               class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm sm:text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                                Додади продукт
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Delete Confirmation Modal (Superuser) -->
+        {% if request.user.is_superuser %}
+            <div id="deleteModal"
+                 class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0"
+                     id="modalContent">
+                    <div class="flex items-center justify-between p-6 border-b border-gray-100">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.986l-6.928-12c-.77-1.319-2.694-1.319-3.464 0l-6.928 12c-.77 1.32.192 2.986 1.732 2.986z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-medium text-gray-900">Избриши продукт</h3>
+                        </div>
+                        <button onclick="closeDeleteModal()" class="text-gray-400 hover:text-gray-600">✕</button>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-sm text-gray-500">Дали сте сигурни дека сакате да го избришете <span
+                                id="deleteProductName" class="font-medium"></span>? Оваа акција не може да се поништи.
+                        </p>
+                    </div>
+                    <div class="flex justify-end p-6 border-t border-gray-100 space-x-3">
+                        <button onclick="closeDeleteModal()"
+                                class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition duration-200">
+                            Откажи
+                        </button>
+                        <form method="post" id="deleteForm">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition duration-200">
+                                Избриши
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <script>
+        function showDeleteModal(productId, productName) {
+            document.getElementById('deleteProductName').textContent = productName;
+            const modal = document.getElementById('deleteModal');
+            const form = document.getElementById('deleteForm');
+            form.action = `/products/delete/${productId}/`;
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('modalContent').classList.remove('opacity-0', 'scale-95');
+            }, 10);
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById('deleteModal');
+            const content = document.getElementById('modalContent');
+            content.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        // Simple search filter
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                const filter = this.value.toLowerCase();
+                const cards = document.querySelectorAll('#productsGrid > div');
+                cards.forEach(card => {
+                    const name = card.querySelector('h3').textContent.toLowerCase();
+                    card.style.display = name.includes(filter) ? '' : 'none';
+                });
+            });
+        }
+    </script>
+
+{% endblock %}

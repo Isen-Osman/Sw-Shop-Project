@@ -1,0 +1,230 @@
+{% extends 'partials/base.html' %}
+{% load widget_tweaks %}
+{% load humanize %}
+
+{% block title %}Креирај нарачка{% endblock %}
+
+{% block content %}
+    <div class="max-w-full sm:max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+
+        <!-- Modern Progress Bar -->
+        <div class="w-full max-w-3xl mx-auto mb-12 relative">
+            <!-- Progress Steps -->
+            <div class="relative flex justify-between z-10">
+                <!-- Step 1: Cart (Active) -->
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold bg-gradient-to-r from-pink-500 to-pink-600 shadow-lg relative z-10">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs mt-3 text-pink-600 font-semibold bg-pink-50 px-3 py-1 rounded-full">Кошничка</span>
+                </div>
+
+                <!-- Step 2: Order -->
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold bg-white bg-gradient-to-r from-pink-500 to-pink-600 text-white relative z-10">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs mt-3 text-pink-600 font-semibold bg-pink-50 px-3 py-1 rounded-full">Креирање нарачка</span>
+                </div>
+
+                <!-- Step 3: Success -->
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold bg-white border-2 border-gray-300 text-gray-400 relative z-10">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs mt-3 text-gray-500 font-medium">Успешна нарачка</span>
+                </div>
+            </div>
+
+            <!-- Progress Line -->
+            <div class="absolute top-5 left-0 w-full h-1 bg-gray-200 transform -translate-y-1/2 rounded-full z-0"></div>
+            <div class="absolute top-5 left-0 w-50 h-1 bg-gradient-to-r from-pink-500 to-pink-600 transform -translate-y-1/2 rounded-full z-0 transition-all duration-700 ease-in-out animate-progress"></div>
+        </div>
+
+        <style>
+            @keyframes fillProgress {
+                from {
+                    width: 0%;
+                }
+                to {
+                    width: 50%;
+                }
+            }
+
+            .animate-progress {
+                animation: fillProgress 1s ease-out forwards;
+            }
+
+            @keyframes pulseStep {
+                0%, 100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1.2);
+                    opacity: 0.8;
+                }
+            }
+
+            .animate-pulse-step {
+                animation: pulseStep 1s ease-in-out infinite;
+            }
+
+            .animate-pulse-step-delay {
+                animation: pulseStep 1s ease-in-out infinite 0.5s;
+            }
+        </style>
+
+
+        <div class="bg-white rounded-lg shadow-md p-4 sm:p-6">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6 text-center sm:text-left">Креирај
+                Нарачка</h2>
+
+            <!-- Тековни продукти од Wishlist -->
+            <div class="mb-6 sm:mb-8">
+                <h3 class="text-base sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4 pb-1 sm:pb-2 border-b border-gray-200">
+                    Твоја кошничка</h3>
+
+                {% if products %}
+                    <ul class="divide-y divide-gray-200">
+                        {% for product in products %}
+                            <li class="py-3 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center hover:shadow-sm transition-shadow duration-200 rounded-md p-2 sm:p-3">
+
+                                <!-- Слика на продуктот -->
+                                <div class="flex-shrink-0 h-16 w-16 rounded-md overflow-hidden bg-gray-100">
+                                    {% if product.images.all %}
+                                        <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
+                                             class="h-full w-full object-cover object-center">
+                                    {% else %}
+                                        <div class="h-full w-full flex items-center justify-center text-gray-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-8 sm:w-8"
+                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Име, големина и цена -->
+                                <div class="mt-2 sm:mt-0 sm:ml-4 flex-1 flex flex-col w-full">
+                                    <div class="flex justify-between items-center w-full">
+                                        <div>
+                                            <h3 class="text-sm sm:text-base font-medium text-gray-900">{{ product.name }}</h3>
+                                            <p class="text-xs sm:text-sm text-gray-500 mt-1">
+                                                Големина:
+                                                {% for item in products_with_sizes %}
+                                                    {% if item.product.id == product.id %}
+                                                        {{ item.size }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </p>
+                                        </div>
+                                        <p class="text-sm sm:text-base text-gray-900 ml-2">{{ product.price|floatformat:0|intcomma }}
+                                            ден</p>
+                                    </div>
+                                </div>
+
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <!-- Вкупни цени -->
+                    <div class="border-t border-gray-200 mt-4 sm:mt-6 pt-4 sm:pt-6 space-y-2 sm:space-y-3">
+                        <div class="flex justify-between text-sm sm:text-base font-medium text-gray-900">
+                            <p>Вкупно продукти:</p>
+                            <p>{{ total_price|floatformat:0|intcomma }} ден</p>
+                        </div>
+                        <div class="flex justify-between text-sm sm:text-base font-medium text-gray-900 items-center">
+                            <p>Карго:
+                                <span class="relative group ml-1 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-3 w-3 sm:h-4 sm:w-4 inline-block text-pink-600" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+                            </svg>
+                            <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 sm:mb-2 w-40 sm:w-48 bg-gray-700 text-white text-xs sm:text-sm rounded-md p-1 sm:p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-center">
+                                Бесплатна достава за нарачки над 2000 ден!
+                            </span>
+                        </span>
+                            </p>
+                            <p>{{ shipping_price|floatformat:0|intcomma }} ден</p>
+                        </div>
+                        <div class="flex justify-between text-sm sm:text-lg font-bold text-gray-900 pt-2 border-t border-gray-200">
+                            <p>Вкупно за плаќање:</p>
+                            <p>{{ final_price|floatformat:0|intcomma }} ден</p>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <p>Вашата кошничка е празна.</p>
+                {% endif %}
+            </div>
+
+            <!-- Форма за креирање на нарачка -->
+            {% if products %}
+                <div class="mt-6 sm:mt-8 border-t border-gray-200 pt-4 sm:pt-6">
+                    <h3 class="text-sm sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4">Детали за нарачката</h3>
+                    <form method="post" class="space-y-3 sm:space-y-4">
+                        {% csrf_token %}
+                        <div class="grid grid-cols-1 gap-y-3 gap-x-4 sm:grid-cols-2">
+                            {% for field in form %}
+                                <div class="sm:col-span-{% if field.field.widget.input_type == 'textarea' %}2{% else %}1{% endif %}">
+                                    <label for="{{ field.for_label }}"
+                                           class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                                        {{ field.label }}
+                                        {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                                    </label>
+                                    <div class="mt-1">
+                                        {% render_field field class="block w-full rounded-md border border-gray-300 bg-gray-50 p-2 sm:p-2.5 text-xs sm:text-sm text-gray-900 shadow-sm focus:border-pink-500 focus:ring-pink-500" %}
+                                        {% if field.errors %}
+                                            <p class="mt-1 text-xs sm:text-sm text-red-600">
+                                                {% for error in field.errors %}
+                                                    {{ error }}
+                                                {% endfor %}
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="pt-3 sm:pt-4">
+                            <button type="submit"
+                                    class="w-full flex justify-center items-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent rounded-md shadow-sm text-xs sm:text-base font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-colors duration-200">
+                                Потврди нарачка
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+    <style>
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+        }
+    </style>
+{% endblock %}

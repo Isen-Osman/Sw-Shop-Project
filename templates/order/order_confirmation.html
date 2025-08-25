@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Потврда на нарачка | SW SHOP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fdf9f5;
+        }
+
+        .animate-checkmark {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 1.5s ease-out forwards;
+        }
+
+        @keyframes dash {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .order-item {
+            transition: all 0.3s ease;
+        }
+
+        .order-item:hover {
+            transform: translateX(5px);
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 1s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-champagne-50 min-h-screen flex items-center justify-center py-8 px-4">
+
+
+<div class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-lg w-full mx-4 sm:mx-auto animate-fade-in">
+    <div class="w-full max-w-3xl mx-auto mb-8">
+        <!-- Modern Progress Bar -->
+        <div class="w-full max-w-3xl mx-auto mb-12 relative">
+            <!-- Progress Steps -->
+            <div class="relative flex justify-between z-10">
+                <!-- Step 1: Cart -->
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold bg-gradient-to-r from-pink-500 to-pink-600 shadow-lg relative z-10">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs mt-3 text-pink-600 font-semibold bg-pink-50 px-3 py-1 rounded-full">Кошничка</span>
+                </div>
+
+                <!-- Step 2: Order -->
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold bg-white bg-white bg-gradient-to-r from-pink-500 to-pink-600 text-white relative z-10">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs mt-3 text-pink-600 font-semibold bg-pink-50 px-3 py-1 rounded-full">Креирање нарачка</span>
+                </div>
+
+                <!-- Step 3: Success -->
+                <div class="flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold bg-white bg-gradient-to-r from-pink-500 to-pink-600 text-white relative z-10">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xs mt-3 text-pink-600 font-semibold bg-pink-50 px-3 py-1 rounded-full">Успешна нарачка</span>
+                </div>
+            </div>
+
+            <!-- Progress Line -->
+            <div class="absolute top-5 left-0 w-full h-1 bg-gray-200 transform -translate-y-1/2 rounded-full z-0"></div>
+            <div class="absolute top-5 left-0 w-full h-1 bg-gradient-to-r from-pink-500 to-pink-600 transform -translate-y-1/2 rounded-full z-0 transition-all duration-700 ease-in-out animate-progress"></div>
+        </div>
+
+        <!-- Success Header -->
+        <div class="text-center mb-8">
+            <div class="w-20 h-20 sm:w-28 sm:h-28 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 relative animate-bounce shadow-lg shadow-green-300/50">
+                <svg class="w-12 h-12 sm:w-16 sm:h-16 text-white drop-shadow-lg" viewBox="0 0 52 52">
+                    <circle cx="26" cy="26" r="25" fill="none" stroke="white" stroke-width="4"
+                            stroke-opacity="0.2"></circle>
+                    <path class="animate-checkmark stroke-white" fill="none" stroke-width="4" stroke-linecap="round"
+                          stroke-miterlimit="10"
+                          d="M14.1 27.2l7.1 7.2 16.7-16.8"></path>
+                </svg>
+                <!-- Glow effect -->
+                <div class="absolute w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-green-400 opacity-20 animate-ping"></div>
+            </div>
+
+            <h1 class="font-display text-2xl sm:text-3xl font-bold text-gray-800 mb-2 animate-pulse">Вашата нарачка е
+                потврдена!</h1>
+            <p class="text-gray-600 text-sm sm:text-base">Испратен е е-мејл со детали за нарачката.</p>
+        </div>
+
+        <!-- Customer Info -->
+        <div class="bg-champagne-50 rounded-xl p-4 sm:p-5 mb-6 border border-champagne-200">
+            <h2 class="font-semibold text-gray-700 mb-2 flex items-center text-sm sm:text-base">
+                <i class="fas fa-user-circle mr-2 text-champagne-600"></i> Информации за купувачот
+            </h2>
+            <p class="text-sm sm:text-base"><strong>Име и Презиме:</strong> {{ order.first_name }} {{ order.last_name }}
+            </p>
+            <p class="text-sm sm:text-base"><strong>Град:</strong> {{ order.city }}</p>
+            <p class="text-sm sm:text-base"><strong>Адреса:</strong> {{ order.address }}</p>
+            <p class="text-sm sm:text-base"><strong>Телефон / Број:</strong> {{ order.phone_number }}</p>
+            {% if order.comment %}
+                <p class="text-sm sm:text-base"><strong>Коментар:</strong> {{ order.comment }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Order Items -->
+        <div class="border border-gray-100 rounded-xl overflow-hidden mb-6">
+            <div class="bg-gradient-to-r from-champagne-500 to-champagne-600 p-4">
+                <h2 class="font-display text-white text-lg sm:text-xl font-semibold flex items-center">
+                    <i class="fas fa-receipt mr-2"></i> Детали за нарачката
+                </h2>
+            </div>
+            <div class="p-4 bg-white space-y-4">
+                {% for item in order.items.all %}
+                    <div class="order-item flex flex-col sm:flex-row items-start sm:items-center border-b border-gray-100 pb-4 last:border-0 last:pb-0">
+                        <div class="flex-shrink-0 w-16 h-16 sm:w-16 sm:h-16 bg-gray-200 rounded-lg overflow-hidden flex items-center justify-center">
+                            {% if item.product.main_image %}
+                                <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}"
+                                     class="w-full h-full object-cover">
+                            {% else %}
+                                <i class="fas fa-tshirt text-champagne-400 text-xl"></i>
+                            {% endif %}
+                        </div>
+                        <div class="ml-0 sm:ml-4 mt-2 sm:mt-0 flex-1">
+                            <h3 class="font-medium text-gray-800 text-sm sm:text-base">{{ item.product.name }}</h3>
+                            {% if item.size %}
+                                <p class="text-gray-500 text-sm sm:text-base">Големина: {{ item.size }}</p>
+                            {% endif %}
+                            <div class="flex justify-between items-center mt-1 text-sm sm:text-base">
+                                <p>Количина: {{ item.quantity }}</p>
+                                <p class="text-champagne-700 font-medium">{{ item.price }} ден.</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <!-- Total with cargo -->
+                <div class="mt-6 pt-4 border-t border-gray-200 space-y-2">
+                    <div class="flex justify-between items-center text-base sm:text-lg font-semibold">
+                        <span class="text-gray-700">Вкупно продукти:</span>
+                        <span class="text-champagne-700">{{ order.total_price }} ден.</span>
+                    </div>
+                    <div class="flex justify-between items-center text-base sm:text-lg font-semibold">
+                        <span class="text-gray-700">Карго:</span>
+                        <span class="text-champagne-700">150 ден.</span>
+                    </div>
+                    <div class="flex justify-between items-center text-base sm:text-xl font-bold border-t border-gray-200 pt-2">
+                        <span class="text-gray-800">Вкупно за плаќање:</span>
+                        <span class="text-champagne-700">{{ order.total_price|add:"150" }} ден.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="bg-gray-50 rounded-xl p-4 sm:p-5 mb-6">
+            <h3 class="font-semibold text-gray-700 mb-3 flex items-center text-sm sm:text-base">
+                <i class="fas fa-info-circle mr-2 text-champagne-600"></i> Што следува?
+            </h3>
+            <ul class="space-y-2 text-xs sm:text-sm text-gray-600">
+                <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i> Ќе добиете
+                    потврда по е-пошта во наредните неколку минути
+                </li>
+                <li class="flex items-start"><i class="fas fa-truck text-champagne-600 mt-1 mr-2"></i> Вашата нарачка ќе
+                    биде испратена во рок од 3-4 работни дена
+                </li>
+                <li class="flex items-start"><i class="fas fa-phone text-champagne-600 mt-1 mr-2"></i> За прашања,
+                    контактирајте не на <span class="font-medium">+389 70 123 456</span></li>
+            </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-3">
+            <a href="{% url 'products' %}"
+               class="flex-1 bg-champagne-600 hover:bg-champagne-700 text-white text-center py-3 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center">
+                <i class="fas fa-arrow-left mr-2"></i> Кон продукти
+            </a>
+            <a href="/"
+               class="flex-1 border border-champagne-600 text-champagne-700 hover:bg-champagne-50 text-center py-3 px-4 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center">
+                <i class="fas fa-home mr-2"></i> Кон почетна
+            </a>
+        </div>
+
+        <div class="mt-6 text-center text-xs sm:text-sm text-gray-500">
+            Број на нарачка: #{{ order.id }}
+        </div>
+    </div>
+</div>
+</body>
+</html>

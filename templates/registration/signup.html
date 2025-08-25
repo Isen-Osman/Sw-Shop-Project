@@ -1,0 +1,24 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In with Google</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen">
+
+<div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
+    <h1 class="text-2xl font-bold mb-4">Continue with Google</h1>
+    <p class="text-gray-500 mb-6">You are about to sign in using your Google account.</p>
+
+    <a href="{% provider_login_url 'google' %}" class="inline-block w-full bg-red-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-600 transition">
+        <i class="fab fa-google"></i> Continue
+    </a>
+
+    <p class="text-gray-400 text-sm mt-6">By signing in, you agree to our Terms of Service and Privacy Policy.</p>
+</div>
+
+</body>
+</html>

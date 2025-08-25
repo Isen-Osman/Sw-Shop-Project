@@ -1,0 +1,27 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login with Google</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+
+<div class="bg-white p-10 rounded-xl shadow-xl w-96 text-center">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Добредојде!</h1>
+    <p class="text-gray-600 mb-6">Најави се со твојот Google акаунт за да продолжиш</p>
+
+    <a href="{% provider_login_url 'google' %}"
+       class="flex items-center justify-center gap-3 px-6 py-3 rounded-lg shadow font-medium
+              bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500 text-white
+              hover:opacity-90 transition">
+        <!-- Можеш да ставиш и Google G икона ако сакаш -->
+        Login with Google
+    </a>
+
+    <p class="text-gray-400 text-sm mt-6">Ќе останеш најавен само на оваа сесија.</p>
+</div>
+
+</body>
+</html>
