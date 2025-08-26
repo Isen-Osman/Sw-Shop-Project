@@ -61,12 +61,18 @@ class OrderForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'input-class', 'placeholder': 'Име'}),
             'last_name': forms.TextInput(attrs={'class': 'input-class', 'placeholder': 'Презиме'}),
-            'phone_number': forms.TextInput(attrs={
-                'class': 'input-class',
-                'placeholder': '070 123 456',
-            }),
+            'phone_number': forms.TextInput(
+                attrs={
+                    'class': 'input-class',
+                    'placeholder': '070123456',
+                    'type': 'tel',  # HTML input type за број
+                    'inputmode': 'numeric',  # мобилна нумеричка тастатура
+                    'pattern': '[0-9]{8,10}',  # regex за бројеви
+                }
+            ),
             'address': forms.Textarea(attrs={'class': 'input-class', 'rows': 3, 'placeholder': 'Адреса'}),
-            'comment': forms.Textarea(attrs={'class': 'input-class', 'rows': 2, 'placeholder': 'Коментар (опционално)'}),
+            'comment': forms.Textarea(
+                attrs={'class': 'input-class', 'rows': 2, 'placeholder': 'Коментар (опционално)'}),
         }
 
         error_messages = {
@@ -92,10 +98,7 @@ class OrderForm(forms.ModelForm):
     def clean_phone_number(self):
         phone = self.cleaned_data.get('phone_number')
         if phone:
-            # Отстрани празни места и цртички
             phone = re.sub(r'[\s\-]', '', phone)
-
-            # Проверка дали бројот е валиден за Македонија
             if not re.match(r'^07\d{7}$', phone):
                 raise forms.ValidationError(
                     "Телефонскиот број мора да биде во формат: 070123456"
