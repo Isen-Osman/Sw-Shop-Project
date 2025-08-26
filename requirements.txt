@@ -40,3 +40,6 @@ typing-extensions==4.13.2
 
 django-sslserver==0.22
 
+# Production server
+gunicorn==21.2.0
+
