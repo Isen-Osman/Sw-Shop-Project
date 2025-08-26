@@ -102,10 +102,24 @@ WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 # -------------------------------
 # Database
 # -------------------------------
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+from urllib.parse import urlparse
+
+url = urlparse(config('MY_SQL_DATABASE'))
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': url.path[1:],  # отстрануваме почетен /
+        'USER': url.username,
+        'PASSWORD': url.password,
+        'HOST': url.hostname,
+        'PORT': url.port,
     }
 }
 
@@ -173,11 +187,10 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-ALLOWED_HOSTS = ['192.168.1.196', '192.168.1.187', 'localhost', '127.0.0.1', '192.168.1.185', ]
+ALLOWED_HOSTS = ['192.168.1.196', '192.168.1.187', 'localhost', '127.0.0.1', '192.168.1.185',
+                 'your-railway-app.up.railway.app', ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
-
-
 
 # ==========================================
 # Django Security Settings
@@ -197,7 +210,6 @@ SESSION_COOKIE_HTTPONLY = True  # JavaScript не може да чита session
 CSRF_COOKIE_HTTPONLY = False  # CSRF треба да биде достапен за формите
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Сесијата се брише при затворање на прелистувач
 
-
 # --- XSS & Content Type ---
 SECURE_BROWSER_XSS_FILTER = True  # Вграден XSS филтер во прелистувач
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Браузерот не ја „угаѓа“ MIME type
@@ -205,8 +217,6 @@ SECURE_CONTENT_TYPE_NOSNIFF = True  # Браузерот не ја „угаѓа
 X_FRAME_OPTIONS = 'DENY'  # Забранува вчитување на сајтот во iframe
 
 SECURE_REFERRER_POLICY = 'same-origin'  # Не праќа referrer информации надвор од твојот домен
-
-
 
 # --- Admin & Permissions ---
 # Само superusers треба да имаат пристап до admin site
