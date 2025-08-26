@@ -17,7 +17,7 @@ python-decouple==3.8
 
 # Cloudinary media storage
 cloudinary==1.35.0
-cloudinary-storage==0.3.0
+django-cloudinary-storage==0.3.0
 pillow==11.3.0
 
 # JWT and HTTP requests
@@ -39,3 +39,4 @@ sqlparse==0.5.3
 typing-extensions==4.13.2
 
 django-sslserver==0.22
+
