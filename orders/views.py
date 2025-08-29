@@ -9,7 +9,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
 
-
 @login_required
 def create_order(request):
     wishlist = request.user.wishlist
@@ -18,22 +17,25 @@ def create_order(request):
     if not products.exists():
         return redirect('wishlist')
 
-    total_price = sum(product.price for product in products)
-    shipping_price = 150
-    final_price = total_price + shipping_price
-
-    # Земаме size од session
+    # Session за size и quantity
     wishlist_sizes = request.session.get('wishlist_sizes', {})
-    product_size = request.session.get('product_size', {})
+    wishlist_quantities = request.session.get('wishlist_quantities', {})
 
-    # Додавање на products_with_sizes за template
-    products_with_sizes = []
+    # Изгради list за template
+    products_with_details = []
+    total_price = 0
     for product in products:
         size = wishlist_sizes.get(str(product.id), 'Неодредена')
-        products_with_sizes.append({
+        quantity = wishlist_quantities.get(str(product.id), 1)
+        products_with_details.append({
             'product': product,
-            'size': size
+            'size': size,
+            'quantity': quantity,
         })
+        total_price += product.price * quantity
+
+    shipping_price = 150
+    final_price = total_price + shipping_price
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -44,21 +46,20 @@ def create_order(request):
             order.final_price = final_price
             order.save()
 
-            # додавање на продукти во нарачка со точен size
-            for product in products:
-                product_size = wishlist_sizes.get(str(product.id), 'Неодредена')
+            # Креирај OrderItem со точен size и quantity
+            for item in products_with_details:
                 OrderItem.objects.create(
                     order=order,
-                    product=product,
-                    quantity=1,
-                    price=product.price,
-                    size=product_size
+                    product=item['product'],
+                    size=item['size'],
+                    quantity=item['quantity'],
+                    price=item['product'].price
                 )
 
-            # испразни wishlist и session за size
+            # Испразни wishlist и session
             wishlist.products.clear()
-            if 'wishlist_sizes' in request.session:
-                del request.session['wishlist_sizes']
+            request.session.pop('wishlist_sizes', None)
+            request.session.pop('wishlist_quantities', None)
 
             return redirect('order_success', order_id=order.id)
     else:
@@ -66,17 +67,12 @@ def create_order(request):
 
     return render(request, 'order/create_order.html', {
         'form': form,
-        'products': products,
-        'products_with_sizes': products_with_sizes,  # <-- додадено за size
+        'products_with_details': products_with_details,
         'total_price': total_price,
         'shipping_price': shipping_price,
         'final_price': final_price,
         'wishlist_items_count': products.count(),
-        'wishlist_sizes': wishlist_sizes,
-        'product_size': product_size,
     })
-
-
 
 
 @login_required

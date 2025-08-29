@@ -6,6 +6,7 @@ from app.models import Product, ProductQuantity
 from .models import Wishlist
 from orders.models import Order, OrderItem
 
+
 @login_required
 def wishlist_view(request):
     try:
@@ -14,17 +15,21 @@ def wishlist_view(request):
         wishlist = None
 
     wishlist_sizes = request.session.get('wishlist_sizes', {})
+    wishlist_quantities = request.session.get('wishlist_quantities', {})  # <-- поправено име
 
     products_with_sizes = []
     total_price = 0
     if wishlist:
-        for product in wishlist.products.all():
-            size = wishlist_sizes.get(str(product.id), 'Неодредена')
+        for key, size in wishlist_sizes.items():
+            prod_id = int(key.split('_')[0])
+            product = Product.objects.get(id=prod_id)
+            quantity = int(wishlist_quantities.get(key, 1))
             products_with_sizes.append({
                 'product': product,
-                'size': size
+                'size': size,
+                'quantity': quantity
             })
-            total_price += product.price
+            total_price += product.price * quantity
 
     context = {
         'wishlist': wishlist,
@@ -39,21 +44,36 @@ def wishlist_add(request, product_id):
     if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         product = get_object_or_404(Product, id=product_id)
         data = json.loads(request.body)
-        size = data.get('size')
+        size = data.get('size', 'Неодредена')
+        quantity = int(data.get('quantity', 1))
 
         wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+
+        # Клучот сега е product_id + size
+        key = f"{product.id}_{size}"
+
+        # SIZE
+        wishlist_sizes = request.session.get('wishlist_sizes', {})
+        wishlist_sizes[key] = size
+        request.session['wishlist_sizes'] = wishlist_sizes
+
+        # QUANTITY
+        wishlist_quantities = request.session.get('wishlist_quantities', {})
+        if key in wishlist_quantities:
+            wishlist_quantities[key] += quantity  # ако веќе постои, додај quantity
+        else:
+            wishlist_quantities[key] = quantity
+        request.session['wishlist_quantities'] = wishlist_quantities
+
+        # за да имаме product list во wishlist
         if not wishlist.products.filter(id=product.id).exists():
             wishlist.products.add(product)
 
-        if size:
-            wishlist_sizes = request.session.get('wishlist_sizes', {})
-            wishlist_sizes[str(product.id)] = size
-            request.session['wishlist_sizes'] = wishlist_sizes
-            request.session.modified = True
+        request.session.modified = True
 
         return JsonResponse({
             'status': 'success',
-            'wishlist_count': wishlist.products.count()
+            'wishlist_count': len(wishlist_sizes)
         })
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
