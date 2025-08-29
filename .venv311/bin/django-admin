@@ -1,4 +1,4 @@
-#!/Users/isendev/PycharmProjects/Sw-Shop-Project/.venv311/bin/python3.11
+#!/Users/isendev/PycharmProjects/Sw-Shop-Project/.venv311/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

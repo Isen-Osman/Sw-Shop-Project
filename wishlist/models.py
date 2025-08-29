@@ -1,9 +1,9 @@
-
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import User
 from app.models import Product
 from app.models import Size
+
 
 class Wishlist(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='wishlist')
