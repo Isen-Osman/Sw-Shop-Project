@@ -12,26 +12,28 @@ from django.template.loader import render_to_string
 @login_required
 def create_order(request):
     wishlist = request.user.wishlist
-    products = wishlist.products.all()
 
-    if not products.exists():
-        return redirect('wishlist')
-
-    # Session за size и quantity
     wishlist_sizes = request.session.get('wishlist_sizes', {})
     wishlist_quantities = request.session.get('wishlist_quantities', {})
+
+    if not wishlist.products.exists():
+        return redirect('wishlist')
 
     # Изгради list за template
     products_with_details = []
     total_price = 0
-    for product in products:
-        size = wishlist_sizes.get(str(product.id), 'Неодредена')
-        quantity = wishlist_quantities.get(str(product.id), 1)
+
+    for key, size in wishlist_sizes.items():
+        prod_id = int(key.split('_')[0])
+        product = wishlist.products.get(id=prod_id)
+        quantity = int(wishlist_quantities.get(key, 1))
+
         products_with_details.append({
             'product': product,
             'size': size,
             'quantity': quantity,
         })
+
         total_price += product.price * quantity
 
     shipping_price = 150
@@ -58,8 +60,9 @@ def create_order(request):
 
             # Испразни wishlist и session
             wishlist.products.clear()
-            request.session.pop('wishlist_sizes', None)
-            request.session.pop('wishlist_quantities', None)
+            request.session['wishlist_sizes'] = {}
+            request.session['wishlist_quantities'] = {}
+            request.session.modified = True
 
             return redirect('order_success', order_id=order.id)
     else:
@@ -71,8 +74,9 @@ def create_order(request):
         'total_price': total_price,
         'shipping_price': shipping_price,
         'final_price': final_price,
-        'wishlist_items_count': products.count(),
+        'wishlist_items_count': len(products_with_details),
     })
+
 
 
 @login_required
