@@ -98,18 +98,28 @@ def order_success(request, order_id):
 @login_required
 def order_confirmation(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    # Нова верзија (точно за твојот модел)
     wishlist_items_count = request.user.wishlist.products.count()
 
-    # Испраќање email потврда
+    # HTML содржина за email
     html_content = render_to_string('order/order_confirmation_email.html', {'order': order})
     subject = f"Потврда на нарачка #{order.id}"
     from_email = settings.DEFAULT_FROM_EMAIL
-    to_email = [order.user.email]
 
-    email = EmailMultiAlternatives(subject, '', from_email, to_email)
+    # Испраќање до корисникот
+    user_email = [order.user.email]
+
+    # Испраќање до тебе (администратор)
+    admin_email = ['shopsw108@gmail.com']  # стави го твојот email овде
+
+    # Создај email објект
+    email = EmailMultiAlternatives(subject, '', from_email, user_email)
     email.attach_alternative(html_content, "text/html")
     email.send(fail_silently=False)
+
+    # Копија за тебе
+    admin_email_msg = EmailMultiAlternatives(subject, '', from_email, admin_email)
+    admin_email_msg.attach_alternative(html_content, "text/html")
+    admin_email_msg.send(fail_silently=False)
 
     return render(request, 'order/order_confirmation.html', {
         'order': order,
