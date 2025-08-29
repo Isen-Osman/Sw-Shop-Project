@@ -94,15 +94,15 @@
                 <h3 class="text-base sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4 pb-1 sm:pb-2 border-b border-gray-200">
                     Твоја кошничка</h3>
 
-                {% if products %}
+                {% if products_with_details %}
                     <ul class="divide-y divide-gray-200">
-                        {% for product in products %}
+                        {% for item in products_with_details %}
                             <li class="py-3 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center hover:shadow-sm transition-shadow duration-200 rounded-md p-2 sm:p-3">
 
                                 <!-- Слика на продуктот -->
                                 <div class="flex-shrink-0 h-16 w-16 rounded-md overflow-hidden bg-gray-100">
-                                    {% if product.images.all %}
-                                        <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
+                                    {% if item.product.images.all %}
+                                        <img src="{{ item.product.images.first.image.url }}" alt="{{ item.product.name }}"
                                              class="h-full w-full object-cover object-center">
                                     {% else %}
                                         <div class="h-full w-full flex items-center justify-center text-gray-400">
@@ -115,22 +115,19 @@
                                     {% endif %}
                                 </div>
 
-                                <!-- Име, големина и цена -->
+                                <!-- Име, големина, quantity и цена -->
                                 <div class="mt-2 sm:mt-0 sm:ml-4 flex-1 flex flex-col w-full">
                                     <div class="flex justify-between items-center w-full">
                                         <div>
-                                            <h3 class="text-sm sm:text-base font-medium text-gray-900">{{ product.name }}</h3>
+                                            <h3 class="text-sm sm:text-base font-medium text-gray-900">{{ item.product.name }}</h3>
                                             <p class="text-xs sm:text-sm text-gray-500 mt-1">
-                                                Големина:
-                                                {% for item in products_with_sizes %}
-                                                    {% if item.product.id == product.id %}
-                                                        {{ item.size }}
-                                                    {% endif %}
-                                                {% endfor %}
+                                                Големина: {{ item.size }}
+                                            </p>
+                                            <p class="text-xs sm:text-sm text-gray-500 mt-1">
+                                                Количина: {{ item.quantity }}
                                             </p>
                                         </div>
-                                        <p class="text-sm sm:text-base text-gray-900 ml-2">{{ product.price|floatformat:0|intcomma }}
-                                            ден</p>
+
                                     </div>
                                 </div>
 
@@ -172,7 +169,7 @@
             </div>
 
             <!-- Форма за креирање на нарачка -->
-            {% if products %}
+            {% if products_with_details %}
                 <div class="mt-6 sm:mt-8 border-t border-gray-200 pt-4 sm:pt-6">
                     <h3 class="text-sm sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4">Детали за нарачката</h3>
                     <form method="post" class="space-y-3 sm:space-y-4">
