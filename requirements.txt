@@ -1,41 +1,17 @@
-# Django
 Django==4.2.21
-
-# Authentication & social login
 django-allauth==65.11.0
-
-# Templates tweaks
 django-widget-tweaks==1.5.0
-
-# Database
-mysqlclient==2.1.1
-PyMySQL==1.1.2
-dj-database-url==3.0.1
-
-# Environment variables
-python-decouple==3.8
-
-# Cloudinary media storage
-cloudinary==1.35.0
-cloudinary-storage==0.3.0
-pillow==11.3.0
-
-# JWT and HTTP requests
-PyJWT==2.10.1
-requests==2.32.5
-urllib3<2,>=1.26.5
-idna==3.10
-charset-normalizer==3.4.3
-certifi==2025.8.3
-
-# Security & cryptography
-cffi==1.17.1
-cryptography==45.0.6
-six==1.17.0
-pycparser==2.22
-
-# Utilities
-sqlparse==0.5.3
-typing-extensions==4.13.2
-
-django-sslserver==0.22
+pymysql~=1.1.2
+python-decouple~=3.8
+cloudinary~=1.35.0
+django-cloudinary-storage~=0.3.0
+pillow~=11.3.0
+PyJWT~=2.10.1
+requests~=2.32.5
+cryptography~=45.0.6
+cffi~=1.17.1
+certifi~=2025.8.3
+urllib3~=2.5.0
+idna~=3.10
+charset-normalizer~=3.4.3
+typing_extensions~=4.13.2

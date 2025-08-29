@@ -78,6 +78,7 @@ def create_order(request):
     })
 
 
+
 @login_required
 def order_success(request, order_id):
     order = get_object_or_404(Order, id=order_id)
@@ -99,25 +100,26 @@ def order_confirmation(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     wishlist_items_count = request.user.wishlist.products.count()
 
-    # HTML содржина за email (за корисникот)
-    html_content_user = render_to_string('order/order_confirmation_email.html', {'order': order})
-    subject_user = f"Потврда на нарачка #{order.id}"
-
-    # HTML содржина за email (за администратор)
-    html_content_admin = render_to_string('order/order_confirmation_email_for_me.html', {'order': order})
-    subject_admin = f"Нова нарачка #{order.id}"
-
+    # HTML содржина за email
+    html_content = render_to_string('order/order_confirmation_email.html', {'order': order})
+    subject = f"Потврда на нарачка #{order.id}"
     from_email = settings.DEFAULT_FROM_EMAIL
 
+    # Испраќање до корисникот
     user_email = [order.user.email]
-    email_user = EmailMultiAlternatives(subject_user, '', from_email, user_email)
-    email_user.attach_alternative(html_content_user, "text/html")
-    email_user.send(fail_silently=False)
 
-    admin_email = [settings.DEFAULT_FROM_EMAIL]  # тука си ја ставаш својата адреса
-    email_admin = EmailMultiAlternatives(subject_admin, '', from_email, admin_email)
-    email_admin.attach_alternative(html_content_admin, "text/html")
-    email_admin.send(fail_silently=False)
+    # Испраќање до тебе (администратор)
+    admin_email = ['shopsw108@gmail.com']  # стави го твојот email овде
+
+    # Создај email објект
+    email = EmailMultiAlternatives(subject, '', from_email, user_email)
+    email.attach_alternative(html_content, "text/html")
+    email.send(fail_silently=False)
+
+    # Копија за тебе
+    admin_email_msg = EmailMultiAlternatives(subject, '', from_email, admin_email)
+    admin_email_msg.attach_alternative(html_content, "text/html")
+    admin_email_msg.send(fail_silently=False)
 
     return render(request, 'order/order_confirmation.html', {
         'order': order,
