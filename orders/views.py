@@ -12,10 +12,21 @@ from django.template.loader import render_to_string
 @login_required
 def create_order(request):
     wishlist = request.user.wishlist
-    products = wishlist.products.all()
 
-    if not products.exists():
+    wishlist_sizes = request.session.get('wishlist_sizes', {})
+    wishlist_quantities = request.session.get('wishlist_quantities', {})
+
+    if not wishlist.products.exists():
         return redirect('wishlist')
+
+    # Изгради list за template
+    products_with_details = []
+    total_price = 0
+
+    for key, size in wishlist_sizes.items():
+        prod_id = int(key.split('_')[0])
+        product = wishlist.products.get(id=prod_id)
+        quantity = int(wishlist_quantities.get(key, 1))
 
     # Session за size и quantity
     wishlist_sizes = request.session.get('wishlist_sizes', {})
@@ -32,6 +43,11 @@ def create_order(request):
             'size': size,
             'quantity': quantity,
         })
+        total_price += product.price * quantity
+
+    shipping_price = 150
+    final_price = total_price + shipping_price
+
         total_price += product.price * quantity
 
     shipping_price = 150
@@ -58,6 +74,9 @@ def create_order(request):
 
             # Испразни wishlist и session
             wishlist.products.clear()
+            request.session['wishlist_sizes'] = {}
+            request.session['wishlist_quantities'] = {}
+            request.session.modified = True
             request.session.pop('wishlist_sizes', None)
             request.session.pop('wishlist_quantities', None)
 
@@ -71,6 +90,7 @@ def create_order(request):
         'total_price': total_price,
         'shipping_price': shipping_price,
         'final_price': final_price,
+        'wishlist_items_count': len(products_with_details),
         'wishlist_items_count': products.count(),
     })
 
@@ -94,18 +114,27 @@ def order_success(request, order_id):
 @login_required
 def order_confirmation(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    # Нова верзија (точно за твојот модел)
     wishlist_items_count = request.user.wishlist.products.count()
 
-    # Испраќање email потврда
-    html_content = render_to_string('order/order_confirmation_email.html', {'order': order})
-    subject = f"Потврда на нарачка #{order.id}"
-    from_email = settings.DEFAULT_FROM_EMAIL
-    to_email = [order.user.email]
+    # HTML содржина за email (за корисникот)
+    html_content_user = render_to_string('order/order_confirmation_email.html', {'order': order})
+    subject_user = f"Потврда на нарачка #{order.id}"
 
-    email = EmailMultiAlternatives(subject, '', from_email, to_email)
-    email.attach_alternative(html_content, "text/html")
-    email.send(fail_silently=False)
+    # HTML содржина за email (за администратор)
+    html_content_admin = render_to_string('order/order_confirmation_email_for_me.html', {'order': order})
+    subject_admin = f"Нова нарачка #{order.id}"
+
+    from_email = settings.DEFAULT_FROM_EMAIL
+
+    user_email = [order.user.email]
+    email_user = EmailMultiAlternatives(subject_user, '', from_email, user_email)
+    email_user.attach_alternative(html_content_user, "text/html")
+    email_user.send(fail_silently=False)
+
+    admin_email = [settings.DEFAULT_FROM_EMAIL]  # тука си ја ставаш својата адреса
+    email_admin = EmailMultiAlternatives(subject_admin, '', from_email, admin_email)
+    email_admin.attach_alternative(html_content_admin, "text/html")
+    email_admin.send(fail_silently=False)
 
     return render(request, 'order/order_confirmation.html', {
         'order': order,
