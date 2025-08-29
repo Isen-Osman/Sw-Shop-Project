@@ -28,11 +28,25 @@ def create_order(request):
         product = wishlist.products.get(id=prod_id)
         quantity = int(wishlist_quantities.get(key, 1))
 
+    # Session за size и quantity
+    wishlist_sizes = request.session.get('wishlist_sizes', {})
+    wishlist_quantities = request.session.get('wishlist_quantities', {})
+
+    # Изгради list за template
+    products_with_details = []
+    total_price = 0
+    for product in products:
+        size = wishlist_sizes.get(str(product.id), 'Неодредена')
+        quantity = wishlist_quantities.get(str(product.id), 1)
         products_with_details.append({
             'product': product,
             'size': size,
             'quantity': quantity,
         })
+        total_price += product.price * quantity
+
+    shipping_price = 150
+    final_price = total_price + shipping_price
 
         total_price += product.price * quantity
 
@@ -63,6 +77,8 @@ def create_order(request):
             request.session['wishlist_sizes'] = {}
             request.session['wishlist_quantities'] = {}
             request.session.modified = True
+            request.session.pop('wishlist_sizes', None)
+            request.session.pop('wishlist_quantities', None)
 
             return redirect('order_success', order_id=order.id)
     else:
@@ -75,6 +91,7 @@ def create_order(request):
         'shipping_price': shipping_price,
         'final_price': final_price,
         'wishlist_items_count': len(products_with_details),
+        'wishlist_items_count': products.count(),
     })
 
 
