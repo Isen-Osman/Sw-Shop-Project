@@ -3,71 +3,13 @@
 {% block title %}Кошничка | Modern Shop{% endblock %}
 
 {% block content %}
-
     <div class="max-w-6xl mx-auto px-4 py-10">
-
-        <!-- Modern Progress Bar -->
-        <div class="w-full max-w-3xl mx-auto mb-12 relative">
-            <!-- Progress Steps -->
-            <div class="relative flex justify-between z-10">
-                <!-- Step 1: Cart (Active) -->
-                <div class="flex flex-col items-center">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold bg-gradient-to-r from-pink-500 to-pink-600 shadow-lg relative z-10">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
-                    </div>
-                    <span class="text-xs mt-3 text-pink-600 font-semibold bg-pink-50 px-3 py-1 rounded-full">Кошничка</span>
-                </div>
-
-                <!-- Step 2: Order -->
-                <div class="flex flex-col items-center">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold bg-white border-2 border-gray-300 text-gray-400 relative z-10">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                        </svg>
-                    </div>
-                    <span class="text-xs mt-3 text-gray-500 font-medium">Креирање нарачка</span>
-                </div>
-
-                <!-- Step 3: Success -->
-                <div class="flex flex-col items-center">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-semibold bg-white border-2 border-gray-300 text-gray-400 relative z-10">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <span class="text-xs mt-3 text-gray-500 font-medium">Успешна нарачка</span>
-                </div>
-            </div>
-
-            <!-- Progress Line -->
-            <div class="absolute top-5 left-0 w-full h-1 bg-gray-200 transform -translate-y-1/2 rounded-full z-0"></div>
-            <div class="absolute top-5 left-0 w-1/4 h-1 bg-gradient-to-r from-pink-500 to-pink-600 transform -translate-y-1/2 rounded-full z-0 transition-all duration-700 ease-in-out animate-progress"></div>
-        </div>
-
-        <style>
-            /* Animation for the progress line */
-            .absolute.top-5.left-0.w-1\\3 {
-                animation: progressFill 1s ease-out forwards;
-            }
-
-            @keyframes progressFill {
-                from {
-                    width: 0;
-                }
-                to {
-                    width: 25%;
-                }
-            }
-        </style>
 
         <!-- Header -->
         <div class="mb-8 text-center">
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">🛒 Твојата Кошничка</h1>
+            <h1 class="text-3xl sm:text-3xl font-bold text-gray-900">
+                Твојата Кошничка
+            </h1>
             {% if products_with_sizes|length > 0 %}
                 <p class="text-gray-500 mt-2 text-sm sm:text-base">{{ products_with_sizes|length }} производи</p>
             {% endif %}
@@ -75,88 +17,105 @@
 
         {% if products_with_sizes|length > 0 %}
             <!-- Cart Items -->
-            <div class="bg-white rounded-2xl shadow-lg divide-y divide-gray-200 mb-8">
+            <div class="divide-y divide-gray-200 mb-8">
                 {% for item in products_with_sizes %}
-                    <div class="flex flex-col sm:flex-row items-center sm:items-start p-4 sm:p-6">
-                        <!-- Product Image -->
-                        <div class="h-24 w-24 sm:h-32 sm:w-32 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden mb-4 sm:mb-0 sm:mr-6">
-                            {% if item.product.images.all %}
-                                <img src="{{ item.product.images.first.image.url }}" alt="{{ item.product.name }}"
-                                     class="w-full h-full object-cover">
-                            {% else %}
-                                <div class="w-full h-full flex items-center justify-center text-gray-300">
-                                    <svg class="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="currentColor"
-                                         viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                    </svg>
-                                </div>
-                            {% endif %}
-                        </div>
+                    <div class="mt-8">
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-4">
+                                <img src="{{ item.product.images.first.image.url }}"
+                                     alt="{{ item.product.name }}"
+                                     class="size-16 rounded-sm object-cover"/>
 
-                        <!-- Product Details -->
-                        <!-- Product Details -->
-                        <div class="flex-grow w-full">
-                            <div class="flex justify-between items-start">
                                 <div>
-                                    <h3 class="text-lg sm:text-xl font-semibold text-gray-900">{{ item.product.name }}</h3>
-                                    <p class="text-gray-500 text-xs sm:text-sm mt-1">Боја: {{ item.product.color }}</p>
-                                    <p class="text-gray-700 text-xs sm:text-sm mt-1">Големина: <span
-                                            class="font-medium">{{ item.size }}</span></p>
+                                    <h3 class="text-sm text-gray-900">{{ item.product.name }}</h3>
+
+                                    <dl class="mt-0.5 space-y-px text-[10px] text-gray-600">
+                                        <div>
+                                            <dt class="inline">Големина:</dt>
+                                            <dd class="inline">{{ item.size }}</dd>
+                                        </div>
+                                        <div>
+                                            <dt class="inline">Боја:</dt>
+                                            <dd class="inline normal-case">{{ item.product.color }}</dd>
+                                        </div>
+                                    </dl>
                                 </div>
 
-                                <!-- Quantity Right-Aligned -->
-                                <div class="flex flex-col items-end">
-                                    <span class="text-gray-500 text-xs sm:text-sm">Количина</span>
-                                    <span class="font-bold text-lg sm:text-xl bg-gray-100 text-gray-800 px-3 py-1 rounded-md mt-1">{{ item.quantity }}</span>
+                                <div class="flex flex-1 items-center justify-end gap-2">
+                                    <div class="border border-white rounded-0 me-5">
+                                        <dd class="inline normal-case px-2">{{ item.quantity }}</dd>
+                                    </div>
+
+                                    <button class="text-gray-600 transition hover:text-red-600"
+                                            onclick="window.location.href='{% url 'wishlist_remove' item.product.id %}'">
+                                        <span class="sr-only">Remove item</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="size-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166
+                                                 m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084
+                                                 a2.25 2.25 0 01-2.244-2.077L4.772 5.79
+                                                 m14.456 0a48.108 48.108 0 00-3.478-.397
+                                                 m-12 .562c.34-.059.68-.114 1.022-.165
+                                                 m0 0a48.11 48.11 0 013.478-.397
+                                                 m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201
+                                                 a51.964 51.964 0 00-3.32 0
+                                                 c-1.18.037-2.09 1.022-2.09 2.201v.916
+                                                 m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                        </svg>
+                                    </button>
                                 </div>
-                            </div>
-
-                            <p class="text-lg sm:text-xl font-bold text-pink-600 mt-2">{{ item.product.price }} ден</p>
-
-                            <!-- Remove Button -->
-                            <a href="{% url 'wishlist_remove' item.product.id %}"
-                               class="inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-100
-text-gray-400 hover:bg-red-100 hover:text-red-600 transition duration-200 mt-2"
-                               title="Отстрани од кошничка">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
-                                     viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0
-      00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                </svg>
-                            </a>
-                        </div>
+                            </li>
+                        </ul>
                     </div>
                 {% endfor %}
             </div>
 
-            <!-- Total Price & Checkout -->
-            <div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 mb-10">
-                <div class="flex justify-between items-center mb-4 sm:mb-6">
-                    <span class="text-lg sm:text-xl text-gray-700">Вкупно:</span>
-                    <span class="text-2xl sm:text-3xl font-bold text-gray-900">{{ total_price }} ден</span>
+            <!-- Price Summary -->
+            <div class="mt-8 flex justify-end border-t border-gray-100 pt-8">
+                <div class="w-screen max-w-lg space-y-4">
+                    <dl class="space-y-0.5 text-sm text-gray-700">
+                        <div class="flex justify-between">
+                            <dt>Сума</dt>
+                            <dd>{{ total_price }} ден.</dd>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <dt class="bg-red-500 text-white text-sm font-semibold px-2 py-1 rounded-md">% Попуст</dt>
+                            <dd class="text-red-600 font-medium">-199 ден</dd>
+                        </div>
+
+                        <div class="flex justify-between !text-base font-medium">
+                            <dt>За плаќање</dt>
+                            <dd>{{ total_price }} ден.</dd>
+                        </div>
+                    </dl>
+
+                    <div class="flex justify-between mt-5 gap-5">
+                        <button class="flex items-center gap-2 rounded-xl bg-gray-200 px-5 py-3 text-sm text-dark"
+                                onclick="window.location.href='{% url 'products' %}'">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/>
+                            </svg>
+                            Назад кон пазарење
+                        </button>
+
+                        <form method="POST" action="{% url 'create_order' %}">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="flex items-center gap-2 rounded-xl bg-gradient-to-r from-pink-500 to-pink-600 px-5 py-3 text-sm text-white">
+                                Направи Нарачка
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="size-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-
-                <form method="POST" action="{% url 'create_order' %}">
-                    {% csrf_token %}
-                    <button type="submit"
-                            class="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white text-base sm:text-lg font-semibold py-2 sm:py-3 px-4 rounded-xl shadow-md transition">
-                        ✅ Направи Нарачка
-                    </button>
-                </form>
-            </div>
-
-            <!-- Continue Shopping -->
-            <div class="text-center">
-                <a href="{% url 'products' %}"
-                   class="inline-flex items-center text-pink-600 hover:text-pink-700 font-medium transition text-sm sm:text-base">
-                    <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                    </svg>
-                    Продолжи со пазарување
-                </a>
             </div>
 
         {% else %}
