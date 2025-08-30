@@ -3,12 +3,29 @@ from django.db import models
 
 # Enum-ови за големини и боја
 class Size(models.TextChoices):
+    # Стандардни големини
     XS = "XS", "XS"
     S = "S", "S"
     M = "M", "M"
     L = "L", "L"
     XL = "XL", "XL"
     XXL = "XXL", "XXL"
+    XXXL = "XXXL", "XXXL"
+
+    # Големини за градници
+    SIZE_70 = "70", "70"
+    SIZE_75 = "75", "75"
+    SIZE_80 = "80", "80"
+    SIZE_85 = "85", "85"
+    SIZE_90 = "90", "90"
+    SIZE_95 = "95", "95"
+    SIZE_100 = "100", "100"
+    SIZE_105 = "105", "105"
+    SIZE_110 = "110", "110"
+    SIZE_115 = "115", "115"
+    SIZE_120 = "120", "120"
+    SIZE_125 = "125", "125"
+    SIZE_130 = "130", "130"
 
 
 class Color(models.TextChoices):
@@ -17,13 +34,28 @@ class Color(models.TextChoices):
     GREEN = "GREEN", "Зелена"
     BLACK = "BLACK", "Црна"
     WHITE = "WHITE", "Бела"
+    YELLOW = "YELLOW", "Жолта"
+    ORANGE = "ORANGE", "Портокалова"
+    PURPLE = "PURPLE", "Виолетова"
+    PINK = "PINK", "Розева"
+    BROWN = "BROWN", "Кафена"
+    GRAY = "GRAY", "Сива"
+    SILVER = "SILVER", "Сребрена"
+    GOLD = "GOLD", "Златна"
+    BEIGE = "BEIGE", "Беж"
+    CYAN = "CYAN", "Цијан"
+    MAGENTA = "MAGENTA", "Магента"
+    NAVY = "NAVY", "Морнарско сина"
+    TEAL = "TEAL", "Тиркизна"
+    OLIVE = "OLIVE", "Маслинеста"
+    MAROON = "MAROON", "Бордо"
 
 
 class Category(models.TextChoices):
-    BRAS = "bras", "Градници"
-    PANTIES = "panties", "Килоти"
-    LINGERIE = "lingerie", "Приватна"
-    PAJAMAS = "pajamas", "Пижами"
+    BRAS = "Градници", "Градници"
+    PANTIES = "Килоти", "Килоти"
+    LINGERIE = "Приватна", "Приватна"
+    PAJAMAS = "Пижами", "Пижами"
 
 
 # Главен модел Product
