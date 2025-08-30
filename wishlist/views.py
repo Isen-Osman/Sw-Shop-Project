@@ -78,7 +78,6 @@ def wishlist_add(request, product_id):
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
 
-
 @login_required
 def wishlist_remove(request, product_id, size=None):
     """

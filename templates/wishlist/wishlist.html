@@ -47,7 +47,7 @@
                                     </div>
 
                                     <button class="text-gray-600 transition hover:text-red-600"
-                                            onclick="window.location.href='{% url 'wishlist_remove' item.product.id %}'">
+                                            onclick="window.location.href='{% url 'wishlist_remove_with_size' item.product.id item.size %}'">
                                         <span class="sr-only">Remove item</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1.5" stroke="currentColor" class="size-4">
