@@ -5,6 +5,7 @@ from app.models import Product, ProductQuantity
 from .models import Wishlist
 from orders.models import Order, OrderItem
 
+
 # ----------------------------------------
 # WISHLIST VIEW
 # ----------------------------------------
@@ -21,11 +22,16 @@ def wishlist_view(request):
         user_wishlist = False
 
     products_with_sizes = []
+    total_discount = sum((item.product.price - item.product.new_price) * item.quantity
+                         for item in products_with_sizes if item.product.new_price)
+
+
     total_price = 0
     for key, size in wishlist_sizes.items():
         prod_id = int(key.split('_')[0])
         product = Product.objects.get(id=prod_id)
         quantity = int(wishlist_quantities.get(key, 1))
+
         products_with_sizes.append({
             'product': product,
             'size': size,
@@ -33,11 +39,14 @@ def wishlist_view(request):
         })
         total_price += product.price * quantity
 
+
     context = {
         'wishlist': wishlist,
         'products_with_sizes': products_with_sizes,
         'total_price': total_price,
-        'user_wishlist': user_wishlist
+        'user_wishlist': user_wishlist,
+        'total_discount': total_discount,
+
     }
     return render(request, 'wishlist/wishlist.html', context)
 

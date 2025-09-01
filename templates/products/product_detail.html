@@ -246,54 +246,68 @@
     </div>
 
 
-   <!-- Success Modal -->
+    <!-- Success Modal -->
 <div id="successModal"
      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="bg-white rounded-xl p-6 m-4 max-w-sm w-full transform scale-95 transition-transform duration-300">
-        <div class="text-center flex flex-col items-center justify-center">
+    <div class="bg-white rounded-xl p-6 m-4 max-w-sm w-full transform scale-95 transition-transform duration-300 flex flex-col items-center justify-center">
+
+        <!-- Loader + Success Text -->
+        <div id="modalLoader" class="flex flex-col items-center justify-center space-y-4">
             <!-- SVG Loader -->
-            <div id="modalLoader" class="mx-auto mb-4 flex justify-center">
-                <svg class="w-16 h-16 text-pink-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <svg class="w-16 h-16 text-pink-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                        stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+
+            <!-- Центриран текст -->
+            <p class="bg-green-100 text-green-800 font-semibold px-4 py-2 rounded-md shadow-sm text-center">
+                Се додава во Кошничка
+            </p>
+        </div>
+
+        <!-- Success Content (initially hidden) -->
+        <div id="modalSuccessContent" class="hidden w-full mt-4 text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M5 13l4 4L19 7"></path>
                 </svg>
             </div>
-
-            <!-- Success Content (initially hidden) -->
-            <div id="modalSuccessContent" class="hidden w-full">
-                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M5 13l4 4L19 7"></path>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-medium text-gray-900 mb-2">Успешно додадено!</h3>
-                <p class="text-gray-600 mb-4">Продуктот е додаден во вашата кошничка.</p>
-                <div class="flex space-x-3">
-                    <button type="button" id="continueShopping"
-                            class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
-                        Продолжи
-                    </button>
-                    <a href="{% url 'wishlist' %}"
-                       class="flex-1 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition text-center">
-                        Кошничка
-                    </a>
-                </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Успешно додадено!</h3>
+            <p class="text-gray-600 mb-4">Продуктот е додаден во вашата кошничка.</p>
+            <div class="flex space-x-3">
+                <button type="button" id="continueShopping"
+                        class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
+                    Продолжи
+                </button>
+                <a href="{% url 'wishlist' %}"
+                   class="flex-1 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition text-center">
+                    Кошничка
+                </a>
             </div>
         </div>
+
     </div>
 </div>
 
-<style>
-.animate-spin {
-    animation: spin 1s linear infinite;
-}
 
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-</style>
+    <style>
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // --- Carousel ---

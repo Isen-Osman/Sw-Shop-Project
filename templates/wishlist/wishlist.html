@@ -75,20 +75,19 @@
             <div class="mt-8 flex justify-end border-t border-gray-100 pt-8">
                 <div class="w-screen max-w-lg space-y-4">
                     <dl class="space-y-0.5 text-sm text-gray-700">
-                        <div class="flex justify-between">
-                            <dt>Сума</dt>
-                            <dd>{{ total_price }} ден.</dd>
-                        </div>
 
                         <div class="flex justify-between items-center">
-                            <dt class="bg-red-500 text-white text-sm font-semibold px-2 py-1 rounded-md">% Попуст</dt>
-                            <dd class="text-red-600 font-medium">-199 ден</dd>
+                            <dt class="bg-red-500 text-white text-sm font-semibold px-2 py-1 rounded-md">% Цена со Попуст</dt>
+                            <dd class="text-red-600 font-medium">
+                                {{ total_price }} ден
+                            </dd>
                         </div>
 
-                        <div class="flex justify-between !text-base font-medium">
-                            <dt>За плаќање</dt>
-                            <dd>{{ total_price }} ден.</dd>
-                        </div>
+
+{#                        <div class="flex justify-between !text-base font-medium">#}
+{#                            <dt>За плаќање</dt>#}
+{#                            <dd>{{ total_price }} ден.</dd>#}
+{#                        </div>#}
                     </dl>
 
                     <div class="flex justify-between mt-5 gap-5">

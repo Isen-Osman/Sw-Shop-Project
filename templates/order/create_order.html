@@ -135,9 +135,11 @@
                     <div class="mt-8 flex justify-end border-t border-gray-100 pt-8">
                         <div class="w-screen max-w-lg space-y-4">
                             <dl class="space-y-0.5 text-sm text-gray-700">
-                                <div class="flex justify-between">
-                                    <dt>Сума</dt>
-                                    <dd>{{ total_price }} ден.</dd>
+                                <div class="flex justify-between items-center">
+                                    <dt class="bg-red-500 text-white text-sm font-semibold px-2 py-1 rounded-md">%
+                                        Цена со попуст
+                                    </dt>
+                                    <dd class="text-red-600 font-medium"> {{ total_price }}</dd>
                                 </div>
 
                                 <div class="flex justify-between">
@@ -145,16 +147,11 @@
                                     <dd>150 ден.</dd>
                                 </div>
 
-                                <div class="flex justify-between items-center">
-                                    <dt class="bg-red-500 text-white text-sm font-semibold px-2 py-1 rounded-md">%
-                                        Попуст
-                                    </dt>
-                                    <dd class="text-red-600 font-medium">-199 ден</dd>
-                                </div>
+
 
                                 <div class="flex justify-between !text-base font-medium">
                                     <dt>За плаќање</dt>
-                                    <dd>{{ total_price }} ден.</dd>
+                                    <dd>{{ final_price  }} ден.</dd>
                                 </div>
                             </dl>
                         </div>
@@ -169,7 +166,7 @@
             {% if products_with_details %}
                 <div class="mt-6 sm:mt-8 border-t border-gray-200 pt-4 sm:pt-6">
                     <h3 class="text-sm sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4">Детали за нарачката</h3>
-                    <form method="post" class="space-y-3 sm:space-y-4">
+                    <form method="post" class="space-y-3 sm:space-y-4" id="orderForm">
                         {% csrf_token %}
                         <div class="grid grid-cols-1 gap-y-3 gap-x-4 sm:grid-cols-2">
                             {% for field in form %}
@@ -194,7 +191,7 @@
                         </div>
 
                         <div class="pt-3 sm:pt-4">
-                            <button type="submit"
+                            <button type="submit" id="submitButton"
                                     class="w-full flex justify-center items-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent rounded-md shadow-sm text-xs sm:text-base font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-colors duration-200">
                                 Потврди нарачка
                             </button>
@@ -203,6 +200,23 @@
                 </div>
             {% endif %}
 
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-xl p-6 m-4 max-w-sm w-full transform scale-95 transition-transform duration-300">
+            <div class="text-center flex flex-col items-center justify-center">
+                <!-- SVG Loader -->
+                <div class="mx-auto mb-4 flex justify-center">
+                    <svg class="w-16 h-16 text-pink-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Ве молиме почекајте</h3>
+                <p class="text-gray-600">Вашата нарачка се обработува...</p>
+            </div>
         </div>
     </div>
 
@@ -220,5 +234,37 @@
         textarea:focus {
             box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
         }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderForm = document.getElementById('orderForm');
+            const loadingModal = document.getElementById('loadingModal');
+            const submitButton = document.getElementById('submitButton');
+
+            if (orderForm) {
+                orderForm.addEventListener('submit', function(e) {
+                    // Show loading modal
+                    loadingModal.classList.remove('opacity-0', 'pointer-events-none');
+                    loadingModal.classList.add('opacity-100');
+
+                    // Disable submit button to prevent multiple submissions
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = 'Се обработува...';
+
+                    // The form will continue to submit normally
+                    // The modal will disappear when the page reloads after form submission
+                });
+            }
+        });
+    </script>
 {% endblock %}
