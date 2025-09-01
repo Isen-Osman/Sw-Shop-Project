@@ -135,11 +135,14 @@ def product_edit(request, product_id):
 
 
 def product_delete(request, pk):
-    if not request.user.is_authenticated or not request.user.is_superuser:
-        return redirect('home')
-
     product = get_object_or_404(Product, pk=pk)
-    product.delete()
+    if request.method == 'POST':
+        # Избриши поврзани записи во WishlistProduct
+        WishlistProduct.objects.filter(product=product).delete()
+        product.delete()
+        messages.success(request, f'Продуктот "{product.name}" е успешно избришан.')
+        return redirect('products')
+    messages.error(request, 'Неуспешно бришење на продуктот.')
     return redirect('products')
 
 

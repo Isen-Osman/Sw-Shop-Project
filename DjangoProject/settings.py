@@ -55,7 +55,6 @@ CLOUDINARY_STORAGE = {
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-
 # -------------------------------
 # Authentication backends
 # -------------------------------
@@ -93,7 +92,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
+        'APP_DIRS': False,  # Исклучи го за кешираниот loader
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
@@ -101,11 +100,17 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'app.context_processors.categories_processor',
                 'app.context_processors.wishlist_counter',
-
+            ],
+            'loaders': [
+                ('django.template.loaders.cached.Loader', [
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader',
+                ]),
             ],
         },
     },
 ]
+
 
 # -------------------------------
 # WSGI
@@ -133,6 +138,14 @@ DATABASES = {
         'PASSWORD': url.password,
         'HOST': url.hostname,
         'PORT': url.port,
+
+    }
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
     }
 }
 
@@ -208,6 +221,8 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 # ==========================================
 # Django Security Settings
 # ==========================================
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 # --- HTTPS & SSL ---
 SECURE_SSL_REDIRECT = True  # Принудува HTTPS
