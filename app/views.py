@@ -6,9 +6,8 @@ from .forms import ProductForm
 from .models import Product, ProductQuantity, ProductImage, Size, Category
 from django.core.mail import send_mail
 from django.conf import settings
-
 from django.contrib import messages
-
+from django.core.paginator import Paginator
 
 def product_list(request):
     products = Product.objects.all()
@@ -42,7 +41,12 @@ def product_list(request):
     for product in products:
         product.new_price = product.price + 200  # новата променлива
 
-    return render(request, 'products/product_page.html', {'products': products})
+    # Пагинација
+    paginator = Paginator(products, 6)  # 12 продукти по страница
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'products/product_page.html', {'page_obj': page_obj})
 
 
 def recently_added_products(request):
