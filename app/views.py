@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.db.models import Q
 from .forms import ProductForm
-from .models import Product, ProductQuantity, ProductImage, Size,Category
+from .models import Product, ProductQuantity, ProductImage, Size, Category
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -176,6 +176,7 @@ def products_by_category(request, category_name):
         "category_name": dict(Category.choices).get(category_value, category_name.capitalize())
     })
 
+
 def collections_page(request):
     return render(request, 'lg/collections_page.html')
 
@@ -207,22 +208,31 @@ def custom_logout(request):
 
 def search_view(request):
     query = request.GET.get('q', '')
+    sort_order = request.GET.get('sort', 'asc')  # 'asc' или 'desc'
     results = []
 
+    products = Product.objects.all()
+
     if query:
-        products = Product.objects.filter(
+        products = products.filter(
             Q(name__icontains=query) |
             Q(description__icontains=query) |
             Q(category__name__icontains=query)
         ).distinct()
 
-        for p in products:
-            results.append({
-                'id': p.id,
-                'name': p.name,
-                'price': p.price,
-                'image': p.images.first().image.url if p.images.exists() else '',
-            })
+    # Филтер за цена
+    if sort_order == 'asc':
+        products = products.order_by('price')
+    elif sort_order == 'desc':
+        products = products.order_by('-price')
+
+    for p in products:
+        results.append({
+            'id': p.id,
+            'name': p.name,
+            'price': p.price,
+            'image': p.images.first().image.url if p.images.exists() else '',
+        })
 
     return JsonResponse({'results': results})
 
@@ -250,6 +260,3 @@ def contact_view(request):
         messages.success(request, 'Вашата порака е испратена успешно!')
         return redirect('contact')
     return render(request, 'contact/contact.html')
-
-
-
