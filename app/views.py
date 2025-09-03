@@ -274,23 +274,16 @@ def contact_view(request):
 
 
 
-
 def products_by_color(request):
-    # Земаме избрана боја од GET параметарот
-    selected_color = request.GET.get('color', '')
-
-    # Ако има избрана боја, филтрираме
-    if selected_color:
-        products = Product.objects.filter(color__iexact=selected_color)
+    selected_color = request.GET.get('color')  # query param ?color=RED
+    if selected_color in dict(Color.choices):
+        products = Product.objects.filter(color=selected_color)
     else:
         products = Product.objects.all()
 
-    # Сите уникатни бои за dropdown
-    colors = Product.objects.values_list('color', flat=True).distinct()
-
     context = {
         'products': products,
-        'colors': colors,
+        'colors': Color.choices,
         'selected_color': selected_color,
     }
-    return render(request, 'products.html', context)
+    return render(request, 'products_by_color.html', context)
