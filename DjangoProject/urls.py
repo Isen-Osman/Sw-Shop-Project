@@ -51,6 +51,8 @@ urlpatterns = [
     path('wishlist/remove/<int:product_id>/<str:size>/', wishlist_views.wishlist_remove,
          name='wishlist_remove_with_size'),
 
+    path('products/color/', views.products_by_color, name='products_by_color'),
+
 ]
 
 if settings.DEBUG:

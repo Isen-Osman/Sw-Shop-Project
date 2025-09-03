@@ -45,7 +45,7 @@
                     </li>
                     <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
                         <a href="{% url 'products' %}"
-                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Продукти</a>
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Products</a>
                         <span class="mx-2 text-gray-400">›</span>
                     </li>
                 </ol>
@@ -92,6 +92,7 @@
                                   d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -138,7 +139,11 @@
                     <!-- Product Info -->
                     <div class="pt-3 sm:pt-4 pb-4 px-3 sm:px-4 relative z-20">
                         <h3 class="font-medium text-gray-800 mb-1 text-sm sm:text-base line-clamp-2">{{ product.name }}</h3>
-
+                        <div class="flex items-center gap-2 mb-2">
+    <span class="w-4 h-4 rounded-full"
+          style="background-color: {{ product.color|default:'#ccc' }};"></span>
+                            <span class="text-sm text-gray-600">{{ product.color|capfirst }}</span>
+                        </div>
                         <div class="flex flex-col mb-3">
                             {% if product.new_price %}
                                 <div class="flex items-baseline gap-2">
@@ -295,6 +300,23 @@
                     });
                 }
             });
+            // Color filter functionality
+            const colorFilter = document.getElementById('colorFilter');
+            if (colorFilter) {
+                colorFilter.addEventListener('change', function () {
+                    const selectedColor = this.value.toLowerCase();
+                    const cards = document.querySelectorAll('#productsGrid > div');
+
+                    cards.forEach(card => {
+                        const colorText = card.querySelector('p, span').textContent.toLowerCase();
+                        const matches = !selectedColor || colorText.includes(selectedColor);
+                        // Сочува и претходниот search filter
+                        const searchFilter = searchInput ? card.style.display !== 'none' : true;
+                        card.style.display = matches && searchFilter ? '' : 'none';
+                    });
+                });
+            }
+
         }
     </script>
 

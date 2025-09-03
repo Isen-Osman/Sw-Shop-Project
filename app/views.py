@@ -14,8 +14,12 @@ def product_list(request):
 
     # Филтрирање по категорија
     category = request.GET.get('category')
+
     if category:
         products = products.filter(category=category)
+
+    # Филтрирање по боја
+
 
     # Филтрирање по ценовен опсег
     price_range = request.GET.get('price_range')
@@ -40,6 +44,8 @@ def product_list(request):
 
     for product in products:
         product.new_price = product.price + 200  # новата променлива
+
+    # Сите уникатни бои за филтер
 
     # Пагинација
     paginator = Paginator(products, 6)  # 12 продукти по страница
@@ -264,3 +270,27 @@ def contact_view(request):
         messages.success(request, 'Вашата порака е испратена успешно!')
         return redirect('contact')
     return render(request, 'contact/contact.html')
+
+
+
+
+
+def products_by_color(request):
+    # Земаме избрана боја од GET параметарот
+    selected_color = request.GET.get('color', '')
+
+    # Ако има избрана боја, филтрираме
+    if selected_color:
+        products = Product.objects.filter(color__iexact=selected_color)
+    else:
+        products = Product.objects.all()
+
+    # Сите уникатни бои за dropdown
+    colors = Product.objects.values_list('color', flat=True).distinct()
+
+    context = {
+        'products': products,
+        'colors': colors,
+        'selected_color': selected_color,
+    }
+    return render(request, 'products.html', context)

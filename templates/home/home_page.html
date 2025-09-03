@@ -275,44 +275,56 @@
                 </div>
             {% endfor %}
         </div>
-     <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="flex items-start space-x-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <div>
-                            <h3 class="font-bold text-gray-900">СИГУРНО ПЛАЌАЊЕ</h3>
-                            <p class="text-gray-500 text-sm">Платете на врата кога ќе Ви се достави производот</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <div>
-                            <h3 class="font-bold text-gray-900">ЕКСПРЕС ДОСТАВА</h3>
-                            <p class="text-gray-500 text-sm">Достава во најкус можен рок низ цела држава</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
-                        <div>
-                            <h3 class="font-bold text-gray-900">100% СИГУРНОСТ</h3>
-                            <p class="text-gray-500 text-sm">Вашите податоци се 100% заштитени</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <div>
-                            <h3 class="font-bold text-gray-900">24/7 ШОПИНГ</h3>
-                            <p class="text-gray-500 text-sm">Нарачувајте кога сакате 24/7 преку интернет</p>
-                        </div>
-                    </div>
+<!-- Services Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Sigurno Plaćanje -->
+            <div class="flex flex-col items-center text-center p-6 bg-pink-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                <div class="bg-pink-100 p-4 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                 </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">СИГУРНО ПЛАЌАЊЕ</h3>
+                <p class="text-gray-600 text-sm">Платете на врата кога ќе Ви се достави производот</p>
+            </div>
+
+            <!-- Ekspres Dostava -->
+            <div class="flex flex-col items-center text-center p-6 bg-purple-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                <div class="bg-purple-100 p-4 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">ЕКСПРЕС ДОСТАВА</h3>
+                <p class="text-gray-600 text-sm">Достава во најкус можен рок низ цела држава</p>
+            </div>
+
+            <!-- 100% Sigurnost -->
+            <div class="flex flex-col items-center text-center p-6 bg-yellow-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                <div class="bg-yellow-100 p-4 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">100% СИГУРНОСТ</h3>
+                <p class="text-gray-600 text-sm">Вашите податоци се 100% заштитени</p>
+            </div>
+
+            <!-- 24/7 Shoping -->
+            <div class="flex flex-col items-center text-center p-6 bg-pink-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                <div class="bg-pink-100 p-4 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">24/7 ШОПИНГ</h3>
+                <p class="text-gray-600 text-sm">Нарачувајте кога сакате 24/7 преку интернет</p>
+            </div>
+        </div>
+    </div>
+</section>
 
     </div>
 

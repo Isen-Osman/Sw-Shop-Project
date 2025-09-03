@@ -13,6 +13,30 @@
         .animate-spin {
             animation: spin 1s linear infinite;
         }
+
+        /* Стилови за приказ на боја */
+        .color-display {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #f9fafb;
+            border-radius: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .color-preview {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            border: 2px solid #e5e7eb;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-name {
+            font-weight: 500;
+            color: #374151;
+        }
     </style>
 
     <div class="max-w-6xl mx-auto px-4 py-8">
@@ -20,12 +44,12 @@
             <ol class="list-none p-0 inline-flex items-center space-x-2 bg-white/40 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg transform transition-transform duration-500">
                 <li class="flex items-center">
                     <a href="/"
-                       class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide text-sm transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">Home</a>
+                       class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide text-sm transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">Дома</a>
                     <span class="mx-1 text-gray-400 text-sm">›</span>
                 </li>
                 <li class="flex items-center">
                     <a href="{% url 'products' %}"
-                       class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide text-sm transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">Products</a>
+                       class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide text-sm transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">Продукти</a>
                     <span class="mx-1 text-gray-400 text-sm">›</span>
                 </li>
                 <li class="flex items-center">
@@ -114,7 +138,18 @@
                     </div>
 
                     <p class="text-gray-600 mt-4">{{ product.description }}</p>
+
+
                 </div>
+                <!-- Color Display -->
+                {% if product.color %}
+                    <div class="flex items-center gap-2 mt-4 mb-4">
+        <span class="w-5 h-5 rounded-full border border-gray-300 shadow-sm"
+              style="background-color: {{ product.color|default:'#ccc' }};"></span>
+                        <span class="text-sm text-gray-700 font-medium">{{ product.color|capfirst }}</span>
+                    </div>
+                {% endif %}
+
 
                 <!-- Sizes -->
                 <div class="mt-6">
@@ -153,6 +188,7 @@
                             +
                         </button>
                     </div>
+
 
                 </div>
 
@@ -247,51 +283,51 @@
 
 
     <!-- Success Modal -->
-<div id="successModal"
-     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="bg-white rounded-xl p-6 m-4 max-w-sm w-full transform scale-95 transition-transform duration-300 flex flex-col items-center justify-center">
+    <div id="successModal"
+         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-xl p-6 m-4 max-w-sm w-full transform scale-95 transition-transform duration-300 flex flex-col items-center justify-center">
 
-        <!-- Loader + Success Text -->
-        <div id="modalLoader" class="flex flex-col items-center justify-center space-y-4">
-            <!-- SVG Loader -->
-            <svg class="w-16 h-16 text-pink-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
-                 viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                        stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-
-            <!-- Центриран текст -->
-            <p class="bg-green-100 text-green-800 font-semibold px-4 py-2 rounded-md shadow-sm text-center">
-                Се додава во Кошничка
-            </p>
-        </div>
-
-        <!-- Success Content (initially hidden) -->
-        <div id="modalSuccessContent" class="hidden w-full mt-4 text-center">
-            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M5 13l4 4L19 7"></path>
+            <!-- Loader + Success Text -->
+            <div id="modalLoader" class="flex flex-col items-center justify-center space-y-4">
+                <!-- SVG Loader -->
+                <svg class="w-16 h-16 text-pink-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                            stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-            </div>
-            <h3 class="text-lg font-medium text-gray-900 mb-2">Успешно додадено!</h3>
-            <p class="text-gray-600 mb-4">Продуктот е додаден во вашата кошничка.</p>
-            <div class="flex space-x-3">
-                <button type="button" id="continueShopping"
-                        class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
-                    Продолжи
-                </button>
-                <a href="{% url 'wishlist' %}"
-                   class="flex-1 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition text-center">
-                    Кошничка
-                </a>
-            </div>
-        </div>
 
+                <!-- Центриран текст -->
+                <p class="bg-green-100 text-green-800 font-semibold px-4 py-2 rounded-md shadow-sm text-center">
+                    Се додава во Кошничка
+                </p>
+            </div>
+
+            <!-- Success Content (initially hidden) -->
+            <div id="modalSuccessContent" class="hidden w-full mt-4 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Успешно додадено!</h3>
+                <p class="text-gray-600 mb-4">Продуктот е додаден во вашата кошничка.</p>
+                <div class="flex space-x-3">
+                    <button type="button" id="continueShopping"
+                            class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">
+                        Продолжи
+                    </button>
+                    <a href="{% url 'wishlist' %}"
+                       class="flex-1 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition text-center">
+                        Кошничка
+                    </a>
+                </div>
+            </div>
+
+        </div>
     </div>
-</div>
 
 
     <style>
