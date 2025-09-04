@@ -7,19 +7,21 @@ from .models import Product, ProductQuantity, ProductImage, Size, Category
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 def product_list(request):
     products = Product.objects.all()
 
     # Филтрирање по категорија
     category = request.GET.get('category')
-
     if category:
         products = products.filter(category=category)
 
     # Филтрирање по боја
-
+    color = request.GET.get('color')
+    if color:
+        products = products.filter(color=color)
 
     # Филтрирање по ценовен опсег
     price_range = request.GET.get('price_range')
@@ -43,17 +45,22 @@ def product_list(request):
         products = products.order_by('created_at')
 
     for product in products:
-        product.new_price = product.price + 200  # новата променлива
+        product.new_price = product.price + 200
 
-    # Сите уникатни бои за филтер
-
-    # Пагинација
-    paginator = Paginator(products, 6)  # 12 продукти по страница
+    paginator = Paginator(products, 6)
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
 
-    return render(request, 'products/product_page.html', {'page_obj': page_obj})
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
 
+    return render(request, 'products/product_page.html', {
+        'page_obj': page_obj,
+        'selected_color': color,
+    })
 
 def recently_added_products(request):
     products = Product.objects.all().order_by('-created_at')[:5]
@@ -170,22 +177,34 @@ def product_detail(request, pk):
 def products_by_category(request, category_name):
     # Проверуваме дали е валидна категорија од Enum-от
     try:
-        category_value = Category[category_name.upper()].value
+        category_enum = Category[category_name.upper()]
+        category_value = category_enum.value
     except KeyError:
         return render(request, "404.html", {"error": "Категоријата не постои."})
 
-    # Филтрираме продукти според Enum вредност
+    # Филтрираме продукти според категорија
     products = Product.objects.filter(category=category_value)
 
-    # Пример: да додадеме 200 ден. на price за new_price (како што имаш ти)
+    # Филтрирање по боја
+    color = request.GET.get("color")
+    if color:
+        products = products.filter(color=color)
+
+    # Додавање на new_price
     for product in products:
         product.new_price = product.price + 200
 
-    return render(request, "products/product_page.html", {
-        "products": products,
-        "category_name": dict(Category.choices).get(category_value, category_name.capitalize())
-    })
+    # Пагинација
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
 
+    return render(request, "products/product_page.html", {
+        "page_obj": page_obj,
+        "category_name": dict(Category.choices).get(category_value, category_name.capitalize()),
+        "category_slug": category_name.lower(),
+        "selected_color": color,  # 👈 додадено за да можеш да го прикажеш во template
+    })
 
 def collections_page(request):
     return render(request, 'lg/collections_page.html')
@@ -287,3 +306,7 @@ def products_by_color(request):
         'selected_color': selected_color,
     }
     return render(request, 'products_by_color.html', context)
+
+def privacy_cookie(request):
+    return render(request, 'aboutUs/security.html')
+

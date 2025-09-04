@@ -123,3 +123,13 @@ def order_confirmation(request, order_id):
         'order': order,
         'wishlist_items_count': wishlist_items_count,
     })
+
+
+def delivery(request):
+    """
+    Страница за испорака и враќање на производи.
+    """
+    return render(request, '../templates/delivery/delivery.html')
+
+
+

@@ -235,7 +235,7 @@ SECURE_HSTS_PRELOAD = True
 # --- Cookies Security ---
 SESSION_COOKIE_SECURE = True  # Сесиите само преку HTTPS
 CSRF_COOKIE_SECURE = True  # CSRF cookies само преку HTTPS
-SESSION_COOKIE_HTTPONLY = True  # JavaScript не може да чита session cookie
+SESSION_COOKIE_HTTPONLY = True  # JavaScript не може да чита session privacy
 CSRF_COOKIE_HTTPONLY = False  # CSRF треба да биде достапен за формите
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Сесијата се брише при затворање на прелистувач
 
