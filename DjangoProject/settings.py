@@ -10,6 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Security
 # -------------------------------
 SECRET_KEY = config('SECRET_KEY')
+
 DEBUG = config("DEBUG", default=False, cast=bool)
 
 # -------------------------------
@@ -214,8 +215,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-ALLOWED_HOSTS = ['192.168.1.180', '192.168.1.187', 'localhost', '127.0.0.1', '192.168.1.185',
-                 'your-railway-app.up.railway.app', ]
+ALLOWED_HOSTS = ['192.168.1.196', '192.168.1.187', 'localhost', '127.0.0.1', '192.168.1.185',
+                 'your-railway-app.up.railway.app', 'sw-shop-project-3.onrender.com',]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
