@@ -1,45 +1,30 @@
-# Django
-Django==4.2.21
-
-# Authentication & social login
-django-allauth==65.11.0
-
-# Templates tweaks
-django-widget-tweaks==1.5.0
-
-# Database
-mysqlclient==2.1.1
-PyMySQL==1.1.2
-dj-database-url==3.0.1
-
-# Environment variables
-python-decouple==3.8
-
-# Cloudinary media storage
-cloudinary==1.35.0
-django-cloudinary-storage==0.3.0
-pillow==11.3.0
-
-# JWT and HTTP requests
-PyJWT==2.10.1
-requests==2.32.5
-urllib3<2,>=1.26.5
-idna==3.10
-charset-normalizer==3.4.3
+asgiref==3.8.1
 certifi==2025.8.3
-
-# Security & cryptography
 cffi==1.17.1
+charset-normalizer==3.4.3
+cloudinary==1.44.1
 cryptography==45.0.6
-six==1.17.0
-pycparser==2.22
-
-# Utilities
-sqlparse==0.5.3
-typing-extensions==4.13.2
-
+dj-database-url==3.0.1
+Django==4.2.21
+django-allauth==65.11.0
+django-cloudinary-storage==0.3.0
+django-extensions==4.1
 django-sslserver==0.22
-
-# Production server
-gunicorn==21.2.0
-
+django-widget-tweaks==1.5.0
+git-filter-repo==2.47.0
+idna==3.10
+importlib_metadata==8.5.0
+pillow==11.3.0
+psycopg2-binary==2.9.10
+pycparser==2.22
+PyJWT==2.10.1
+PyMySQL==1.1.2
+pystache==0.6.8
+python-decouple==3.8
+requests==2.32.5
+six==1.17.0
+sqlparse==0.5.3
+static==1.1.1
+typing_extensions==4.13.2
+urllib3==2.5.0
+zipp==3.20.2
