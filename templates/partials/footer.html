@@ -85,10 +85,13 @@
             <div>
                 <h3 class="text-lg font-semibold mb-6 relative pb-2">Корисничка Поддршка</h3>
                 <ul class="text-gray-400 text-sm space-y-3">
-                    <li><a href="#" class="footer-link hover:text-white">Контакт</a></li>
-                    <li><a href="#" class="footer-link hover:text-white">Испорака и Враќање</a></li>
-                    <li><a href="https://cdn.shopify.com/s/files/1/0305/6249/files/Form_360_Chart_mobile.png?v=1736450659">Помош за големини</a></li>
-                    <li><a href="#" class="footer-link hover:text-white">ЧПП (FAQ)</a></li>
+                    <li><a href="{% url 'contact' %}" class="footer-link hover:text-white">Контакт</a></li>
+                    <li><a href="{% url 'delivery' %}" class="footer-link hover:text-white">Испорака и Враќање</a></li>
+                    <li>
+                        <a href="https://cdn.shopify.com/s/files/1/0305/6249/files/Form_360_Chart_mobile.png?v=1736450659">Помош
+                            за големини</a></li>
+                    <li>
+                        <a href="{% url 'privacy_cookie' %}" class="footer-link hover:text-white">Политики и приватност</a></li>
                 </ul>
             </div>
 
@@ -96,11 +99,14 @@
             <div>
                 <h3 class="text-lg font-semibold mb-6 relative pb-2">Колекции</h3>
                 <ul class="text-gray-400 text-sm space-y-3">
-                    <li><a href="#" class="footer-link hover:text-white">Градници</a></li>
-                    <li><a href="#" class="footer-link hover:text-white">Килоти</a></li>
-                    <li><a href="#" class="footer-link hover:text-white">Пижами</a></li>
-                    <li><a href="#" class="footer-link hover:text-white">Приватна</a></li>
-                    <li><a href="#" class="footer-link hover:text-white">Нова Колекција</a></li>
+                    <li><a href="{% url 'category_products' 'bras' %}" class="footer-link hover:text-white">Градници</a>
+                    </li>
+                    <li><a href="{% url 'category_products' 'panties' %}"
+                           class="footer-link hover:text-white">Пижами</a></li>
+                    <li><a href="{% url 'category_products' 'pajamas' %}"
+                           class="footer-link hover:text-white">Приватна</a></li>
+                    <li><a href="{% url 'category_products' 'lingerie' %}" class="footer-link hover:text-white">Нова
+                        Колекција</a></li>
                 </ul>
             </div>
 
@@ -110,12 +116,9 @@
                 <ul class="text-gray-400 text-sm space-y-3">
                     <li class="flex items-start">
                         <i class="fas fa-map-marker-alt text-pink-500 mt-1 mr-3"></i>
-                        <span>Улица Пример бр. 123, Скопје</span>
+
                     </li>
-                    <li class="flex items-start">
-                        <i class="fas fa-phone text-pink-500 mt-1 mr-3"></i>
-                        <span>+389 70 123 456</span>
-                    </li>
+
                     <li class="flex items-start">
                         <i class="fas fa-envelope text-pink-500 mt-1 mr-3"></i>
                         <span>shopsw28@gmail.com</span>
@@ -128,7 +131,7 @@
         <div class="pt-8 flex flex-col md:flex-row justify-between items-center">
             <!-- Copyright -->
             <div class="text-gray-500 text-sm mb-4 md:mb-0">
-                &copy; 2023 BrandName. Сите права се задржани.
+                &copy; 2023 SWSHOP. Сите права се задржани.
             </div>
 
             <!-- Социјални Мрежи -->

@@ -43,7 +43,9 @@ class OrderForm(forms.ModelForm):
     city = forms.ChoiceField(
         choices=[("", "Избери град")] + MACEDONIAN_CITIES,
         widget=forms.Select(attrs={'class': 'input-class'}),
-        label='Град'
+        label='Град',
+        required=True,  # осигурува задолжително поле
+        error_messages={'required': 'Ова поле е задолжително'}
     )
 
     class Meta:
@@ -81,6 +83,7 @@ class OrderForm(forms.ModelForm):
             'city': {'required': 'Ова поле е задолжително'},
             'phone_number': {'required': 'Ова поле е задолжително'},
             'address': {'required': 'Ова поле е задолжително'},
+
         }
 
     def clean_first_name(self):

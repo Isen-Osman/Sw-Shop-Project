@@ -97,69 +97,63 @@
                 {% if products_with_details %}
                     <ul class="divide-y divide-gray-200">
                         {% for item in products_with_details %}
-                            <li class="py-3 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center hover:shadow-sm transition-shadow duration-200 rounded-md p-2 sm:p-3">
+                            <div class="mt-8">
+                                <ul class="space-y-4">
+                                    <li class="flex items-center gap-4">
+                                        <img src="{{ item.product.images.first.image.url }}"
+                                             alt="{{ item.product.name }}"
+                                             class="size-16 rounded-sm object-cover"/>
 
-                                <!-- Слика на продуктот -->
-                                <div class="flex-shrink-0 h-16 w-16 rounded-md overflow-hidden bg-gray-100">
-                                    {% if item.product.images.all %}
-                                        <img src="{{ item.product.images.first.image.url }}" alt="{{ item.product.name }}"
-                                             class="h-full w-full object-cover object-center">
-                                    {% else %}
-                                        <div class="h-full w-full flex items-center justify-center text-gray-400">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-8 sm:w-8"
-                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                            </svg>
-                                        </div>
-                                    {% endif %}
-                                </div>
-
-                                <!-- Име, големина, quantity и цена -->
-                                <div class="mt-2 sm:mt-0 sm:ml-4 flex-1 flex flex-col w-full">
-                                    <div class="flex justify-between items-center w-full">
                                         <div>
-                                            <h3 class="text-sm sm:text-base font-medium text-gray-900">{{ item.product.name }}</h3>
-                                            <p class="text-xs sm:text-sm text-gray-500 mt-1">
-                                                Големина: {{ item.size }}
-                                            </p>
-                                            <p class="text-xs sm:text-sm text-gray-500 mt-1">
-                                                Количина: {{ item.quantity }}
-                                            </p>
+                                            <h3 class="text-sm text-gray-900">{{ item.product.name }}</h3>
+
+                                            <dl class="mt-0.5 space-y-px text-[10px] text-gray-600">
+                                                <div>
+                                                    <dt class="inline">Големина:</dt>
+                                                    <dd class="inline">{{ item.size }}</dd>
+                                                </div>
+                                                <div>
+                                                    <dt class="inline">Боја:</dt>
+                                                    <dd class="inline normal-case">{{ item.product.color }}</dd>
+                                                </div>
+                                            </dl>
                                         </div>
 
-                                    </div>
-                                </div>
+                                        <div class="flex flex-1 items-center justify-end gap-2">
+                                            <div class="border border-white rounded-0 me-5">
+                                                <dd class="inline normal-case px-2">{{ item.quantity }}</dd>
+                                            </div>
 
-                            </li>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         {% endfor %}
                     </ul>
 
-                    <!-- Вкупни цени -->
-                    <div class="border-t border-gray-200 mt-4 sm:mt-6 pt-4 sm:pt-6 space-y-2 sm:space-y-3">
-                        <div class="flex justify-between text-sm sm:text-base font-medium text-gray-900">
-                            <p>Вкупно продукти:</p>
-                            <p>{{ total_price|floatformat:0|intcomma }} ден</p>
-                        </div>
-                        <div class="flex justify-between text-sm sm:text-base font-medium text-gray-900 items-center">
-                            <p>Карго:
-                                <span class="relative group ml-1 cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="h-3 w-3 sm:h-4 sm:w-4 inline-block text-pink-600" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/>
-                            </svg>
-                            <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 sm:mb-2 w-40 sm:w-48 bg-gray-700 text-white text-xs sm:text-sm rounded-md p-1 sm:p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-center">
-                                Бесплатна достава за нарачки над 2000 ден!
-                            </span>
-                        </span>
-                            </p>
-                            <p>{{ shipping_price|floatformat:0|intcomma }} ден</p>
-                        </div>
-                        <div class="flex justify-between text-sm sm:text-lg font-bold text-gray-900 pt-2 border-t border-gray-200">
-                            <p>Вкупно за плаќање:</p>
-                            <p>{{ final_price|floatformat:0|intcomma }} ден</p>
+                    <!-- Price Summary -->
+                    <div class="mt-8 flex justify-end border-t border-gray-100 pt-8">
+                        <div class="w-screen max-w-lg space-y-4">
+                            <dl class="space-y-0.5 text-sm text-gray-700">
+                                <div class="flex justify-between items-center">
+                                    <dt class="bg-red-500 text-white text-sm font-semibold px-2 py-1 rounded-md">%
+                                        Цена со попуст
+                                    </dt>
+                                    <dd class="text-red-600 font-medium"> {{ total_price }}</dd>
+                                </div>
+
+                                <div class="flex justify-between">
+                                    <dt>Карго</dt>
+                                    <dd>150 ден.</dd>
+                                </div>
+
+
+
+                                <div class="flex justify-between !text-base font-medium">
+                                    <dt>За плаќање</dt>
+                                    <dd>{{ final_price  }} ден.</dd>
+                                </div>
+                            </dl>
                         </div>
                     </div>
 
@@ -172,7 +166,7 @@
             {% if products_with_details %}
                 <div class="mt-6 sm:mt-8 border-t border-gray-200 pt-4 sm:pt-6">
                     <h3 class="text-sm sm:text-lg font-semibold text-gray-700 mb-3 sm:mb-4">Детали за нарачката</h3>
-                    <form method="post" class="space-y-3 sm:space-y-4">
+                    <form method="post" class="space-y-3 sm:space-y-4" id="orderForm">
                         {% csrf_token %}
                         <div class="grid grid-cols-1 gap-y-3 gap-x-4 sm:grid-cols-2">
                             {% for field in form %}
@@ -197,7 +191,7 @@
                         </div>
 
                         <div class="pt-3 sm:pt-4">
-                            <button type="submit"
+                            <button type="submit" id="submitButton"
                                     class="w-full flex justify-center items-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent rounded-md shadow-sm text-xs sm:text-base font-medium text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-colors duration-200">
                                 Потврди нарачка
                             </button>
@@ -206,6 +200,23 @@
                 </div>
             {% endif %}
 
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-xl p-6 m-4 max-w-sm w-full transform scale-95 transition-transform duration-300">
+            <div class="text-center flex flex-col items-center justify-center">
+                <!-- SVG Loader -->
+                <div class="mx-auto mb-4 flex justify-center">
+                    <svg class="w-16 h-16 text-pink-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Ве молиме почекајте</h3>
+                <p class="text-gray-600">Вашата нарачка се обработува...</p>
+            </div>
         </div>
     </div>
 
@@ -223,5 +234,37 @@
         textarea:focus {
             box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
         }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderForm = document.getElementById('orderForm');
+            const loadingModal = document.getElementById('loadingModal');
+            const submitButton = document.getElementById('submitButton');
+
+            if (orderForm) {
+                orderForm.addEventListener('submit', function(e) {
+                    // Show loading modal
+                    loadingModal.classList.remove('opacity-0', 'pointer-events-none');
+                    loadingModal.classList.add('opacity-100');
+
+                    // Disable submit button to prevent multiple submissions
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = 'Се обработува...';
+
+                    // The form will continue to submit normally
+                    // The modal will disappear when the page reloads after form submission
+                });
+            }
+        });
+    </script>
 {% endblock %}

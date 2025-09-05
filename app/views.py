@@ -3,11 +3,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.db.models import Q
 from .forms import ProductForm
-from .models import Product, ProductQuantity, ProductImage, Size,Category
+from .models import Product, ProductQuantity, ProductImage, Size, Category
 from django.core.mail import send_mail
 from django.conf import settings
-
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def product_list(request):
@@ -17,6 +17,11 @@ def product_list(request):
     category = request.GET.get('category')
     if category:
         products = products.filter(category=category)
+
+    # Филтрирање по боја
+    color = request.GET.get('color')
+    if color:
+        products = products.filter(color=color)
 
     # Филтрирање по ценовен опсег
     price_range = request.GET.get('price_range')
@@ -40,10 +45,22 @@ def product_list(request):
         products = products.order_by('created_at')
 
     for product in products:
-        product.new_price = product.price + 200  # новата променлива
+        product.new_price = product.price + 200
 
-    return render(request, 'products/product_page.html', {'products': products})
+    paginator = Paginator(products, 6)
+    page_number = request.GET.get('page')
 
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
+    return render(request, 'products/product_page.html', {
+        'page_obj': page_obj,
+        'selected_color': color,
+    })
 
 def recently_added_products(request):
     products = Product.objects.all().order_by('-created_at')[:5]
@@ -135,11 +152,14 @@ def product_edit(request, product_id):
 
 
 def product_delete(request, pk):
-    if not request.user.is_authenticated or not request.user.is_superuser:
-        return redirect('home')
-
     product = get_object_or_404(Product, pk=pk)
-    product.delete()
+    if request.method == 'POST':
+        # Избриши поврзани записи во WishlistProduct
+        WishlistProduct.objects.filter(product=product).delete()
+        product.delete()
+        messages.success(request, f'Продуктот "{product.name}" е успешно избришан.')
+        return redirect('products')
+    messages.error(request, 'Неуспешно бришење на продуктот.')
     return redirect('products')
 
 
@@ -157,20 +177,33 @@ def product_detail(request, pk):
 def products_by_category(request, category_name):
     # Проверуваме дали е валидна категорија од Enum-от
     try:
-        category_value = Category[category_name.upper()].value
+        category_enum = Category[category_name.upper()]
+        category_value = category_enum.value
     except KeyError:
         return render(request, "404.html", {"error": "Категоријата не постои."})
 
-    # Филтрираме продукти според Enum вредност
+    # Филтрираме продукти според категорија
     products = Product.objects.filter(category=category_value)
 
-    # Пример: да додадеме 200 ден. на price за new_price (како што имаш ти)
+    # Филтрирање по боја
+    color = request.GET.get("color")
+    if color:
+        products = products.filter(color=color)
+
+    # Додавање на new_price
     for product in products:
         product.new_price = product.price + 200
 
+    # Пагинација
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(request, "products/product_page.html", {
-        "products": products,
-        "category_name": dict(Category.choices).get(category_value, category_name.capitalize())
+        "page_obj": page_obj,
+        "category_name": dict(Category.choices).get(category_value, category_name.capitalize()),
+        "category_slug": category_name.lower(),
+        "selected_color": color,  # 👈 додадено за да можеш да го прикажеш во template
     })
 
 def collections_page(request):
@@ -204,22 +237,31 @@ def custom_logout(request):
 
 def search_view(request):
     query = request.GET.get('q', '')
+    sort_order = request.GET.get('sort', 'asc')  # 'asc' или 'desc'
     results = []
 
+    products = Product.objects.all()
+
     if query:
-        products = Product.objects.filter(
+        products = products.filter(
             Q(name__icontains=query) |
             Q(description__icontains=query) |
             Q(category__name__icontains=query)
         ).distinct()
 
-        for p in products:
-            results.append({
-                'id': p.id,
-                'name': p.name,
-                'price': p.price,
-                'image': p.images.first().image.url if p.images.exists() else '',
-            })
+    # Филтер за цена
+    if sort_order == 'asc':
+        products = products.order_by('price')
+    elif sort_order == 'desc':
+        products = products.order_by('-price')
+
+    for p in products:
+        results.append({
+            'id': p.id,
+            'name': p.name,
+            'price': p.price,
+            'image': p.images.first().image.url if p.images.exists() else '',
+        })
 
     return JsonResponse({'results': results})
 
@@ -249,4 +291,22 @@ def contact_view(request):
     return render(request, 'contact/contact.html')
 
 
+
+
+def products_by_color(request):
+    selected_color = request.GET.get('color')  # query param ?color=RED
+    if selected_color in dict(Color.choices):
+        products = Product.objects.filter(color=selected_color)
+    else:
+        products = Product.objects.all()
+
+    context = {
+        'products': products,
+        'colors': Color.choices,
+        'selected_color': selected_color,
+    }
+    return render(request, 'products_by_color.html', context)
+
+def privacy_cookie(request):
+    return render(request, 'aboutUs/security.html')
 

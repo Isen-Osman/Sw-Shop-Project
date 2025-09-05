@@ -3,18 +3,53 @@
 {% block title %}Детали за продукт | Modern Shop{% endblock %}
 
 {% block content %}
+    <style>
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Стилови за приказ на боја */
+        .color-display {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #f9fafb;
+            border-radius: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .color-preview {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            border: 2px solid #e5e7eb;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-name {
+            font-weight: 500;
+            color: #374151;
+        }
+    </style>
 
     <div class="max-w-6xl mx-auto px-4 py-8">
         <nav class="mb-4 flex justify-center perspective-1000" aria-label="Breadcrumb">
             <ol class="list-none p-0 inline-flex items-center space-x-2 bg-white/40 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg transform transition-transform duration-500">
                 <li class="flex items-center">
                     <a href="/"
-                       class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide text-sm transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">Home</a>
+                       class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide text-sm transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">Дома</a>
                     <span class="mx-1 text-gray-400 text-sm">›</span>
                 </li>
                 <li class="flex items-center">
                     <a href="{% url 'products' %}"
-                       class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide text-sm transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">Products</a>
+                       class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide text-sm transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">Продукти</a>
                     <span class="mx-1 text-gray-400 text-sm">›</span>
                 </li>
                 <li class="flex items-center">
@@ -37,9 +72,8 @@
                             {% endfor %}
                         </div>
 
-                        <!-- Navigation controls only if we have multiple images -->
                         {% if product.images.all|length > 1 %}
-                            <!-- Navigation Arrows -->
+                            <!-- Навигациски копчиња и индикатори -->
                             <button id="prevBtn"
                                     class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 rounded-full p-2 shadow-lg hover:bg-opacity-100 transition">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,7 +89,6 @@
                                 </svg>
                             </button>
 
-                            <!-- Indicators -->
                             <div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
                                 {% for img in product.images.all %}
                                     <button class="carousel-indicator w-2 h-2 rounded-full bg-white bg-opacity-50 hover:bg-opacity-100 transition {% if forloop.first %}bg-opacity-100{% endif %}"
@@ -63,7 +96,6 @@
                                 {% endfor %}
                             </div>
 
-                            <!-- Thumbnails -->
                             <div class="flex space-x-2 mt-4 justify-center">
                                 {% for img in product.images.all %}
                                     <img src="{{ img.image.url }}" alt="Thumbnail {{ forloop.counter }}"
@@ -72,9 +104,7 @@
                                 {% endfor %}
                             </div>
                         {% endif %}
-
                     {% else %}
-                        <!-- Placeholder when no images -->
                         <div class="w-full bg-gray-100 rounded-lg h-80 flex items-center justify-center">
                             <div class="text-center text-gray-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto mb-4" fill="none"
@@ -87,6 +117,9 @@
                         </div>
                     {% endif %}
                 </div>
+
+                <!-- Нов блок под сликата -->
+
             </div>
 
             <!-- Product Details -->
@@ -105,7 +138,18 @@
                     </div>
 
                     <p class="text-gray-600 mt-4">{{ product.description }}</p>
+
+
                 </div>
+                <!-- Color Display -->
+                {% if product.color %}
+                    <div class="flex items-center gap-2 mt-4 mb-4">
+        <span class="w-5 h-5 rounded-full border border-gray-300 shadow-sm"
+              style="background-color: {{ product.color|default:'#ccc' }};"></span>
+                        <span class="text-sm text-gray-700 font-medium">{{ product.color|capfirst }}</span>
+                    </div>
+                {% endif %}
+
 
                 <!-- Sizes -->
                 <div class="mt-6">
@@ -145,6 +189,7 @@
                         </button>
                     </div>
 
+
                 </div>
 
                 <!-- Add to Cart Button -->
@@ -166,7 +211,7 @@
                         {% endif %}
                     {% else %}
                         <div class="text-center p-4 bg-gray-50 rounded-lg">
-                            <p class="text-gray-600 mb-3">За да додадете во Кошничка, треба да се најавите.</p>
+                            <p class="text-gray-600 mb-3">За да креирате нарачка треба да се најавите</p>
                             <a href="{% url 'profile_page' %}"
                                class="inline-block px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
                                 Најавете се со Google
@@ -188,15 +233,83 @@
                 </div>
             </div>
         </div>
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex items-start space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500 flex-shrink-0" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <div>
+                    <h3 class="font-bold text-gray-900">СИГУРНО ПЛАЌАЊЕ</h3>
+                    <p class="text-gray-500 text-sm">Платете на врата кога ќе Ви се достави производот</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500 flex-shrink-0" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <div>
+                    <h3 class="font-bold text-gray-900">ЕКСПРЕС ДОСТАВА</h3>
+                    <p class="text-gray-500 text-sm">Достава во најкус можен рок низ цела држава</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500 flex-shrink-0" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <div>
+                    <h3 class="font-bold text-gray-900">100% СИГУРНОСТ</h3>
+                    <p class="text-gray-500 text-sm">Вашите податоци се 100% заштитени</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-pink-500 flex-shrink-0" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <div>
+                    <h3 class="font-bold text-gray-900">24/7 ШОПИНГ</h3>
+                    <p class="text-gray-500 text-sm">Нарачувајте кога сакате 24/7 преку интернет</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 
+
     <!-- Success Modal -->
-    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-xl p-6 m-4 max-w-sm w-full">
-            <div class="text-center">
+    <div id="successModal"
+         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white rounded-xl p-6 m-4 max-w-sm w-full transform scale-95 transition-transform duration-300 flex flex-col items-center justify-center">
+
+            <!-- Loader + Success Text -->
+            <div id="modalLoader" class="flex flex-col items-center justify-center space-y-4">
+                <!-- SVG Loader -->
+                <svg class="w-16 h-16 text-pink-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                            stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+
+                <!-- Центриран текст -->
+                <p class="bg-green-100 text-green-800 font-semibold px-4 py-2 rounded-md shadow-sm text-center">
+                    Се додава во Кошничка
+                </p>
+            </div>
+
+            <!-- Success Content (initially hidden) -->
+            <div id="modalSuccessContent" class="hidden w-full mt-4 text-center">
                 <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M5 13l4 4L19 7"></path>
                     </svg>
                 </div>
                 <h3 class="text-lg font-medium text-gray-900 mb-2">Успешно додадено!</h3>
@@ -212,77 +325,78 @@
                     </a>
                 </div>
             </div>
+
         </div>
     </div>
 
+
+
+
+
+    <style>
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Carousel functionality
+            // --- Carousel ---
             const carousel = document.getElementById('imageCarousel');
             let currentIndex = 0;
             let carouselInterval;
 
             if (carousel) {
                 const slides = carousel.children;
+                const totalSlides = slides.length;
                 const prevBtn = document.getElementById('prevBtn');
                 const nextBtn = document.getElementById('nextBtn');
                 const indicators = document.querySelectorAll('.carousel-indicator');
                 const thumbnails = document.querySelectorAll('img[data-index]');
-                const totalSlides = slides.length;
 
                 function showSlide(index) {
                     carousel.style.transform = `translateX(-${index * 100}%)`;
-
-                    // Update indicators
                     indicators.forEach((ind, i) => {
                         ind.classList.toggle('bg-opacity-100', i === index);
                         ind.classList.toggle('bg-opacity-50', i !== index);
                     });
-
-                    // Update thumbnails
                     thumbnails.forEach((thumb, i) => {
                         thumb.classList.toggle('border-pink-400', i === index);
                         thumb.classList.toggle('border-transparent', i !== index);
                     });
-
                     currentIndex = index;
                 }
 
-                // Set up navigation if we have multiple images
                 if (totalSlides > 1) {
-                    if (prevBtn) {
-                        prevBtn.addEventListener('click', () => {
-                            clearInterval(carouselInterval);
-                            showSlide((currentIndex - 1 + totalSlides) % totalSlides);
-                            startCarousel();
-                        });
-                    }
-
-                    if (nextBtn) {
-                        nextBtn.addEventListener('click', () => {
-                            clearInterval(carouselInterval);
-                            showSlide((currentIndex + 1) % totalSlides);
-                            startCarousel();
-                        });
-                    }
-
-                    indicators.forEach(ind => {
-                        ind.addEventListener('click', () => {
-                            clearInterval(carouselInterval);
-                            showSlide(parseInt(ind.dataset.index));
-                            startCarousel();
-                        });
+                    if (prevBtn) prevBtn.addEventListener('click', () => {
+                        clearInterval(carouselInterval);
+                        showSlide((currentIndex - 1 + totalSlides) % totalSlides);
+                        startCarousel();
                     });
-
-                    thumbnails.forEach(thumb => {
-                        thumb.addEventListener('click', () => {
-                            clearInterval(carouselInterval);
-                            showSlide(parseInt(thumb.dataset.index));
-                            startCarousel();
-                        });
+                    if (nextBtn) nextBtn.addEventListener('click', () => {
+                        clearInterval(carouselInterval);
+                        showSlide((currentIndex + 1) % totalSlides);
+                        startCarousel();
                     });
+                    indicators.forEach(ind => ind.addEventListener('click', () => {
+                        clearInterval(carouselInterval);
+                        showSlide(parseInt(ind.dataset.index));
+                        startCarousel();
+                    }));
+                    thumbnails.forEach(thumb => thumb.addEventListener('click', () => {
+                        clearInterval(carouselInterval);
+                        showSlide(parseInt(thumb.dataset.index));
+                        startCarousel();
+                    }));
 
-                    // Auto-rotate carousel
                     function startCarousel() {
                         carouselInterval = setInterval(() => {
                             showSlide((currentIndex + 1) % totalSlides);
@@ -293,7 +407,7 @@
                 }
             }
 
-            // Size selection
+            // --- Size & Quantity ---
             const sizeButtons = document.querySelectorAll('.size-btn');
             const stockInfo = document.getElementById('stockInfo');
             const addToCartBtn = document.getElementById('addToCartBtn');
@@ -305,145 +419,125 @@
             let selectedSizeQuantity = 0;
             let currentQty = 1;
 
-            // Initialize size selection
             if (sizeButtons.length > 0) {
-                // Auto-select first size
                 const firstSize = sizeButtons[0];
                 firstSize.classList.add('border-pink-400', 'bg-pink-50', 'text-pink-700');
                 selectedSize = firstSize.dataset.size;
                 selectedSizeQuantity = parseInt(firstSize.dataset.quantity);
                 stockInfo.textContent = `На залиха: ${selectedSizeQuantity} парчиња`;
-
-                if (addToCartBtn) {
-                    addToCartBtn.disabled = false;
-                }
-
-                // Update quantity controls based on stock
+                if (addToCartBtn) addToCartBtn.disabled = false;
                 updateQuantityControls();
             }
 
             sizeButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    // Remove styles from all buttons
                     sizeButtons.forEach(b => {
                         b.classList.remove('border-pink-400', 'bg-pink-50', 'text-pink-700');
                         b.classList.add('border-gray-300');
                     });
-
-                    // Highlight selected button
                     btn.classList.add('border-pink-400', 'bg-pink-50', 'text-pink-700');
                     btn.classList.remove('border-gray-300');
-
-                    // Update selected size and stock info
                     selectedSize = btn.dataset.size;
                     selectedSizeQuantity = parseInt(btn.dataset.quantity);
                     stockInfo.textContent = `На залиха: ${selectedSizeQuantity} парчиња`;
-
-                    // Reset quantity to 1 when changing size
                     currentQty = 1;
                     qtyDisplay.textContent = currentQty;
-
-                    // Update quantity controls
                     updateQuantityControls();
-
-                    // Enable add to cart button
-                    if (addToCartBtn) {
-                        addToCartBtn.disabled = false;
-                    }
+                    if (addToCartBtn) addToCartBtn.disabled = false;
                 });
             });
 
-            // Quantity controls
             function updateQuantityControls() {
-                if (decreaseBtn) {
-                    decreaseBtn.disabled = currentQty <= 1;
+                if (decreaseBtn) decreaseBtn.disabled = currentQty <= 1;
+                if (increaseBtn) increaseBtn.disabled = currentQty >= selectedSizeQuantity || currentQty >= 10;
+            }
+
+            if (decreaseBtn) decreaseBtn.addEventListener('click', () => {
+                if (currentQty > 1) {
+                    currentQty--;
+                    qtyDisplay.textContent = currentQty;
+                    updateQuantityControls();
                 }
-
-                if (increaseBtn) {
-                    increaseBtn.disabled = currentQty >= selectedSizeQuantity || currentQty >= 10;
+            });
+            if (increaseBtn) increaseBtn.addEventListener('click', () => {
+                if (currentQty < selectedSizeQuantity && currentQty < 10) {
+                    currentQty++;
+                    qtyDisplay.textContent = currentQty;
+                    updateQuantityControls();
                 }
-            }
+            });
 
-            if (decreaseBtn) {
-                decreaseBtn.addEventListener('click', () => {
-                    if (currentQty > 1) {
-                        currentQty--;
-                        qtyDisplay.textContent = currentQty;
-                        updateQuantityControls();
-                    }
-                });
-            }
-
-            if (increaseBtn) {
-                increaseBtn.addEventListener('click', () => {
-                    if (currentQty < selectedSizeQuantity && currentQty < 10) {
-                        currentQty++;
-                        qtyDisplay.textContent = currentQty;
-                        updateQuantityControls();
-                    }
-                });
-            }
-
-            // Add to cart functionality
+            // --- Add to Cart Modal ---
             if (addToCartBtn) {
-                addToCartBtn.addEventListener('click', async function () {
+                addToCartBtn.addEventListener('click', async () => {
                     if (!selectedSize && sizeButtons.length > 0) {
-                        // If no size selected but sizes available, select first one
                         selectedSize = sizeButtons[0].dataset.size;
                         sizeButtons[0].click();
                     }
 
-                    try {
-                        // Get CSRF token
-                        const csrftoken = getCookie('csrftoken');
+                    const modal = document.getElementById('successModal');
+                    const modalLoader = document.getElementById('modalLoader');
+                    const modalSuccessContent = document.getElementById('modalSuccessContent');
 
-                        // Send POST request to add to wishlist
+                    try {
+                        // Show modal
+                        modal.classList.remove('opacity-0', 'pointer-events-none');
+                        modal.classList.add('opacity-100');
+                        modal.querySelector('div').classList.remove('scale-95');
+                        modal.querySelector('div').classList.add('scale-100');
+
+                        // Loader visible, content hidden
+                        modalLoader.classList.remove('hidden');
+                        modalSuccessContent.classList.add('hidden');
+
+                        const csrftoken = getCookie('csrftoken');
                         const response = await fetch(`{% url 'wishlist_add' product.id %}`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-CSRFToken': csrftoken,
-                                'X-Requested-With': 'XMLHttpRequest',
+                                'X-Requested-With': 'XMLHttpRequest'
                             },
-                            body: JSON.stringify({
-                                size: selectedSize,
-                                quantity: currentQty
-                            })
+                            body: JSON.stringify({size: selectedSize, quantity: currentQty})
                         });
 
                         if (response.ok) {
-                            // Show success modal
-                            document.getElementById('successModal').classList.remove('hidden');
+                            setTimeout(() => {
+                                modalLoader.classList.add('hidden');
+                                modalSuccessContent.classList.remove('hidden');
+                                setTimeout(hideModal, 2500);
+                            }, 1000);
                         } else {
+                            hideModal();
                             alert('Грешка при додавање во кошничка.');
                         }
                     } catch (error) {
-                        console.error('Error:', error);
+                        console.error(error);
+                        hideModal();
                         alert('Грешка при додавање во кошничка.');
                     }
                 });
             }
 
-            // Modal functionality
+            // --- Modal functions ---
             const successModal = document.getElementById('successModal');
             const continueShopping = document.getElementById('continueShopping');
 
-            if (continueShopping) {
-                continueShopping.addEventListener('click', function () {
-                    successModal.classList.add('hidden');
-                });
+            function hideModal() {
+                if (successModal) {
+                    successModal.querySelector('div').classList.remove('scale-100');
+                    successModal.querySelector('div').classList.add('scale-95');
+                    successModal.classList.remove('opacity-100');
+                    successModal.classList.add('opacity-0', 'pointer-events-none');
+                }
             }
 
-            // Close modal when clicking outside
-            if (successModal) {
-                successModal.addEventListener('click', function (e) {
-                    if (e.target === successModal) {
-                        successModal.classList.add('hidden');
-                    }
-                });
-            }
+            if (continueShopping) continueShopping.addEventListener('click', hideModal);
+            if (successModal) successModal.addEventListener('click', e => {
+                if (e.target === successModal) hideModal();
+            });
 
-            // Function to get CSRF token from cookies
+            // --- CSRF helper ---
             function getCookie(name) {
                 let cookieValue = null;
                 if (document.cookie && document.cookie !== '') {
@@ -458,8 +552,9 @@
                 }
                 return cookieValue;
             }
-
-
         });
     </script>
+
+
+
 {% endblock %}
