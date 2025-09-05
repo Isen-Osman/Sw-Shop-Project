@@ -13,42 +13,11 @@
             theme: {
                 extend: {
                     colors: {
-                        'primary': {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                        'accent': {
-                            50: '#fdf4ff',
-                            100: '#fae8ff',
-                            200: '#f5d0fe',
-                            300: '#f0abfc',
-                            400: '#e879f9',
-                            500: '#d946ef',
-                            600: '#c026d3',
-                            700: '#a21caf',
-                            800: '#86198f',
-                            900: '#701a75',
-                        },
-                        'gray': {
-                            50: '#f9fafb',
-                            100: '#f3f4f6',
-                            200: '#e5e7eb',
-                            300: '#d1d5db',
-                            400: '#9ca3af',
-                            500: '#6b7280',
-                            600: '#4b5563',
-                            700: '#374151',
-                            800: '#1f2937',
-                            900: '#111827',
-                        }
+                        'primary': '#6366f1', // Indigo
+                        'secondary': '#a855f7', // Purple
+                        'accent': '#2dd4bf', // Teal
+                        'dark-gray': '#1f2937',
+                        'light-gray': '#f3f4f6',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif']
@@ -74,23 +43,38 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            background-color: #111827; /* Dark background */
             min-height: 100vh;
         }
-        .card-hover {
-            transition: all 0.3s ease;
+        .profile-container {
+            background: #1f2937;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        .profile-header {
+            background: linear-gradient(120deg, #6366f1 0%, #a855f7 100%);
+            padding: 2.5rem 2rem;
+            position: relative;
         }
-        .profile-image-placeholder {
-            background: linear-gradient(135deg, #7dd3fc 0%, #0ea5e9 100%);
+        .profile-content {
+            padding: 2rem;
+            background-color: #1f2937;
+            color: #d1d5db;
         }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .divider {
+            height: 1px;
+            background-color: #374151;
+            margin: 1.5rem 0;
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #374151;
+        }
+        .info-item:last-child {
+            border-bottom: none;
         }
         .back-button {
             transition: all 0.3s ease;
@@ -100,81 +84,88 @@
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
-    <div class="w-full max-w-md animate-fade-in">
-        <!-- Back Button -->
-        <a href="{% url 'home' %}" class="back-button inline-flex items-center text-primary-600 hover:text-primary-800 font-medium mb-4">
+<body class="min-h-screen p-4 flex items-center justify-center">
+    <div class="max-w-3xl w-full animate-fade-in">
+        <a href="{% url 'home' %}" class="back-button inline-flex items-center text-primary hover:text-accent font-medium mb-6 transition-colors duration-200">
             <i class="fas fa-arrow-left mr-2"></i>
             Назад кон почетна
         </a>
 
         {% if user.is_authenticated %}
-        <!-- Authenticated User View -->
-        <div class="glass-effect rounded-2xl overflow-hidden shadow-xl card-hover">
-            <!-- Profile Header with Gradient Background -->
-            <div class="bg-gradient-to-r from-primary-600 to-primary-800 p-6 text-center text-white">
-                <div class="relative inline-block mx-auto">
-                    {% if user.socialaccount_set.all.0.get_avatar_url %}
-                        <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Профилна слика"
-                             class="w-24 h-24 rounded-full border-4 border-white/30 shadow-lg mx-auto">
-                    {% else %}
-                        <div class="w-24 h-24 rounded-full border-4 border-white/30 profile-image-placeholder flex items-center justify-center text-3xl text-white font-bold shadow-lg mx-auto">
-                            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+        <div class="profile-container">
+            <div class="profile-header text-white">
+                <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left">
+                    <div class="relative mb-4 md:mb-0 md:mr-6">
+                        {% if user.socialaccount_set.all.0.get_avatar_url %}
+                            <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Профилна слика"
+                                 class="w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-white/20 shadow-xl">
+                        {% else %}
+                            <div class="w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-white/20 bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-4xl md:text-5xl text-white font-bold shadow-xl">
+                                {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                            </div>
+                        {% endif %}
+                        <div class="absolute bottom-2 right-2 w-4 h-4 md:w-5 md:h-5 rounded-full bg-accent border-3 border-dark-gray shadow-md"></div>
+                    </div>
+
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold">{{ user.first_name }} {{ user.last_name }}</h1>
+                        <p class="text-gray-300 mt-1">{{ user.email }}</p>
+
+                        <div class="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-1 text-sm mt-3 text-white">
+                            <span class="w-2 h-2 bg-accent rounded-full mr-2 animate-pulse"></span>
+                            Активен корисник
                         </div>
-                    {% endif %}
-                    <div class="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-green-400 border-2 border-white"></div>
-                </div>
-
-                <h1 class="text-2xl font-bold mt-4">{{ user.first_name }} {{ user.last_name }}</h1>
-                <p class="text-primary-100 mt-1">{{ user.email }}</p>
-
-                <div class="inline-flex items-center bg-primary-700/30 backdrop-blur-sm rounded-full px-4 py-1 text-sm mt-3">
-                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
-                    Активен корисник
+                    </div>
                 </div>
             </div>
 
-            <!-- Profile Details -->
-            <div class="p-6 bg-white">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                    <i class="fas fa-user-circle text-primary-500 mr-2"></i>
+            <div class="profile-content">
+                <h2 class="text-xl font-semibold text-gray-200 mb-4 flex items-center">
+                    <i class="fas fa-user-circle text-primary mr-3"></i>
                     Детали за профилот
                 </h2>
 
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg animate-slide-up">
-                        <div class="flex items-center text-gray-700">
-                            <i class="fas fa-id-card text-primary-500 mr-3"></i>
+                <div class="space-y-1">
+                    <div class="info-item">
+                        <div class="flex items-center text-gray-400 w-1/2">
+                            <i class="fas fa-id-card text-accent mr-3 w-5"></i>
                             <span>Статус на сметка</span>
                         </div>
-                        <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">Потврдена</span>
+                        <div class="w-1/2">
+                            <span class="px-3 py-1 bg-green-500/20 text-green-300 text-sm font-semibold rounded-full">Потврдена</span>
+                        </div>
                     </div>
 
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg animate-slide-up">
-                        <div class="flex items-center text-gray-700">
-                            <i class="far fa-calendar text-primary-500 mr-3"></i>
+                    <div class="info-item">
+                        <div class="flex items-center text-gray-400 w-1/2">
+                            <i class="far fa-calendar text-accent mr-3 w-5"></i>
                             <span>Членува од</span>
                         </div>
-                        <span class="text-gray-800 font-medium">{{ user.date_joined|date:"d.m.Y" }}</span>
+                        <div class="w-1/2 text-gray-200 font-medium">
+                            {{ user.date_joined|date:"d.m.Y" }}
+                        </div>
                     </div>
 
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg animate-slide-up">
-                        <div class="flex items-center text-gray-700">
-                            <i class="fas fa-shield-alt text-primary-500 mr-3"></i>
+                    <div class="info-item">
+                        <div class="flex items-center text-gray-400 w-1/2">
+                            <i class="fas fa-shield-alt text-accent mr-3 w-5"></i>
                             <span>Безбедност</span>
                         </div>
-                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">Google автентикација</span>
+                        <div class="w-1/2">
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-300 text-sm font-semibold rounded-full">Google автентикација</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="mt-8 space-y-3">
-                    <a href="{% url 'logout' %}" class="flex items-center justify-center w-full gap-2 px-4 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-200">
+                <div class="divider"></div>
+
+                <div class="flex flex-col sm:flex-row gap-4 mt-6">
+                    <a href="{% url 'logout' %}" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-red-600 text-white rounded-lg font-semibold shadow-md hover:bg-red-700 transition-colors duration-200">
                         <i class="fas fa-sign-out-alt"></i>
                         Одјави се
                     </a>
 
-                    <a href="{% url 'profile_page' %}" class="flex items-center justify-center w-full gap-2 px-4 py-3 border border-primary-200 text-primary-700 rounded-lg font-semibold hover:bg-primary-50 transition-all duration-200">
+                    <a href="{% url 'profile_page' %}" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-colors duration-200">
                         <i class="fas fa-sync-alt"></i>
                         Освежи профил
                     </a>
@@ -182,16 +173,15 @@
             </div>
         </div>
         {% else %}
-        <!-- Unauthenticated User View -->
-        <div class="glass-effect rounded-2xl overflow-hidden shadow-xl p-6 text-center card-hover">
-            <div class="w-20 h-20 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 flex items-center justify-center text-white mx-auto mb-6 shadow-lg">
-                <i class="fas fa-user-circle text-4xl"></i>
+        <div class="profile-container p-8 text-center bg-dark-gray text-white">
+            <div class="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white mx-auto mb-6">
+                <i class="fas fa-user-circle text-4xl md:text-5xl"></i>
             </div>
 
-            <h2 class="text-2xl font-bold text-gray-800">Најави се</h2>
-            <p class="text-gray-600 mt-2">Влези во твојата сметка за да продолжиш</p>
+            <h2 class="text-2xl font-bold text-gray-100">Најави се</h2>
+            <p class="text-gray-400 mt-2">Влези во твојата сметка за да продолжиш</p>
 
-            <a href="{% url 'google_login' %}" class="mt-8 flex items-center justify-center gap-3 w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-700 font-medium shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-200">
+            <a href="{% url 'google_login' %}" class="mt-8 flex items-center justify-center gap-3 w-full px-4 py-3 bg-white border border-gray-700 rounded-lg text-gray-800 font-medium shadow-sm hover:shadow-md hover:bg-gray-100 transition-all duration-200">
                 <svg class="w-5 h-5" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -201,18 +191,17 @@
                 Најави се со Google
             </a>
 
-            <div class="mt-8 pt-6 border-t border-gray-200">
+            <div class="mt-8 pt-6 border-t border-gray-700">
                 <p class="text-gray-500 text-sm">
                     Со најавување, се согласуваш со нашите
-                    <a href="#" class="text-primary-600 hover:text-primary-800 font-medium">Услови на користење</a> и
-                    <a href="#" class="text-primary-600 hover:text-primary-800 font-medium">Политика за приватност</a>.
+                    <a href="#" class="text-primary hover:text-accent font-medium transition-colors duration-200">Услови на користење</a> и
+                    <a href="#" class="text-primary hover:text-accent font-medium transition-colors duration-200">Политика за приватност</a>.
                 </p>
             </div>
         </div>
         {% endif %}
 
-        <!-- Footer -->
-        <div class="text-center text-gray-500 text-xs mt-6">
+        <div class="text-center text-gray-500 text-xs mt-8">
             &copy; 2025 Сите права се задржани.
         </div>
     </div>
