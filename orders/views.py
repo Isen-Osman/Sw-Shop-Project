@@ -9,31 +9,35 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
 
-
 @login_required
 def create_order(request):
     wishlist = request.user.wishlist
-    products = wishlist.products.all()
 
-    if not products.exists():
+    wishlist_sizes = request.session.get('wishlist_sizes', {})
+    wishlist_quantities = request.session.get('wishlist_quantities', {})
+
+    if not wishlist.products.exists():
         return redirect('wishlist')
 
-    total_price = sum(product.price for product in products)
+    # Изгради list за template
+    products_with_details = []
+    total_price = 0
+
+    for key, size in wishlist_sizes.items():
+        prod_id = int(key.split('_')[0])
+        product = wishlist.products.get(id=prod_id)
+        quantity = int(wishlist_quantities.get(key, 1))
+
+        products_with_details.append({
+            'product': product,
+            'size': size,
+            'quantity': quantity,
+        })
+
+        total_price += product.price * quantity
+
     shipping_price = 150
     final_price = total_price + shipping_price
-
-    # Земаме size од session
-    wishlist_sizes = request.session.get('wishlist_sizes', {})
-    product_size = request.session.get('product_size', {})
-
-    # Додавање на products_with_sizes за template
-    products_with_sizes = []
-    for product in products:
-        size = wishlist_sizes.get(str(product.id), 'Неодредена')
-        products_with_sizes.append({
-            'product': product,
-            'size': size
-        })
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -44,21 +48,21 @@ def create_order(request):
             order.final_price = final_price
             order.save()
 
-            # додавање на продукти во нарачка со точен size
-            for product in products:
-                product_size = wishlist_sizes.get(str(product.id), 'Неодредена')
+            # Креирај OrderItem со точен size и quantity
+            for item in products_with_details:
                 OrderItem.objects.create(
                     order=order,
-                    product=product,
-                    quantity=1,
-                    price=product.price,
-                    size=product_size
+                    product=item['product'],
+                    size=item['size'],
+                    quantity=item['quantity'],
+                    price=item['product'].price
                 )
 
-            # испразни wishlist и session за size
+            # Испразни wishlist и session
             wishlist.products.clear()
-            if 'wishlist_sizes' in request.session:
-                del request.session['wishlist_sizes']
+            request.session['wishlist_sizes'] = {}
+            request.session['wishlist_quantities'] = {}
+            request.session.modified = True
 
             return redirect('order_success', order_id=order.id)
     else:
@@ -66,17 +70,12 @@ def create_order(request):
 
     return render(request, 'order/create_order.html', {
         'form': form,
-        'products': products,
-        'products_with_sizes': products_with_sizes,  # <-- додадено за size
+        'products_with_details': products_with_details,
         'total_price': total_price,
         'shipping_price': shipping_price,
         'final_price': final_price,
-        'wishlist_items_count': products.count(),
-        'wishlist_sizes': wishlist_sizes,
-        'product_size': product_size,
+        'wishlist_items_count': len(products_with_details),
     })
-
-
 
 
 @login_required
@@ -98,20 +97,39 @@ def order_success(request, order_id):
 @login_required
 def order_confirmation(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    # Нова верзија (точно за твојот модел)
     wishlist_items_count = request.user.wishlist.products.count()
 
-    # Испраќање email потврда
-    html_content = render_to_string('order/order_confirmation_email.html', {'order': order})
-    subject = f"Потврда на нарачка #{order.id}"
-    from_email = settings.DEFAULT_FROM_EMAIL
-    to_email = [order.user.email]
+    # HTML содржина за email (за корисникот)
+    html_content_user = render_to_string('order/order_confirmation_email.html', {'order': order})
+    subject_user = f"Потврда на нарачка #{order.id}"
 
-    email = EmailMultiAlternatives(subject, '', from_email, to_email)
-    email.attach_alternative(html_content, "text/html")
-    email.send(fail_silently=False)
+    # HTML содржина за email (за администратор)
+    html_content_admin = render_to_string('order/order_confirmation_email_for_me.html', {'order': order})
+    subject_admin = f"Нова нарачка #{order.id}"
+
+    from_email = settings.DEFAULT_FROM_EMAIL
+
+    user_email = [order.user.email]
+    email_user = EmailMultiAlternatives(subject_user, '', from_email, user_email)
+    email_user.attach_alternative(html_content_user, "text/html")
+    email_user.send(fail_silently=False)
+
+    admin_email = [settings.DEFAULT_FROM_EMAIL]  # тука си ја ставаш својата адреса
+    email_admin = EmailMultiAlternatives(subject_admin, '', from_email, admin_email)
+    email_admin.attach_alternative(html_content_admin, "text/html")
+    email_admin.send(fail_silently=False)
 
     return render(request, 'order/order_confirmation.html', {
         'order': order,
         'wishlist_items_count': wishlist_items_count,
     })
+
+
+def delivery(request):
+    """
+    Страница за испорака и враќање на производи.
+    """
+    return render(request, '../templates/delivery/delivery.html')
+
+
+

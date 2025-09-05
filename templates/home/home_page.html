@@ -1,6 +1,6 @@
 {% extends 'partials/base.html' %}
 
-{% block title %} Почетна | Luxe Lingerie {% endblock %}
+{% block title %} Почетна | SW SHOP {% endblock %}
 
 {% block content %}
     <style>
@@ -22,6 +22,7 @@
             overflow: hidden;
             background: white;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
         }
 
         .product-card:hover {
@@ -63,6 +64,7 @@
             transition: opacity 1s ease;
             background-size: cover;
             background-position: center;
+            pointer-events: none;
         }
 
         .slide.active {
@@ -83,7 +85,7 @@
 
         .hero-content {
             position: relative;
-            z-index: 10;
+            z-index: 30;
             text-align: center;
             color: white;
             padding-top: 25vh;
@@ -145,6 +147,7 @@
             font-weight: 500;
             letter-spacing: 1px;
             transition: all 0.3s ease;
+            z-index: 31;
             display: inline-block;
         }
 
@@ -175,7 +178,7 @@
         .modal {
             display: none;
             position: fixed;
-            z-index: 50;
+            z-index: 100;
             left: 0;
             top: 0;
             width: 100%;
@@ -183,37 +186,57 @@
             justify-content: center;
             align-items: center;
             background-color: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
         }
 
         .modal-content {
-            padding: 20px;
-            border-radius: 12px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
             text-align: center;
-            max-width: 400px;
+            max-width: 500px;
             width: 90%;
-            animation: fadeIn 0.5s ease;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
         }
 
         .modal-content img {
             width: 100%;
             border-radius: 12px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            object-fit: cover;
         }
 
         .modal-close {
-            background: #d4af97;
-            color: white;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #f1f1f1;
+            color: #333;
             border: none;
-            padding: 10px 25px;
-            border-radius: 30px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: bold;
             transition: 0.3s;
         }
 
         .modal-close:hover {
-            background: #c8957a;
-            transform: scale(1.1);
+            background: #d4af97;
+            color: white;
         }
 
         @keyframes fadeIn {
@@ -225,6 +248,161 @@
                 opacity: 1;
                 transform: scale(1);
             }
+        }
+
+        /* Wow Collection Section */
+        .wow-collection {
+            background: linear-gradient(135deg, #fdf9f5 0%, #f8e6dc 100%);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wow-collection::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(212, 175, 151, 0.1);
+            z-index: 0;
+        }
+
+        .wow-collection::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(212, 175, 151, 0.1);
+            z-index: 0;
+        }
+
+        .collection-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 400px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            z-index: 1;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .collection-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s ease;
+        }
+
+        .collection-card:hover .collection-img {
+            transform: scale(1.1);
+        }
+
+        .collection-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 30px 20px 20px;
+            color: white;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .collection-card:hover .collection-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .collection-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #d4af97;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        /* Improved category cards */
+        .category-card {
+            transition: all 0.3s ease;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            height: 200px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .category-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1));
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            color: white;
+        }
+
+        /* Quick view button */
+        .quick-view-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            opacity: 0;
+            background: #d4af97;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .product-card:hover .quick-view-btn {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .quick-view-btn:hover {
+            background: #c8957a;
         }
     </style>
 
@@ -250,63 +428,215 @@
         </div>
     </section>
 
+    <!-- Categories Cards Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="luxe-font text-3xl font-bold text-center mb-8">Колекции</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Bras -->
+                <a href="{% url 'category_products' 'bras' %}" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1598459514116-9479e8c44fff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Градници">
+                    <div class="category-overlay">
+                        <h3 class="luxe-font text-xl font-semibold">Градници</h3>
+                    </div>
+                </a>
+
+                <!-- Panties -->
+                <a href="{% url 'category_products' 'panties' %}" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1598814996644-388a29362dc7?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Пижами">
+                    <div class="category-overlay">
+                        <h3 class="luxe-font text-xl font-semibold">Пижами</h3>
+                    </div>
+                </a>
+
+                <!-- Pajamas -->
+                <a href="{% url 'category_products' 'pajamas' %}" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1643539293760-0061e47e6828?q=80&w=1584&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Приватна">
+                    <div class="category-overlay">
+                        <h3 class="luxe-font text-xl font-semibold">Приватна</h3>
+                    </div>
+                </a>
+
+                <!-- Lingerie -->
+                <a href="{% url 'category_products' 'lingerie' %}" class="category-card">
+                    <img src="https://images.unsplash.com/photo-1587271636243-3bce559ae72e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Нова Колекција">
+                    <div class="category-overlay">
+                        <h3 class="luxe-font text-xl font-semibold">Приватна</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wow Collection Section -->
+    <section class="wow-collection">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h2 class="luxe-font text-3xl sm:text-4xl font-bold text-center mb-4 section-title">WOW Колекција</h2>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">Откријте ги нашите најпопуларни парчиња што ги
+                обожаваат нашите клиенти</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for product in products|dictsort:"id" %}
+                    {% if forloop.counter <= 3 %}
+                        <a href="{% url 'product_detail' product.id %}" class="collection-card block">
+                            {% if product.images.all %}
+                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
+                                     class="collection-img">
+                            {% else %}
+                                <div class="w-full h-48 bg-gray-100 flex items-center justify-center">
+                                    <i class="fas fa-image text-gray-300 text-2xl"></i>
+                                </div>
+                            {% endif %}
+                            <div class="collection-overlay">
+                                <h3 class="luxe-font text-xl font-semibold">{{ product.name }}</h3>
+                                <p class="mb-2">{{ product.description|truncatechars:40 }}</p>
+                                <p class="font-bold">{{ product.price }} ден</p>
+                            </div>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="{% url 'category_products' 'pajamas' %}" class="btn-luxe">Види цела колекција</a>
+            </div>
+        </div>
+    </section>
+
+
     <!-- Recently Added Products -->
-    <section class="py-20 container mx-auto px-6">
-        <h2 class="luxe-font text-4xl font-bold text-center mb-16 section-title">Неодамна Додадени</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    <section class="py-16 container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="luxe-font text-3xl sm:text-4xl font-bold text-center mb-12 section-title">Неодамна Додадени</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
             {% for product in products %}
-                <div class="product-card">
-                    <div class="image-container">
+                <a href="{% url 'product_detail' product.id %}" class="product-card block"
+                   data-product-id="{{ product.id }}">
+                    <div class="image-container h-48 sm:h-56 md:h-52 lg:h-60 relative">
                         {% if product.images.all %}
                             <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
                                  class="product-image">
                         {% else %}
                             <div class="w-full h-full bg-gray-100 flex items-center justify-center">
-                                <i class="fas fa-image text-gray-300 text-4xl"></i>
+                                <i class="fas fa-image text-gray-300 text-2xl sm:text-3xl"></i>
                             </div>
                         {% endif %}
+                        <span class="quick-view-btn absolute bottom-2 right-2 bg-pink-500 text-white px-3 py-1 rounded cursor-pointer">Брз преглед</span>
                     </div>
-                    <div class="p-4">
-                        <h3 class="font-medium text-gray-800 mb-2">{{ product.name }}</h3>
-                        <span class="text-gray-800 font-medium">{{ product.price }} ден</span>
+                    <div class="p-2 sm:p-3 text-center">
+                        <h3 class="font-medium text-gray-800 text-sm sm:text-base truncate">{{ product.name }}</h3>
+                        <span class="text-gray-800 font-medium text-sm sm:text-base">{{ product.price }} ден</span>
                     </div>
-                </div>
+                </a>
             {% endfor %}
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="py-20 bg-pink-50">
-        <div class="container mx-auto max-w-5xl grid grid-cols-1 sm:grid-cols-3 gap-10 text-center">
 
-            <!-- Задоволни клиенти -->
-            <div class="bg-white/60 backdrop-blur-md rounded-2xl shadow-2xl p-8 flex flex-col items-center hover:scale-105 transition-transform">
-                <div class="bg-pink-100 p-4 rounded-full mb-4">
-                    <i class="fas fa-users text-5xl text-pink-700"></i>
+    <!-- Services Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Sigurno Plaćanje -->
+                <div class="flex flex-col items-center text-center p-6 bg-pink-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                    <div class="bg-pink-100 p-4 rounded-full mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-600" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">СИГУРНО ПЛАЌАЊЕ</h3>
+                    <p class="text-gray-600 text-sm">Платете на врата кога ќе Ви се достави производот</p>
                 </div>
-                <h2 class="text-4xl font-extrabold text-pink-700 counter" data-target="2500">0</h2>
-                <p class="text-gray-700 mt-2 text-lg font-medium">Задоволни клиенти</p>
-            </div>
 
-            <!-- Продадени производи -->
-            <div class="bg-white/60 backdrop-blur-md rounded-2xl shadow-2xl p-8 flex flex-col items-center hover:scale-105 transition-transform">
-                <div class="bg-purple-100 p-4 rounded-full mb-4">
-                    <i class="fas fa-box-open text-5xl text-purple-700"></i>
+                <!-- Ekspres Dostava -->
+                <div class="flex flex-col items-center text-center p-6 bg-purple-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                    <div class="bg-purple-100 p-4 rounded-full mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">ЕКСПРЕС ДОСТАВА</h3>
+                    <p class="text-gray-600 text-sm">Достава во најкус можен рок низ цела држава</p>
                 </div>
-                <h2 class="text-4xl font-extrabold text-purple-700 counter" data-target="1800">0</h2>
-                <p class="text-gray-700 mt-2 text-lg font-medium">Продадени производи</p>
-            </div>
 
-            <!-- Награди -->
-            <div class="bg-white/60 backdrop-blur-md rounded-2xl shadow-2xl p-8 flex flex-col items-center hover:scale-105 transition-transform">
-                <div class="bg-yellow-100 p-4 rounded-full mb-4">
-                    <i class="fas fa-medal text-5xl text-yellow-700"></i>
+                <!-- 100% Sigurnost -->
+                <div class="flex flex-col items-center text-center p-6 bg-yellow-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                    <div class="bg-yellow-100 p-4 rounded-full mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">100% СИГУРНОСТ</h3>
+                    <p class="text-gray-600 text-sm">Вашите податоци се 100% заштитени</p>
                 </div>
-                <h2 class="text-4xl font-extrabold text-yellow-700 counter" data-target="3534">0</h2>
-                <p class="text-gray-700 mt-2 text-lg font-medium">Испратени нарачки</p>
+
+                <!-- 24/7 Shoping -->
+                <div class="flex flex-col items-center text-center p-6 bg-pink-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
+                    <div class="bg-pink-100 p-4 rounded-full mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-600" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">24/7 ШОПИНГ</h3>
+                    <p class="text-gray-600 text-sm">Нарачувајте кога сакате 24/7 преку интернет</p>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Stats Section -->
+    <section class="py-12 sm:py-16 bg-pink-50">
+        <div class="container mx-auto max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-center">
+            <!-- Задоволни клиенти -->
+            <div class="bg-white/70 backdrop-blur-md rounded-xl shadow-md p-4 sm:p-6 flex flex-col items-center hover:scale-105 transition-transform">
+                <div class="bg-pink-100 p-3 rounded-full mb-2 sm:mb-3">
+                    <i class="fas fa-users text-2xl sm:text-3xl text-pink-700"></i>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-bold text-pink-700 counter" data-target="2500">0</h2>
+                <p class="text-gray-700 text-xs sm:text-sm font-medium mt-1">Задоволни клиенти</p>
+            </div>
+
+            <!-- Продадени производи -->
+            <div class="bg-white/70 backdrop-blur-md rounded-xl shadow-md p-4 sm:p-6 flex flex-col items-center hover:scale-105 transition-transform">
+                <div class="bg-purple-100 p-3 rounded-full mb-2 sm:mb-3">
+                    <i class="fas fa-box-open text-2xl sm:text-3xl text-purple-700"></i>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-bold text-purple-700 counter" data-target="1800">0</h2>
+                <p class="text-gray-700 text-xs sm:text-sm font-medium mt-1">Продадени производи</p>
+            </div>
+
+            <!-- Испратени нарачки -->
+            <div class="bg-white/70 backdrop-blur-md rounded-xl shadow-md p-4 sm:p-6 flex flex-col items-center hover:scale-105 transition-transform">
+                <div class="bg-yellow-100 p-3 rounded-full mb-2 sm:mb-3">
+                    <i class="fas fa-medal text-2xl sm:text-3xl text-yellow-700"></i>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-bold text-yellow-700 counter" data-target="3534">0</h2>
+                <p class="text-gray-700 text-xs sm:text-sm font-medium mt-1">Испратени нарачки</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick View Modal -->
+    <div class="modal" id="quickViewModal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="" alt="" id="modalImage">
+            <h3 id="modalTitle" class="luxe-font text-xl mb-2"></h3>
+            <p id="modalPrice" class="text-gray-800 font-bold text-lg mb-4"></p>
+            <p id="modalDescription" class="text-gray-600 mb-6"></p>
+            <a href="#" id="modalLink" class="btn-luxe">Види повеќе</a>
+        </div>
+    </div>
 
     <script>
         // Функција за анимирано броење
@@ -315,7 +645,7 @@
             const updateCount = () => {
                 const target = +counter.getAttribute('data-target');
                 const count = +counter.innerText;
-                const speed = target / 200; // Колку е поголем бројот, толку побрзо расте
+                const speed = target / 200;
                 if (count < target) {
                     counter.innerText = Math.ceil(count + speed);
                     requestAnimationFrame(updateCount);
@@ -325,42 +655,9 @@
             };
             updateCount();
         });
-    </script>
 
-
-
-    <!-- Discount Modal -->
-    <div id="discountModal" class="modal flex">
-        <div class="modal-content w-full max-w-xl p-4 md:p-8 relative">
-            <button class="modal-close absolute top-2 right-2 z-10 text-white bg-pink-600 hover:bg-pink-700 w-8 h-8 flex items-center justify-center rounded-full text-xl font-bold md:w-10 md:h-10 md:text-2xl">
-                &times;
-            </button>
-
-            <div class="relative rounded-2xl overflow-hidden shadow-2xl">
-                <div class="absolute inset-0 bg-gradient-to-r from-pink-400 via-pink-600 to-purple-700"></div>
-                <div class="relative flex flex-col md:flex-row items-center p-4 md:p-8 gap-4 md:gap-8">
-                    <img src="https://images.unsplash.com/photo-1628519555279-3eada894828b?q=80&w=1064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                         alt="Попуст на пижами"
-                         class="rounded-2xl shadow-xl w-full md:w-1/3 max-w-[200px] h-auto transform transition-transform duration-500 hover:scale-105">
-                    <div class="text-center md:text-left text-white space-y-2 md:space-y-4">
-                        <h2 class="text-2xl md:text-5xl font-bold luxe-font drop-shadow-lg">Специјален Попуст!</h2>
-                        <p class="text-sm md:text-xl font-medium drop-shadow-md">
-                            Земи <span class="font-extrabold text-yellow-300">15% попуст</span> на сите производи денес!
-                        </p>
-                        <a href="{% url 'products' %}"
-                           class="inline-block bg-yellow-300 text-purple-700 font-bold px-4 py-2 rounded-full text-sm md:text-lg shadow-lg hover:bg-yellow-400 hover:scale-105 transition-all">
-                            Купи сега
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <script>
+        // Hero Slider
         document.addEventListener('DOMContentLoaded', () => {
-            // Hero Slider
             const slides = document.querySelectorAll('.slide');
             const dots = document.querySelectorAll('.slider-dot');
             const prevArrow = document.querySelector('.prev-arrow');
@@ -397,22 +694,11 @@
 
             startSlide();
 
-            // Discount Modal (show once per session)
-            const modal = document.getElementById('discountModal');
-            const closeBtn = document.querySelector('.modal-close');
 
-            if (!sessionStorage.getItem('discountModalShown')) {
-                setTimeout(() => {
-                    modal.style.display = 'flex';
-                    sessionStorage.setItem('discountModalShown', 'true');
-                }, 4000);
-            }
-
-            closeBtn.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-            window.addEventListener('click', e => {
-                if (e.target === modal) modal.style.display = 'none';
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
             });
         });
     </script>

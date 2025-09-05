@@ -10,11 +10,47 @@
 
         .line-clamp-2 {
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-amp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 0.5rem;
+        }
+
+        .page-item {
+            display: inline-block;
+        }
+
+        .page-link {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            color: #4b5563;
+            transition: all 0.2s;
+        }
+
+        .page-link:hover {
+            background-color: #f9fafb;
+            color: #ec4899;
+        }
+
+        .page-item.active .page-link {
+            background-color: #ec4899;
+            color: white;
+            border-color: #ec4899;
+        }
+
+        .page-item.disabled .page-link {
+            color: #9ca3af;
+            pointer-events: none;
+        }
     </style>
+
 
     <div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
         {% if category_name %}
@@ -22,12 +58,12 @@
                 <ol class="list-none p-0 inline-flex items-center space-x-3 bg-white/50 backdrop-blur-md px-6 py-3 rounded-full shadow-xl transform transition-all duration-300 hover:rotate-x-3 hover:rotate-y-3">
                     <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
                         <a href="{% url 'home' %}"
-                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Home</a>
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Дома</a>
                         <span class="mx-2 text-gray-400">›</span>
                     </li>
                     <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
                         <a href="{% url 'products' %}"
-                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Products</a>
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Продукти</a>
                         <span class="mx-2 text-gray-400">›</span>
                     </li>
                     <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
@@ -40,30 +76,157 @@
                 <ol class="list-none p-0 inline-flex items-center space-x-3 bg-white/50 backdrop-blur-md px-6 py-3 rounded-full shadow-xl transform transition-all duration-300 hover:rotate-x-3 hover:rotate-y-3">
                     <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
                         <a href="{% url 'home' %}"
-                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Home</a>
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Дома</a>
                         <span class="mx-2 text-gray-400">›</span>
                     </li>
                     <li class="flex items-center transform transition-transform duration-300 hover:-translate-y-1 hover:scale-105">
                         <a href="{% url 'products' %}"
-                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Products</a>
+                           class="text-gray-500 hover:text-pink-500 font-semibold uppercase tracking-wide">Продукти</a>
                         <span class="mx-2 text-gray-400">›</span>
                     </li>
-
                 </ol>
             </nav>
         {% endif %}
 
+        <!-- Filter Controls -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+            {% if request.user.is_superuser %}
+                <div class="text-center sm:text-left">
+                    <a href="{% url 'product_add' %}"
+                       class="inline-block bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700
+                              text-white font-bold text-lg sm:text-xl py-3 px-6 rounded-xl shadow-lg transition duration-300">
+                        ➕ Додади Нов Продукт
+                    </a>
+                </div>
+            {% else %}
+                <div></div> <!-- Empty div for spacing -->
+            {% endif %}
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
 
 
+                <!-- Search Input -->
+                <div class="relative flex-1 w-full">
+                    <input type="text" id="searchInput"
+                           hidden="hidden">
+                </div>
 
+                <form method="get" class="mb-4 flex flex-wrap gap-4 items-center">
+                    <!-- Color Filter -->
+                    <select name="color" id="color" onchange="this.form.submit()"
+                            class="appearance-none w-full sm:w-auto bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200">
+                        <option value="">Сите бои</option>
+                        <option value="RED" {% if selected_color == "RED" %}selected{% endif %}>Црвена</option>
+                        <option value="BLUE" {% if selected_color == "BLUE" %}selected{% endif %}>Плава</option>
+                        <option value="GREEN" {% if selected_color == "GREEN" %}selected{% endif %}>Зелена</option>
+                        <option value="BLACK" {% if selected_color == "BLACK" %}selected{% endif %}>Црна</option>
+                        <option value="WHITE" {% if selected_color == "WHITE" %}selected{% endif %}>Бела</option>
+                        <option value="YELLOW" {% if selected_color == "YELLOW" %}selected{% endif %}>Жолта</option>
+                        <option value="ORANGE" {% if selected_color == "ORANGE" %}selected{% endif %}>Портокалова
+                        </option>
+                        <option value="PURPLE" {% if selected_color == "PURPLE" %}selected{% endif %}>Виолетова</option>
+                        <option value="PINK" {% if selected_color == "PINK" %}selected{% endif %}>Розева</option>
+                        <option value="BROWN" {% if selected_color == "BROWN" %}selected{% endif %}>Кафена</option>
+                        <option value="GRAY" {% if selected_color == "GRAY" %}selected{% endif %}>Сива</option>
+                        <option value="SILVER" {% if selected_color == "SILVER" %}selected{% endif %}>Сребрена</option>
+                        <option value="GOLD" {% if selected_color == "GOLD" %}selected{% endif %}>Златна</option>
+                        <option value="BEIGE" {% if selected_color == "BEIGE" %}selected{% endif %}>Беж</option>
+                        <option value="CYAN" {% if selected_color == "CYAN" %}selected{% endif %}>Цијан</option>
+                        <option value="MAGENTA" {% if selected_color == "MAGENTA" %}selected{% endif %}>Магента</option>
+                        <option value="NAVY" {% if selected_color == "NAVY" %}selected{% endif %}>Морнарско сина
+                        </option>
+                        <option value="TEAL" {% if selected_color == "TEAL" %}selected{% endif %}>Тиркизна</option>
+                        <option value="OLIVE" {% if selected_color == "OLIVE" %}selected{% endif %}>Маслинеста</option>
+                        <option value="MAROON" {% if selected_color == "MAROON" %}selected{% endif %}>Бордо</option>
+                    </select>
 
+                    <!-- Category-specific Filter -->
+                    {% if category_slug == "bras" %}
+                        <select id="korpaFilter"
+                                class="appearance-none w-full sm:w-auto bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200">
+                            <option value="">Сите корпи</option>
+                            <option value="Б корпа">Б корпа</option>
+                            <option value="Ц корпа">Ц корпа</option>
+                            <option value="Д корпа">Д корпа</option>
+                            <option value="Е корпа">Е корпа</option>
+                        </select>
+                    {% elif category_slug == "panties" %}
+                        <select id="korpaFilter"
+                                class="appearance-none w-full sm:w-auto bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200">
+                            <option value="">Сите видови</option>
+                            <option value="Танга">Танга</option>
+                            <option value="Бразилијана">Бразилијана</option>
+                            <option value="Полутанга">Полутанга</option>
+                            <option value="Килота">Килота</option>
+                            <option value="Хипстер">Хипстер</option>
+                            <option value="Боксерки">Боксерки</option>
+                            <option value="Високи">Високи</option>
+                            <option value="Мини">Мини</option>
+                        </select>
+                    {% elif category_slug == "pajamas" %}
+                        <select id="korpaFilter"
+                                class="appearance-none w-full sm:w-auto bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200">
+                            <option value="">Сите</option>
+                            <option value="Кратки">Кратки</option>
+                            <option value="Памучни">Памучни</option>
+                            <option value="Сатенски">Сатенски</option>
+                            <option value="Плишани">Плишани</option>
+                        </select>
+                    {% endif %}
+
+                    <!-- Price Filter -->
+                    <select id="priceFilter"
+                            class="appearance-none w-full sm:w-auto bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition duration-200">
+                        <option value="">Сортирај по цена</option>
+                        <option value="asc">Цена: Ниска → Висока</option>
+                        <option value="desc">Цена: Висока → Ниска</option>
+                    </select>
+                </form>
+
+            </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const searchInput = document.getElementById('searchInput');
+                    const korpaFilter = document.getElementById('korpaFilter');
+                    const productsGrid = document.getElementById('productsGrid');
+                    const productCards = Array.from(productsGrid.querySelectorAll('.product-card'));
+
+                    function applyFilter() {
+                        const searchTerm = searchInput.value.toLowerCase();
+
+                        productCards.forEach(card => {
+                            const name = card.querySelector('h3').textContent.toLowerCase();
+                            const korpa = card.querySelector('span.text-gray-600')?.textContent.toLowerCase() || '';
+                            if (name.includes(searchTerm) || korpa.includes(searchTerm)) {
+                                card.style.display = '';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                    }
+
+                    // Live search
+                    searchInput.addEventListener('input', applyFilter);
+
+                    // Korpa dropdown
+                    korpaFilter.addEventListener('change', function () {
+                        searchInput.value = this.value; // Popolni search bar
+                        applyFilter();
+                    });
+
+                    // Initial filter
+                    applyFilter();
+                });
+            </script>
+
+        </div>
 
         <!-- Products Grid -->
         <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-
-
-            {% for product in products %}
-                <div class="relative overflow-hidden duration-300 group rounded-xl bg-white shadow-sm">
+            {% for product in page_obj %}
+                <div class="relative overflow-hidden duration-300 group rounded-xl bg-white shadow-sm product-card"
+                     data-price="{{ product.price }}">
 
                     <!-- Product Link Overlay -->
                     <a href="{% url 'product_detail' product.id %}" class="absolute inset-0 z-10"></a>
@@ -100,7 +263,11 @@
                     <!-- Product Info -->
                     <div class="pt-3 sm:pt-4 pb-4 px-3 sm:px-4 relative z-20">
                         <h3 class="font-medium text-gray-800 mb-1 text-sm sm:text-base line-clamp-2">{{ product.name }}</h3>
-
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="w-4 h-4 rounded-full"
+                                  style="background-color: {{ product.color|default:'#ccc' }};"></span>
+                            <span class="text-sm text-gray-600">{{ product.color|capfirst }}</span>
+                        </div>
                         <div class="flex flex-col mb-3">
                             {% if product.new_price %}
                                 <div class="flex items-baseline gap-2">
@@ -153,6 +320,93 @@
             {% endfor %}
         </div>
 
+        <!-- Pagination Controls -->
+        {% if page_obj.has_other_pages %}
+            <div class="pagination flex justify-center mt-10 space-x-2">
+                {% if page_obj.has_previous %}
+                    {% if category_slug %}
+                        <a href="{% url 'category_products' category_slug %}?page=1
+
+
+
+                                {% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           class="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">&laquo;</a>
+                        <a href="{% url 'category_products' category_slug %}?page=
+
+
+
+
+
+                                {{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           class="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">&lsaquo;</a>
+                    {% else %}
+                        <a href="{% url 'products' %}?page=1
+                                {% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           class="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">&laquo;</a>
+                        <a href="{% url 'products' %}?page=
+                                {{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           class="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">&lsaquo;</a>
+                    {% endif %}
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <span class="px-3 py-1 rounded-lg bg-pink-500 text-white">{{ num }}</span>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        {% if category_slug %}
+                            <a href="{% url 'category_products' category_slug %}?page=
+
+                                 {{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                               class="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">{{ num }}</a>
+                        {% else %}
+                            <a href="{% url 'products' %}?page=
+
+                                    {{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                               class="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">{{ num }}</a>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    {% if category_slug %}
+                        <a href="{% url 'category_products' category_slug %}?page=
+
+
+                                {{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           class="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">&rsaquo;</a>
+                        <a href="{% url 'category_products' category_slug %}?page=
+
+
+
+
+
+
+
+                                {{ page_obj.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           class="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">&raquo;</a>
+                    {% else %}
+                        <a href="{% url 'products' %}?page=
+
+
+
+
+                                {{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           class="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">&rsaquo;</a>
+                        <a href="{% url 'products' %}?page=
+
+
+
+
+                                {{ page_obj.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                           class="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300">&raquo;</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endif %}
+
+
+
+
         <!-- Delete Confirmation Modal (Superuser) -->
         {% if request.user.is_superuser %}
             <div id="deleteModal"
@@ -192,7 +446,6 @@
                 </div>
             </div>
         {% endif %}
-
     </div>
 
     <script>
@@ -228,6 +481,50 @@
                 });
             });
         }
-    </script>
 
+        // Price filter functionality
+        const priceFilter = document.getElementById('priceFilter');
+        if (priceFilter) {
+            priceFilter.addEventListener('change', function () {
+                const sortOrder = this.value;
+                const productsGrid = document.getElementById('productsGrid');
+                const productCards = Array.from(productsGrid.querySelectorAll('.product-card'));
+
+                if (sortOrder === 'asc' || sortOrder === 'desc') {
+                    // Sort products by price
+                    productCards.sort((a, b) => {
+                        const priceA = parseFloat(a.getAttribute('data-price'));
+                        const priceB = parseFloat(b.getAttribute('data-price'));
+
+                        if (sortOrder === 'asc') {
+                            return priceA - priceB;
+                        } else {
+                            return priceB - priceA;
+                        }
+                    });
+
+                    // Clear the grid and re-append sorted products
+                    productsGrid.innerHTML = '';
+                    productCards.forEach(card => {
+                        productsGrid.appendChild(card);
+                    });
+                }
+            });
+        }
+
+        // Update pagination links to preserve filters
+        document.addEventListener('DOMContentLoaded', function () {
+            const paginationLinks = document.querySelectorAll('.pagination a');
+            paginationLinks.forEach(link => {
+                const url = new URL(link.href);
+                // Preserve all existing query parameters except 'page'
+                {% for key, value in request.GET.items %}
+                    {% if key != 'page' %}
+                        url.searchParams.set('{{ key }}', '{{ value }}');
+                    {% endif %}
+                {% endfor %}
+                link.href = url.toString();
+            });
+        });
+    </script>
 {% endblock %}
