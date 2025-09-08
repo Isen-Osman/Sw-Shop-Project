@@ -167,6 +167,39 @@
             gap: 0.5rem;
         }
 
+        /* Dropdown */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 12rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            z-index: 30;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #1f2937;
+            transition: background 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background: #fce7f3;
+            color: #db2777;
+        }
+
         /* Demo content */
         .demo-content {
             height: 200vh;
@@ -174,6 +207,30 @@
             text-align: center;
             background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
         }
+
+        .logo-animated .letter {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: dropIn 0.6s forwards;
+            animation-delay: calc(var(--i) * 0.1s);
+        }
+
+        @keyframes dropIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
     </style>
 </head>
 <body class="home-page">
@@ -181,34 +238,31 @@
 <!-- Announcement Bar -->
 <div class="announcement-bar">
     <div class="icon">🎀</div>
-    <div class="announcement-text">
-        <span>20% попуст на сите продукти! Купи сега и добиј бесплатна испорака! 🎉</span>
+    <div class="announcement-text"><span>20% попуст на сите продукти! Купи сега и добиј бесплатна испорака! 🎉</span>
     </div>
+    <button class="close-btn">&times;</button>
+
 </div>
 
 <!-- Navbar -->
+<!-- Navbar -->
 <nav id="mainNav" class="fixed w-full top-8 left-0 z-50 transition-all duration-500 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
         <!-- Logo -->
         <a href="{% url 'home' %}"
-           class="text-2xl lg:text-3xl font-light tracking-wide nav-text flex items-center gap-1">
-            <span>SW</span><span class="font-semibold text-pink-500">SHOP</span>
+           class="text-2xl lg:text-3xl font-light tracking-wide nav-text flex items-center gap-1 logo-animated">
+            <span class="letter" style="--i:0">S</span>
+            <span class="letter" style="--i:1">W</span>
+            <span class="letter" style="--i:2"> </span>
+            <span class="letter text-pink-500 font-semibold" style="--i:3">S</span>
+            <span class="letter text-pink-500 font-semibold" style="--i:4">H</span>
+            <span class="letter text-pink-500 font-semibold" style="--i:5">O</span>
+            <span class="letter text-pink-500 font-semibold" style="--i:6">P</span>
         </a>
 
-        <!-- Desktop Categories -->
-        <div class="hidden md:flex nav-categories space-x-1">
-            <a href="{% url 'products' %}" class="desktop-nav-item nav-text">Сите продукти</a>
-            <a href="{% url 'category_products' 'bras' %}" class="desktop-nav-item nav-text">Градници</a>
-            <a href="{% url 'category_products' 'panties' %}" class="desktop-nav-item nav-text">Килоти</a>
-            <a href="{% url 'category_products' 'pajamas' %}" class="desktop-nav-item nav-text">Пижами</a>
-            <a href="{% url 'category_products' 'lingerie' %}" class="desktop-nav-item nav-text">Приватна</a>
-            <a href="{% url 'about_us' %}" class="desktop-nav-item nav-text">За нас</a>
-            <a href="{% url 'contact' %}" class="desktop-nav-item nav-text">Контакт</a>
-        </div>
-
-
-        <!-- User & Mobile -->
-        <div class="nav-actions">
+        <!-- Mobile Actions -->
+        <div class="flex md:hidden items-center gap-2">
             <a href="{% if user.is_authenticated %}{% url 'wishlist' %}{% else %}{% url 'profile_page' %}{% endif %}"
                class="relative p-2 rounded-full hover:bg-gray-200 transition">
                 <i class="fas fa-shopping-cart text-xl nav-text"></i>
@@ -230,9 +284,58 @@
                     <i class="far fa-user text-xl nav-text"></i>
                 {% endif %}
             </a>
-            <button id="menuToggle" class="md:hidden p-2 rounded-full hover:bg-gray-200 transition">
+            <button id="menuToggle" class="p-2 rounded-full hover:bg-gray-200 transition">
                 <i class="fas fa-bars text-xl nav-text"></i>
             </button>
+        </div>
+
+        <!-- Desktop Nav Items -->
+        <div class="hidden md:flex flex-1 justify-center items-center space-x-1">
+            <a href="{% url 'products' %}" class="desktop-nav-item nav-text">Сите продукти</a>
+
+            <div class="dropdown desktop-nav-item nav-text">
+                Градници
+                <div class="dropdown-content">
+                    <a href="{% url 'category_products' 'bras_push_up' %}">Push-up</a>
+                    <a href="{% url 'category_products' 'bras_sport' %}">Спортски</a>
+                    <a href="{% url 'category_products' 'bras_lace' %}">Чипкани</a>
+                    <a href="{% url 'category_products' 'bras_underwire' %}">Без жица</a>
+                    <a href="{% url 'category_products' 'bodices' %}">Мидери</a>
+                </div>
+            </div>
+
+            <div class="dropdown desktop-nav-item nav-text">
+                Килоти
+                <div class="dropdown-content">
+                    <a href="{% url 'category_products' 'panties_tanga' %}">Танга</a>
+                    <a href="{% url 'category_products' 'panties_half_tanga' %}">Полутанга</a>
+                    <a href="{% url 'category_products' 'panties_high_waist' %}">Високи</a>
+                    <a href="{% url 'category_products' 'boxer_panties' %}">Боксерки</a>
+                    <a href="{% url 'category_products' 'leggings' %}">Хеланки</a>
+                </div>
+            </div>
+
+            <div class="dropdown desktop-nav-item nav-text">
+                Пижами
+                <div class="dropdown-content">
+                    <a href="{% url 'category_products' 'pajamas_short' %}">Кратки</a>
+                    <a href="{% url 'category_products' 'pajamas_long' %}">Долги</a>
+                    <a href="{% url 'category_products' 'nightclothes' %}">Ноќници</a>
+                </div>
+            </div>
+
+            <div class="dropdown desktop-nav-item nav-text">
+                Приватна
+                <div class="dropdown-content">
+                    <a href="{% url 'category_products' 'lingerie' %}">Приватна</a>
+                    <a href="{% url 'category_products' 'kits' %}">Комплети</a>
+                    <a href="{% url 'category_products' 'baby_doll' %}">Бебидол</a>
+                </div>
+            </div>
+
+            <a href="{% url 'category_products' 'accessories' %}" class="desktop-nav-item nav-text">Додатоци</a>
+            <a href="{% url 'about_us' %}" class="desktop-nav-item nav-text">За нас</a>
+            <a href="{% url 'contact' %}" class="desktop-nav-item nav-text">Контакт</a>
         </div>
     </div>
 
@@ -240,32 +343,106 @@
     <div id="mobileMenuOverlay"></div>
 
     <!-- Mobile Menu -->
-    <div id="mobileMenu" class="mobile-menu">
-        <div class="flex justify-between items-center my-8">
-            <h2 class="text-xl font-bold text-gray-800">Мени</h2>
-            <button id="closeMenu" class="focus:outline-none text-gray-800">
-                <i class="fas fa-times text-lg"></i>
+    <div id="mobileMenu"
+         class="mobile-menu bg-white shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="flex justify-between items-center p-6 border-b">
+            <h2 class="text-2xl font-bold text-gray-800">Мени</h2>
+            <button id="closeMenu" class="text-gray-800 focus:outline-none">
+                <i class="fas fa-times text-2xl"></i>
             </button>
         </div>
-        <ul class="space-y-4">
-            <li><a href="{% url 'home' %}"
-                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Дома</a></li>
-            <li><a href="{% url 'products' %}"
-                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Сите продукти</a>
-            </li>
-            <li><a href="{% url 'category_products' 'bras' %}"
-                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Градници</a></li>
-            <li><a href="{% url 'category_products' 'panties' %}"
-                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Килоти</a></li>
-            <li><a href="{% url 'category_products' 'pajamas' %}"
-                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Пижами</a></li>
-            <li><a href="{% url 'category_products' 'lingerie' %}"
-                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Приватна</a></li>
-            <li><a href="{% url 'about_us' %}"
-                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">За нас</a></li>
-            <li><a href="{% url 'contact' %}"
-                   class="block py-2 px-3 rounded-lg hover:bg-pink-50 hover:text-pink-500 transition">Контакт</a></li>
-        </ul>
+        <nav class="p-6">
+            <ul class="space-y-2">
+
+                <li>
+                    <a href="{% url 'home' %}"
+                       class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Дома</a>
+                </li>
+
+                <li>
+                    <a href="{% url 'products' %}"
+                       class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Сите продукти</a>
+                </li>
+
+                <!-- Градници -->
+                <li>
+                    <details class="group overflow-hidden">
+                        <summary
+                                class="flex justify-between items-center cursor-pointer py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">
+                            <span>Градници</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300 group-open:rotate-180"></i>
+                        </summary>
+                        <ul class="pl-6 mt-2 space-y-1 max-h-0 overflow-hidden transition-[max-height] duration-500 ease-in-out group-open:max-h-96">
+                            <li><a href="{% url 'category_products' 'bras_push_up' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Push-up</a></li>
+                            <li><a href="{% url 'category_products' 'bras_sport' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Спортски</a></li>
+                            <li><a href="{% url 'category_products' 'bras_lace' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Чипкани</a></li>
+                            <li><a href="{% url 'category_products' 'bras_underwire' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Без жица</a></li>
+                            <li><a href="{% url 'category_products' 'bodices' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Мидери</a></li>
+                        </ul>
+                    </details>
+                </li>
+
+                <!-- Килоти -->
+                <li>
+                    <details class="group">
+                        <summary
+                                class="flex justify-between items-center cursor-pointer py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">
+                            <span>Килоти</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300 group-open:rotate-180"></i>
+                        </summary>
+                        <ul class="pl-6 mt-2 space-y-1 overflow-hidden max-h-0 transition-all duration-300 ease-in-out group-open:max-h-96">
+                            <li><a href="{% url 'category_products' 'panties_tanga' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Танга</a></li>
+                            <li><a href="{% url 'category_products' 'panties_half_tanga' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Полутанга</a></li>
+                            <li><a href="{% url 'category_products' 'panties_high_waist' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Високи</a></li>
+                            <li><a href="{% url 'category_products' 'boxer_panties' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Боксерки</a></li>
+                            <li><a href="{% url 'category_products' 'leggings' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Хеланки</a></li>
+                        </ul>
+                    </details>
+                </li>
+
+                <!-- Пижами -->
+                <li>
+                    <details class="group">
+                        <summary
+                                class="flex justify-between items-center cursor-pointer py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">
+                            <span>Пижами</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300 group-open:rotate-180"></i>
+                        </summary>
+                        <ul class="pl-6 mt-2 space-y-1 overflow-hidden max-h-0 transition-all duration-300 ease-in-out group-open:max-h-96">
+                            <li><a href="{% url 'category_products' 'pajamas_short' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Кратки</a></li>
+                            <li><a href="{% url 'category_products' 'pajamas_long' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Долги</a></li>
+                            <li><a href="{% url 'category_products' 'nightclothes' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Ноќници</a></li>
+                        </ul>
+                    </details>
+                </li>
+
+                <!-- Приватна -->
+                <li>
+                    <details class="group">
+                        <summary
+                                class="flex justify-between items-center cursor-pointer py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">
+                            <span>Приватна</span>
+                            <i class="fas fa-chevron-down transition-transform duration-300 group-open:rotate-180"></i>
+                        </summary>
+                        <ul class="pl-6 mt-2 space-y-1 overflow-hidden max-h-0 transition-all duration-300 ease-in-out group-open:max-h-96">
+                            <li><a href="{% url 'category_products' 'lingerie' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Приватна</a></li>
+                            <li><a href="{% url 'category_products' 'kits' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Комплети</a></li>
+                            <li><a href="{% url 'category_products' 'baby_doll' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Бебидол</a></li>
+                        </ul>
+                    </details>
+                </li>
+
+                <!-- Додатоци -->
+                <li>
+                    <a href="{% url 'category_products' 'accessories' %}" class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Додатоци</a>
+                </li>
+
+                <!-- За нас и Контакт -->
+                <li><a href="{% url 'about_us' %}" class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">За нас</a></li>
+                <li><a href="{% url 'contact' %}" class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Контакт</a></li>
+                <li><a href="{% url 'delivery' %}" class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Испорака и Враќање</a></li>
+            </ul>
+        </nav>
     </div>
 </nav>
 
@@ -298,8 +475,6 @@
     const nav = document.getElementById('mainNav');
     const announcementBar = document.querySelector('.announcement-bar');
     const announcementHeight = announcementBar.offsetHeight;
-
-    // Set initial position based on announcement bar
     nav.style.top = `${announcementHeight}px`;
 
     if (document.body.classList.contains('home-page')) {
@@ -320,12 +495,10 @@
 
     // Announcement bar close functionality
     document.querySelector('.announcement-bar .close-btn').addEventListener('click', function () {
-        const announcementBar = document.querySelector('.announcement-bar');
-        announcementBar.style.display = 'none';
+        document.querySelector('.announcement-bar').style.display = 'none';
         document.getElementById('mainNav').style.top = '0';
     });
 
-    // Fix for mobile viewport height
     function setVH() {
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);

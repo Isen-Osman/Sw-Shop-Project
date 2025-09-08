@@ -16,7 +16,7 @@ class Wishlist(models.Model):
 class WishlistProduct(models.Model):
     wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    size = models.CharField(max_length=5, choices=Size.choices, default=Size.M)
+    size = models.CharField(max_length=255, choices=Size.choices, default=Size.M)
 
     def __str__(self):
         return f"{self.product.name} ({self.size})"
