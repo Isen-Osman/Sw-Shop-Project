@@ -310,3 +310,35 @@ def products_by_color(request):
 def privacy_cookie(request):
     return render(request, 'aboutUs/security.html')
 
+from django.shortcuts import render
+from .models import Product, Category
+
+def pajamas_all(request):
+    products = Product.objects.filter(category__in=[
+        'PAJAMAS', 'PAJAMAS_SHORT', 'PAJAMAS_LONG', 'PAJAMAS_SATEN',
+        'PAJAMAS_PLIS', 'PAJAMAS_COTTON', 'PAJAMAS_MAN', 'NIGHTCLOTHES'
+    ])
+    context = {
+        'products': products
+    }
+    return render(request, 'products/category_products.html', context)
+
+
+def bras_all(request):
+    products = Product.objects.filter(category__in=[
+        'BRAS', 'BRAS_PUSH_UP', 'BRAS_SPORT', 'BRAS_LACE', 'BRAS_UNDERWIRE', 'BRAS_STICK', 'BABY_DOLL'
+    ])
+    context = {
+        'products': products
+    }
+    return render(request, 'products/category_products.html', context)
+
+
+def panties_all(request):
+    products = Product.objects.filter(category__in=[
+        'PANTIES', 'PANTIES_TANGA', 'PANTIES_HALF_TANGA', 'PANTIES_HIGH_WAIST', 'BOXER_PANTIES'
+    ])
+    context = {
+        'products': products
+    }
+    return render(request, 'products/category_products.html', context)
