@@ -77,10 +77,16 @@ class Category(models.TextChoices):
     BRAS_SPORT = "BRAS_SPORT", "Градници - Спортски",
     BRAS_LACE = "BRAS_LACE", "Градници - Чипкани",
     BRAS_UNDERWIRE = 'BRAS_UNDERWIRE', 'Градници - Без жица',
+    BRAS_STICK = 'BRAS_STICK', 'Градници - Лепенки',
 
     # Подкатегории за пижами
     PAJAMAS_SHORT = "PAJAMAS_SHORT", "Пижами - Кратки",
     PAJAMAS_LONG = "PAJAMAS_LONG", "Пижами - Долги",
+    PAJAMAS_SATEN = "PAJAMAS_SATEN", "Пижами - Сатенски",
+    PAJAMAS_PLIS = "PAJAMAS_PLIS", "Пижами - Плишани",
+    PAJAMAS_COTTON = "PAJAMAS_COTTON", "Пижами - Памучни",
+    PAJAMAS_MAN = "PAJAMAS_MAN", "Пижами - Машки Пижами",
+
 
 
 # Главен модел Product

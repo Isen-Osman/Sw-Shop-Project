@@ -300,12 +300,24 @@
         }
 
         @keyframes shake {
-            0% { transform: translateX(0); }
-            20% { transform: translateX(-5px); }
-            40% { transform: translateX(5px); }
-            60% { transform: translateX(-5px); }
-            80% { transform: translateX(5px); }
-            100% { transform: translateX(0); }
+            0% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(-5px);
+            }
+            40% {
+                transform: translateX(5px);
+            }
+            60% {
+                transform: translateX(-5px);
+            }
+            80% {
+                transform: translateX(5px);
+            }
+            100% {
+                transform: translateX(0);
+            }
         }
     </style>
 </head>
@@ -338,7 +350,8 @@
         <!-- Mobile Actions -->
         <div class="flex md:hidden items-center gap-2">
             <div class="relative">
-                <a href="{% if user.is_authenticated %}{% url 'wishlist' %}{% else %}{% url 'profile_page' %}{% endif %}"
+                <a href="
+                        {% if user.is_authenticated %}{% url 'wishlist' %}{% else %}{% url 'profile_page' %}{% endif %}"
                    class="cart-icon p-2 rounded-full hover:bg-gray-200 transition">
                     <i class="fas fa-shopping-cart text-xl nav-text"></i>
                     {% if user.is_authenticated and wishlist_items_count|default:0 > 0 %}
@@ -375,7 +388,8 @@
                     <a href="{% url 'category_products' 'bras_sport' %}">Спортски</a>
                     <a href="{% url 'category_products' 'bras_lace' %}">Чипкани</a>
                     <a href="{% url 'category_products' 'bras_underwire' %}">Без жица</a>
-                    <a href="{% url 'category_products' 'bodices' %}">Мидери</a>
+                    <a href="{% url 'category_products' 'baby_doll' %}">Бебидол</a>
+                    <a href="{% url 'category_products' 'bras_stick' %}">Лепенки</a>
                 </div>
             </div>
 
@@ -386,7 +400,6 @@
                     <a href="{% url 'category_products' 'panties_half_tanga' %}">Полутанга</a>
                     <a href="{% url 'category_products' 'panties_high_waist' %}">Високи</a>
                     <a href="{% url 'category_products' 'boxer_panties' %}">Боксерки</a>
-                    <a href="{% url 'category_products' 'leggings' %}">Хеланки</a>
                 </div>
             </div>
 
@@ -396,6 +409,11 @@
                     <a href="{% url 'category_products' 'pajamas_short' %}">Кратки</a>
                     <a href="{% url 'category_products' 'pajamas_long' %}">Долги</a>
                     <a href="{% url 'category_products' 'nightclothes' %}">Ноќници</a>
+                    <a href="{% url 'category_products' 'pajamas_saten' %}">Сатенски</a>
+                    <a href="{% url 'category_products' 'pajamas_plis' %}">Плишани</a>
+                    <a href="{% url 'category_products' 'pajamas_cotton' %}">Памучни</a>
+                    <a href="{% url 'category_products' 'pajamas_man' %}">Машки пижами</a>
+
                 </div>
             </div>
 
@@ -404,19 +422,19 @@
                 <div class="dropdown-content">
                     <a href="{% url 'category_products' 'lingerie' %}">Приватна</a>
                     <a href="{% url 'category_products' 'kits' %}">Комплети</a>
-                    <a href="{% url 'category_products' 'baby_doll' %}">Бебидол</a>
                 </div>
             </div>
 
+
             <a href="{% url 'category_products' 'accessories' %}" class="desktop-nav-item nav-text">Додатоци</a>
             <a href="{% url 'about_us' %}" class="desktop-nav-item nav-text">За нас</a>
-            <a href="{% url 'contact' %}" class="desktop-nav-item nav-text">Контакт</a>
         </div>
 
         <!-- Desktop Cart and Profile -->
         <div class="hidden md:flex items-center gap-2">
             <div class="relative">
-                <a href="{% if user.is_authenticated %}{% url 'wishlist' %}{% else %}{% url 'profile_page' %}{% endif %}"
+                <a href="
+                        {% if user.is_authenticated %}{% url 'wishlist' %}{% else %}{% url 'profile_page' %}{% endif %}"
                    class="cart-icon p-2 rounded-full hover:bg-gray-200 transition">
                     <i class="fas fa-shopping-cart text-xl nav-text"></i>
                     {% if user.is_authenticated and wishlist_items_count|default:0 > 0 %}
@@ -462,7 +480,8 @@
 
                 <li>
                     <a href="{% url 'products' %}"
-                       class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Сите продукти</a>
+                       class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Сите
+                        продукти</a>
                 </li>
 
                 <!-- Градници -->
@@ -474,12 +493,21 @@
                             <i class="fas fa-chevron-down transition-transform duration-300 group-open:rotate-180"></i>
                         </summary>
                         <ul class="pl-6 mt-2 space-y-1 max-h-0 overflow-hidden transition-[max-height] duration-500 ease-in-out group-open:max-h-96">
-                            <li><a href="{% url 'category_products' 'bras_push_up' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Push-up</a></li>
-                            <li><a href="{% url 'category_products' 'bras_sport' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Спортски</a></li>
-                            <li><a href="{% url 'category_products' 'bras_lace' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Чипкани</a></li>
-                            <li><a href="{% url 'category_products' 'bras_underwire' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Без жица</a></li>
-                            <li><a href="{% url 'category_products' 'bodices' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Мидери</a></li>
+                            <li><a href="{% url 'category_products' 'bras_push_up' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Push-up</a></li>
+                            <li><a href="{% url 'category_products' 'bras_sport' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Спортски</a></li>
+                            <li><a href="{% url 'category_products' 'bras_lace' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Чипкани</a></li>
+                            <li><a href="{% url 'category_products' 'bras_underwire' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Без жица</a></li>
+                            <li><a href="{% url 'category_products' 'baby_doll' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Бебидол</a></li>
+                            <li><a href="{% url 'category_products' 'bras_stick' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Лепенки</a></li>
                         </ul>
+
+
                     </details>
                 </li>
 
@@ -492,11 +520,15 @@
                             <i class="fas fa-chevron-down transition-transform duration-300 group-open:rotate-180"></i>
                         </summary>
                         <ul class="pl-6 mt-2 space-y-1 overflow-hidden max-h-0 transition-all duration-300 ease-in-out group-open:max-h-96">
-                            <li><a href="{% url 'category_products' 'panties_tanga' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Танга</a></li>
-                            <li><a href="{% url 'category_products' 'panties_half_tanga' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Полутанга</a></li>
-                            <li><a href="{% url 'category_products' 'panties_high_waist' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Високи</a></li>
-                            <li><a href="{% url 'category_products' 'boxer_panties' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Боксерки</a></li>
-                            <li><a href="{% url 'category_products' 'leggings' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Хеланки</a></li>
+                            <li><a href="{% url 'category_products' 'panties_tanga' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Танга</a></li>
+                            <li><a href="{% url 'category_products' 'panties_half_tanga' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Полутанга</a></li>
+                            <li><a href="{% url 'category_products' 'panties_high_waist' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Високи</a></li>
+                            <li><a href="{% url 'category_products' 'boxer_panties' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Боксерки</a></li>
+
                         </ul>
                     </details>
                 </li>
@@ -510,9 +542,21 @@
                             <i class="fas fa-chevron-down transition-transform duration-300 group-open:rotate-180"></i>
                         </summary>
                         <ul class="pl-6 mt-2 space-y-1 overflow-hidden max-h-0 transition-all duration-300 ease-in-out group-open:max-h-96">
-                            <li><a href="{% url 'category_products' 'pajamas_short' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Кратки</a></li>
-                            <li><a href="{% url 'category_products' 'pajamas_long' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Долги</a></li>
-                            <li><a href="{% url 'category_products' 'nightclothes' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Ноќници</a></li>
+                            <li><a href="{% url 'category_products' 'pajamas_short' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Кратки</a></li>
+                            <li><a href="{% url 'category_products' 'pajamas_long' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Долги</a></li>
+                            <li><a href="{% url 'category_products' 'pajama_plis' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Плишани</a></li>
+                            <li><a href="{% url 'category_products' 'pajama_cotton' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Памучни</a></li>
+                            <li><a href="{% url 'category_products' 'pajama_saten' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Сатенски</a></li>
+                            <li><a href="{% url 'category_products' 'pajama_man' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Mашки пижами</a></li>
+
+                            <li><a href="{% url 'category_products' 'nightclothes' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Ноќници</a></li>
                         </ul>
                     </details>
                 </li>
@@ -526,22 +570,41 @@
                             <i class="fas fa-chevron-down transition-transform duration-300 group-open:rotate-180"></i>
                         </summary>
                         <ul class="pl-6 mt-2 space-y-1 overflow-hidden max-h-0 transition-all duration-300 ease-in-out group-open:max-h-96">
-                            <li><a href="{% url 'category_products' 'lingerie' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Приватна</a></li>
-                            <li><a href="{% url 'category_products' 'kits' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Комплети</a></li>
-                            <li><a href="{% url 'category_products' 'baby_doll' %}" class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Бебидол</a></li>
+                            <li><a href="{% url 'category_products' 'lingerie' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Приватна</a></li>
+                            <li><a href="{% url 'category_products' 'kits' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Комплети</a></li>
+
                         </ul>
                     </details>
                 </li>
 
                 <!-- Додатоци -->
+                 <li><a href="{% url 'category_products' 'leggings' %}"
+                       class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Хеланки</a></li>
+                <li><a href="{% url 'category_products' 'tshirt' %}"
+                       class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Маици</a></li>
                 <li>
-                    <a href="{% url 'category_products' 'accessories' %}" class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Додатоци</a>
+                 <li><a href="{% url 'category_products' 'bodices' %}"
+                       class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Мидери</a></li>
+                <li>
+                    <a href="{% url 'category_products' 'accessories' %}"
+                       class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Додатоци</a>
                 </li>
 
+
+
                 <!-- За нас и Контакт -->
-                <li><a href="{% url 'about_us' %}" class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">За нас</a></li>
-                <li><a href="{% url 'contact' %}" class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Контакт</a></li>
-                <li><a href="{% url 'delivery' %}" class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Испорака и Враќање</a></li>
+                <li><a href="{% url 'about_us' %}"
+                       class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">За
+                    нас</a></li>
+                <li><a href="{% url 'contact' %}"
+                       class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Контакт</a>
+                </li>
+                <li><a href="{% url 'delivery' %}"
+                       class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Испорака
+                    и Враќање</a></li>
+
             </ul>
         </nav>
     </div>
@@ -614,6 +677,7 @@
             let vh = window.innerHeight * 0.01;
             document.documentElement.style.setProperty('--vh', `${vh}px`);
         }
+
         setVH();
         window.addEventListener('resize', setVH);
 
