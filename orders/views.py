@@ -31,7 +31,6 @@ def create_order(request):
         })
         total_price += product.price * quantity
 
-    # Бесплатна достава за >2000 ден
     shipping_price = 0 if total_price >= 2000 else 150
     final_price = total_price + shipping_price
 
@@ -59,7 +58,8 @@ def create_order(request):
             request.session['wishlist_quantities'] = {}
             request.session.modified = True
 
-            return redirect('order_success', order_id=order.id)
+            # Redirect за да се избегне повторно POST при refresh
+            return redirect('order_confirmation', order_id=order.id)
     else:
         form = OrderForm()
 
@@ -74,18 +74,6 @@ def create_order(request):
 
 
 @login_required
-def order_success(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    # Намалување на quantity за секој купен производ
-    for item in order.items.all():
-        pq = ProductQuantity.objects.filter(product=item.product, size=item.size).first()
-        if pq:
-            pq.quantity = max(pq.quantity - item.quantity, 0)
-            pq.save()
-    return redirect('order_confirmation', order_id=order.id)
-
-
-@login_required
 def order_confirmation(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     wishlist_items_count = request.user.wishlist.products.count()
@@ -93,27 +81,40 @@ def order_confirmation(request, order_id):
     if order.cargo is None:
         order.cargo = 0  # Бесплатна достава ако не е зададена
 
-    # Email за корисник
-    html_user = render_to_string('order/order_confirmation_email.html', {'order': order})
-    email_user = EmailMultiAlternatives(
-        f"Потврда на нарачка #{order.id}",
-        '',
-        settings.DEFAULT_FROM_EMAIL,
-        [order.user.email]
-    )
-    email_user.attach_alternative(html_user, "text/html")
-    email_user.send(fail_silently=False)
+    # Испрати email само ако не е испратен
+    if not order.email_sent:
+        # Email за корисник
+        html_user = render_to_string('order/order_confirmation_email.html', {'order': order})
+        email_user = EmailMultiAlternatives(
+            f"Потврда на нарачка #{order.id}",
+            '',
+            settings.DEFAULT_FROM_EMAIL,
+            [order.user.email]
+        )
+        email_user.attach_alternative(html_user, "text/html")
+        email_user.send(fail_silently=False)
 
-    # Email за администратор
-    html_admin = render_to_string('order/order_confirmation_email_for_me.html', {'order': order})
-    email_admin = EmailMultiAlternatives(
-        f"Нова нарачка #{order.id}",
-        '',
-        settings.DEFAULT_FROM_EMAIL,
-        [settings.DEFAULT_FROM_EMAIL]  # Адреса на администратор
-    )
-    email_admin.attach_alternative(html_admin, "text/html")
-    email_admin.send(fail_silently=False)
+        # Email за администратор
+        html_admin = render_to_string('order/order_confirmation_email_for_me.html', {'order': order})
+        email_admin = EmailMultiAlternatives(
+            f"Нова нарачка #{order.id}",
+            '',
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.DEFAULT_FROM_EMAIL]  # Адреса на администратор
+        )
+        email_admin.attach_alternative(html_admin, "text/html")
+        email_admin.send(fail_silently=False)
+
+        # Обележи дека email е испратен
+        order.email_sent = True
+        order.save()
+
+    # Намалување на quantity за секој купен производ (може да се смести тука)
+    for item in order.items.all():
+        pq = ProductQuantity.objects.filter(product=item.product, size=item.size).first()
+        if pq:
+            pq.quantity = max(pq.quantity - item.quantity, 0)
+            pq.save()
 
     return render(request, 'order/order_confirmation.html', {
         'order': order,

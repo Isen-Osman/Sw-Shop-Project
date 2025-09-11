@@ -386,3 +386,8 @@ def pajamas_all(request):
 
     return render(request, "products/category_products.html", context)
 
+def delivery(request):
+    """
+    Страница за испорака и враќање на производи.
+    """
+    return render(request, '../templates/delivery/delivery.html')
