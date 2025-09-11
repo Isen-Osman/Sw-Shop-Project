@@ -47,7 +47,7 @@ def product_list(request):
     for product in products:
         product.new_price = product.price + 200
 
-    paginator = Paginator(products, 6)
+    paginator = Paginator(products, 20)
     page_number = request.GET.get('page')
 
     try:
@@ -310,35 +310,79 @@ def products_by_color(request):
 def privacy_cookie(request):
     return render(request, 'aboutUs/security.html')
 
-from django.shortcuts import render
-from .models import Product, Category
-
-def pajamas_all(request):
-    products = Product.objects.filter(category__in=[
-        'PAJAMAS', 'PAJAMAS_SHORT', 'PAJAMAS_LONG', 'PAJAMAS_SATEN',
-        'PAJAMAS_PLIS', 'PAJAMAS_COTTON', 'PAJAMAS_MAN', 'NIGHTCLOTHES'
-    ])
-    context = {
-        'products': products
-    }
-    return render(request, 'products/category_products.html', context)
 
 
 def bras_all(request):
-    products = Product.objects.filter(category__in=[
-        'BRAS', 'BRAS_PUSH_UP', 'BRAS_SPORT', 'BRAS_LACE', 'BRAS_UNDERWIRE', 'BRAS_STICK', 'BABY_DOLL'
-    ])
+    products = Product.objects.filter(category__icontains="bras")
+
+    # Филтрирање по боја
+    color = request.GET.get("color")
+    if color:
+        products = products.filter(color=color)
+
+    # Додавање на new_price
+    for product in products:
+        product.new_price = product.price + 200
+
+    # Пагинација
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'products': products
+        "page_obj": page_obj,
+        "category_name": "Градници",
+        "category_slug": "bras",
+        "selected_color": color,
     }
-    return render(request, 'products/category_products.html', context)
+
+    return render(request, "products/category_products.html", context)
 
 
 def panties_all(request):
-    products = Product.objects.filter(category__in=[
-        'PANTIES', 'PANTIES_TANGA', 'PANTIES_HALF_TANGA', 'PANTIES_HIGH_WAIST', 'BOXER_PANTIES'
-    ])
+    products = Product.objects.filter(category__icontains="panties")
+
+    color = request.GET.get("color")
+    if color:
+        products = products.filter(color=color)
+
+    for product in products:
+        product.new_price = product.price + 200
+
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'products': products
+        "page_obj": page_obj,
+        "category_name": "Килоти",
+        "category_slug": "panties",
+        "selected_color": color,
     }
-    return render(request, 'products/category_products.html', context)
+
+    return render(request, "products/category_products.html", context)
+
+
+def pajamas_all(request):
+    products = Product.objects.filter(category__icontains="pajamas")
+
+    color = request.GET.get("color")
+    if color:
+        products = products.filter(color=color)
+
+    for product in products:
+        product.new_price = product.price + 200
+
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "page_obj": page_obj,
+        "category_name": "Пижами",
+        "category_slug": "pajamas",
+        "selected_color": color,
+    }
+
+    return render(request, "products/category_products.html", context)
+

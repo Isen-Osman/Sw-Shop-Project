@@ -218,21 +218,34 @@
             </table>
 
             <table class="order-summary">
-                <tbody>
-                    <tr class="total-row">
-                        <td style="text-align:right; border-top: 1px solid #e0e0e0;">Вкупно:</td>
-                        <td style="text-align:right; border-top: 1px solid #e0e0e0;">{{ order.total_price }} ден.</td>
-                    </tr>
-                    <tr class="total-row">
-                        <td style="text-align:right;">Испорака (КАРГО):</td>
-                        <td style="text-align:right;">150 ден.</td>
-                    </tr>
-                    <tr class="grand-total-row">
-                        <td style="text-align:right;">Вкупно за плаќање:</td>
-                        <td style="text-align:right;"><strong>{{ order.total_price|add:150 }} ден.</strong></td>
-                    </tr>
-                </tbody>
-            </table>
+    <tbody>
+        <tr class="total-row">
+            <td style="text-align:right; border-top: 1px solid #e0e0e0;">Вкупно:</td>
+            <td style="text-align:right; border-top: 1px solid #e0e0e0;">{{ order.total_price }} ден.</td>
+        </tr>
+        <tr class="total-row">
+            <td style="text-align:right;">Испорака (КАРГО):</td>
+            <td style="text-align:right;">
+                {% if order.total_price >= 2000 %}
+                    Бесплатна достава
+                {% else %}
+                    150 ден.
+                {% endif %}
+            </td>
+        </tr>
+        <tr class="grand-total-row">
+            <td style="text-align:right;">Вкупно за плаќање:</td>
+            <td style="text-align:right;"><strong>
+                {% if order.total_price >= 2000 %}
+                    {{ order.total_price }} ден.
+                {% else %}
+                    {{ order.total_price|add:150 }} ден.
+                {% endif %}
+            </strong></td>
+        </tr>
+    </tbody>
+</table>
+
 
             <div class="info-box">
                 <strong>Информации за испорака:</strong>

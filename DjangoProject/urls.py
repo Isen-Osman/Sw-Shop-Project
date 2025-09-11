@@ -53,7 +53,6 @@ urlpatterns = [
 
     path('products/color/', views.products_by_color, name='products_by_color'),
 
-    path('delivery/', order_views.delivery, name='delivery'),
     path('privacy/', views.privacy_cookie, name='privacy_cookie'),
 
     path('category/pajamas/', views.pajamas_all, name='category_products_pajamas_all'),

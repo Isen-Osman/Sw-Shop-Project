@@ -132,30 +132,42 @@
                     </ul>
 
                     <!-- Price Summary -->
-                    <div class="mt-8 flex justify-end border-t border-gray-100 pt-8">
-                        <div class="w-screen max-w-lg space-y-4">
-                            <dl class="space-y-0.5 text-sm text-gray-700">
+                    <div class="mt-8 flex justify-end border-t border-gray-200 pt-6">
+                        <div class="w-full max-w-md space-y-4 bg-gray-50 p-4 rounded-lg shadow-sm">
+                            <dl class="space-y-3 text-gray-700">
+                                <!-- Цена со попуст -->
                                 <div class="flex justify-between items-center">
-                                    <dt class="bg-red-500 text-white text-sm font-semibold px-2 py-1 rounded-md">%
-                                        Цена со попуст
-                                    </dt>
-                                    <dd class="text-red-600 font-medium"> {{ total_price }}</dd>
+                                    <dt class="text-sm font-semibold text-gray-900">Цена со попуст</dt>
+                                    <dd class="text-red-600 font-semibold">{{ total_price }} ден</dd>
                                 </div>
 
-                                <div class="flex justify-between">
-                                    <dt>Карго</dt>
-                                    <dd>150 ден.</dd>
+                                <!-- Карго / достава -->
+                                <div class="flex justify-between items-center">
+                                    <dt class="text-sm font-semibold text-gray-900">Карго</dt>
+                                    <dd class="font-semibold {% if shipping_price == 0 %}text-green-600{% else %}text-gray-800{% endif %}">
+                                        {% if shipping_price == 0 %}
+                                            Бесплатна достава
+                                        {% else %}
+                                            {{ shipping_price }} ден
+                                        {% endif %}
+                                    </dd>
                                 </div>
 
+                                {% if shipping_price == 0 %}
+                                    <div class="text-xs text-green-600 italic">
+                                        Вашата нарачка е над 2000 денари, доставата е бесплатна.
+                                    </div>
+                                {% endif %}
 
-
-                                <div class="flex justify-between !text-base font-medium">
+                                <!-- Вкупно за плаќање -->
+                                <div class="flex justify-between items-center border-t border-gray-300 pt-3 !text-base font-semibold text-gray-900">
                                     <dt>За плаќање</dt>
-                                    <dd>{{ final_price  }} ден.</dd>
+                                    <dd>{{ final_price }} ден</dd>
                                 </div>
                             </dl>
                         </div>
                     </div>
+
 
                 {% else %}
                     <p>Вашата кошничка е празна.</p>
@@ -204,14 +216,18 @@
     </div>
 
     <!-- Loading Modal -->
-    <div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="loadingModal"
+         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-white rounded-xl p-6 m-4 max-w-sm w-full transform scale-95 transition-transform duration-300">
             <div class="text-center flex flex-col items-center justify-center">
                 <!-- SVG Loader -->
                 <div class="mx-auto mb-4 flex justify-center">
-                    <svg class="w-16 h-16 text-pink-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg class="w-16 h-16 text-pink-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                 </div>
                 <h3 class="text-lg font-medium text-gray-900 mb-2">Ве молиме почекајте</h3>
@@ -240,19 +256,23 @@
         }
 
         @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const orderForm = document.getElementById('orderForm');
             const loadingModal = document.getElementById('loadingModal');
             const submitButton = document.getElementById('submitButton');
 
             if (orderForm) {
-                orderForm.addEventListener('submit', function(e) {
+                orderForm.addEventListener('submit', function (e) {
                     // Show loading modal
                     loadingModal.classList.remove('opacity-0', 'pointer-events-none');
                     loadingModal.classList.add('opacity-100');
