@@ -60,6 +60,9 @@ urlpatterns = [
     path('category/bras/', views.bras_all, name='category_products_bras_all'),
     path('category/panties/', views.panties_all, name='category_products_panties_all'),
 
+    path('categories/', views.categories_view, name='categories'),
+    path('category/<str:category_name>/', views.products_by_category, name='category_products'),
+
 ]
 
 if settings.DEBUG:

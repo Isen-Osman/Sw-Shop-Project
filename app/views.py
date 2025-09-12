@@ -391,3 +391,33 @@ def delivery(request):
     Страница за испорака и враќање на производи.
     """
     return render(request, '../templates/delivery/delivery.html')
+
+
+def categories_view(request):
+    categories = {
+        "Градници": [
+            {"slug": "BRAS_UNDERWIRE", "name": "Со жица"},
+            {"slug": "BRAS_PUSH_UP", "name": "Push-up"},
+            {"slug": "BRAS_LACE", "name": "Чипка"},
+        ],
+        "Килоти": [
+            {"slug": "PANTIES_TANGA", "name": "Танги"},
+            {"slug": "PANTIES_HALF_TANGA", "name": "Полу Танги"},
+            {"slug": "PANTIES_HIGH_WAIST", "name": "Високи"},
+            {"slug": "BOXER_PANTIES", "name": "Боксерки"},
+        ],
+        "Пижами": [
+            {"slug": "PAJAMAS_MAN", "name": "Машки Пижами"},
+            {"slug": "PAJAMAS_WOMAN", "name": "Женски Пижами"},
+        ],
+        "Бебидол": [
+            {"slug": "BABY_DOLL", "name": "Baby Doll"},
+        ],
+        "Комплети": [
+            {"slug": "KITS", "name": "Комплети"},
+        ],
+        "Додатоци": [
+            {"slug": "ACCESSORIES", "name": "Додатоци"},
+        ],
+    }
+    return render(request, "categories.html", {"categories": categories})
