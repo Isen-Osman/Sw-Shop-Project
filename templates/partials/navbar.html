@@ -384,35 +384,36 @@
             <div class="dropdown desktop-nav-item nav-text">
                 Градници
                 <div class="dropdown-content">
-                    <a href="{% url 'category_products' 'bras_push_up' %}">Push-up</a>
-                    <a href="{% url 'category_products' 'bras_sport' %}">Спортски</a>
-                    <a href="{% url 'category_products' 'bras_lace' %}">Чипкани</a>
-                    <a href="{% url 'category_products' 'bras_underwire' %}">Без жица</a>
-                    <a href="{% url 'category_products' 'baby_doll' %}">Бебидол</a>
-                    <a href="{% url 'category_products' 'bras_stick' %}">Лепенки</a>
+                    <a href="{% url 'category_products_bras_all' %}">Сите градници</a>
+                    <a href="{% url 'category_products_subcategory' 'bras' 'bras_push_up' %}">Push-up</a>
+                    <a href="{% url 'category_products_subcategory' 'bras' 'bras_sport' %}">Спортски</a>
+                    <a href="{% url 'category_products_subcategory' 'bras' 'bras_lace' %}">Чипкани</a>
+                    <a href="{% url 'category_products_subcategory' 'bras' 'bras_underwire' %}">Без жица</a>
+                    <a href="{% url 'category_products_subcategory' 'bras' 'bras_stick' %}">Лепенки</a>
                 </div>
             </div>
+
 
             <div class="dropdown desktop-nav-item nav-text">
                 Килоти
                 <div class="dropdown-content">
-                    <a href="{% url 'category_products' 'panties_tanga' %}">Танга</a>
-                    <a href="{% url 'category_products' 'panties_half_tanga' %}">Полутанга</a>
-                    <a href="{% url 'category_products' 'panties_high_waist' %}">Високи</a>
-                    <a href="{% url 'category_products' 'boxer_panties' %}">Боксерки</a>
+                    <a href="{% url 'category_products_panties_all' %}">Сите килоти</a>
+                    <a href="{% url 'category_products_subcategory' 'panties' 'panties_tanga' %}">Танга</a>
+                    <a href="{% url 'category_products_subcategory' 'panties' 'PANTIES_HALF_TANGA' %}">Полутанга</a>
+                    <a href="{% url 'category_products_subcategory' 'panties' 'panties_high_waist' %}">Високи</a>
+                    <a href="{% url 'category_products_subcategory' 'panties' 'boxer_panties' %}">Боксерки</a>
                 </div>
             </div>
 
             <div class="dropdown desktop-nav-item nav-text">
                 Пижами
                 <div class="dropdown-content">
-                    <a href="{% url 'category_products' 'pajamas_short' %}">Кратки</a>
-                    <a href="{% url 'category_products' 'pajamas_long' %}">Долги</a>
-                    <a href="{% url 'category_products' 'nightclothes' %}">Ноќници</a>
-                    <a href="{% url 'category_products' 'pajamas_saten' %}">Сатенски</a>
-                    <a href="{% url 'category_products' 'pajamas_plis' %}">Плишани</a>
-                    <a href="{% url 'category_products' 'pajamas_cotton' %}">Памучни</a>
-                    <a href="{% url 'category_products' 'pajamas_man' %}">Машки пижами</a>
+                    <a href="{% url 'category_products_pajamas_all' %}">Сите пижами</a>
+                    <a href="{% url 'category_products_subcategory' 'pajamas' 'nightclothes' %}">Ноќници</a>
+                    <a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_saten' %}">Сатенски</a>
+                    <a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_plis' %}">Плишани</a>
+                    <a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_cotton' %}">Памучни</a>
+                    <a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_man' %}">Машки пижами</a>
 
                 </div>
             </div>
@@ -581,13 +582,12 @@
                 <li><a href="{% url 'category_products' 'tshirt' %}"
                        class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Маици</a></li>
                 <li>
-                 <li><a href="{% url 'category_products' 'bodices' %}"
+                <li><a href="{% url 'category_products' 'bodices' %}"
                        class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Мидери</a></li>
                 <li>
                     <a href="{% url 'category_products' 'accessories' %}"
                        class="block py-3 px-4 rounded-lg hover:bg-pink-50 hover:text-pink-500 font-medium transition">Додатоци</a>
                 </li>
-
 
 
                 <!-- За нас и Контакт -->

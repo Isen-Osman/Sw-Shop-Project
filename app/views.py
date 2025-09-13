@@ -3,12 +3,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.db.models import Q
 from .forms import ProductForm
-from .models import Product, ProductQuantity, ProductImage, Size, Category
+from .models import Product, ProductQuantity, ProductImage, Size, Category, SubCategory
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from wishlist.models import WishlistProduct
+
 
 def product_list(request):
     products = Product.objects.all()
@@ -61,6 +62,7 @@ def product_list(request):
         'page_obj': page_obj,
         'selected_color': color,
     })
+
 
 def recently_added_products(request):
     products = Product.objects.all().order_by('-created_at')[:5]
@@ -174,23 +176,38 @@ def product_detail(request, pk):
     return render(request, 'products/product_detail.html', context)
 
 
-def products_by_category(request, category_name):
-    # Проверуваме дали е валидна категорија од Enum-от
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from .models import Product, Category
+
+
+def products_by_category(request, category_name, subcategory_name=None):
+    # Проверка дали категоријата е валидна
     try:
         category_enum = Category[category_name.upper()]
         category_value = category_enum.value
     except KeyError:
         return render(request, "404.html", {"error": "Категоријата не постои."})
 
-    # Филтрираме продукти според категорија
+    # Основен queryset според категорија
     products = Product.objects.filter(category=category_value)
+
+    # Ако има подкатегорија, филтрираме по subcategory
+    if subcategory_name:
+        try:
+            # Користи SubCategory наместо Category за подкатегориите
+            subcategory_enum = SubCategory[subcategory_name.upper()]
+            # Филтрирај според името на подкатегоријата, не нејзината вредност
+            products = products.filter(subcategory=subcategory_enum.name)  # или subcategory_enum.value
+        except KeyError:
+            return render(request, "404.html", {"error": "Подкатегоријата не постои."})
 
     # Филтрирање по боја
     color = request.GET.get("color")
     if color:
         products = products.filter(color=color)
 
-    # Додавање на new_price
+    # Додавање на нова цена
     for product in products:
         product.new_price = product.price + 200
 
@@ -199,12 +216,18 @@ def products_by_category(request, category_name):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    return render(request, "products/product_page.html", {
-        "page_obj": page_obj,
-        "category_name": dict(Category.choices).get(category_value, category_name.capitalize()),
-        "category_slug": category_name.lower(),
-        "selected_color": color,  # 👈 додадено за да можеш да го прикажеш во template
-    })
+    return render(
+        request,
+        "products/product_page.html",
+        {
+            "page_obj": page_obj,
+            "category_name": dict(Category.choices).get(category_value, category_name.capitalize()),
+            "category_slug": category_name.lower(),
+            "subcategory_slug": subcategory_name.lower() if subcategory_name else None,
+            "selected_color": color,
+        },
+    )
+
 
 def collections_page(request):
     return render(request, 'lg/collections_page.html')
@@ -291,8 +314,6 @@ def contact_view(request):
     return render(request, 'contact/contact.html')
 
 
-
-
 def products_by_color(request):
     selected_color = request.GET.get('color')  # query param ?color=RED
     if selected_color in dict(Color.choices):
@@ -307,25 +328,17 @@ def products_by_color(request):
     }
     return render(request, 'products_by_color.html', context)
 
+
 def privacy_cookie(request):
     return render(request, 'aboutUs/security.html')
 
 
-
 def bras_all(request):
-    products = Product.objects.filter(category__icontains="bras")
-
-    # Филтрирање по боја
-    color = request.GET.get("color")
-    if color:
-        products = products.filter(color=color)
-
-    # Додавање на new_price
-    for product in products:
-        product.new_price = product.price + 200
+    # Сите продукти што се во главна категорија BRAS
+    products = Product.objects.filter(category=Category.BRAS)
 
     # Пагинација
-    paginator = Paginator(products, 12)
+    paginator = Paginator(products, 6)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -333,23 +346,16 @@ def bras_all(request):
         "page_obj": page_obj,
         "category_name": "Градници",
         "category_slug": "bras",
-        "selected_color": color,
     }
 
     return render(request, "products/category_products.html", context)
 
 
 def panties_all(request):
-    products = Product.objects.filter(category__icontains="panties")
+    products = Product.objects.filter(category=Category.PANTIES)
 
-    color = request.GET.get("color")
-    if color:
-        products = products.filter(color=color)
-
-    for product in products:
-        product.new_price = product.price + 200
-
-    paginator = Paginator(products, 12)
+    # Пагинација
+    paginator = Paginator(products, 6)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -357,23 +363,16 @@ def panties_all(request):
         "page_obj": page_obj,
         "category_name": "Килоти",
         "category_slug": "panties",
-        "selected_color": color,
     }
 
     return render(request, "products/category_products.html", context)
 
 
 def pajamas_all(request):
-    products = Product.objects.filter(category__icontains="pajamas")
+    products = Product.objects.filter(category=Category.PAJAMAS)
 
-    color = request.GET.get("color")
-    if color:
-        products = products.filter(color=color)
-
-    for product in products:
-        product.new_price = product.price + 200
-
-    paginator = Paginator(products, 12)
+    # Пагинација
+    paginator = Paginator(products, 6)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -381,10 +380,10 @@ def pajamas_all(request):
         "page_obj": page_obj,
         "category_name": "Пижами",
         "category_slug": "pajamas",
-        "selected_color": color,
     }
 
     return render(request, "products/category_products.html", context)
+
 
 def delivery(request):
     """

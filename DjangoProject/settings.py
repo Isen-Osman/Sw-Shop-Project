@@ -234,42 +234,30 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
 # --- Cookies Security ---
-SESSION_COOKIE_SECURE = True  # Сесиите само преку HTTPS
-CSRF_COOKIE_SECURE = True  # CSRF cookies само преку HTTPS
-SESSION_COOKIE_HTTPONLY = True  # JavaScript не може да чита session privacy
-CSRF_COOKIE_HTTPONLY = False  # CSRF треба да биде достапен за формите
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Сесијата се брише при затворање на прелистувач
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # --- XSS & Content Type ---
-SECURE_BROWSER_XSS_FILTER = True  # Вграден XSS филтер во прелистувач
-SECURE_CONTENT_TYPE_NOSNIFF = True  # Браузерот не ја „угаѓа“ MIME type
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
-X_FRAME_OPTIONS = 'DENY'  # Забранува вчитување на сајтот во iframe
+X_FRAME_OPTIONS = 'DENY'
 
-SECURE_REFERRER_POLICY = 'same-origin'  # Не праќа referrer информации надвор од твојот домен
+SECURE_REFERRER_POLICY = 'same-origin'
+# Патот каде collectstatic ќе ги стави сите фајлови
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# --- Admin & Permissions ---
-# Само superusers треба да имаат пристап до admin site
-# Ограничувај пристап преку IP (опционално)
-# Ограничувај create/update/delete права за корисници
-# Препорачливо е да користиш custom user групи
+# URL за статички фајлови
+STATIC_URL = '/static/'
 
-# --- Rate Limiting & Brute Force Protection (Optional) ---
-# pip install django-ratelimit
-# Можеш да го додадеш во login views или forms
-
-# --- Other Security Best Practices ---
-# DEBUG = False  # Никогаш не го оставај на True во production
-# ALLOWED_HOSTS = ['tvojdomain.com', 'www.tvojdomain.com']  # Сите дозволени домени
-# SECURE_BROWSER_XSS_FILTER = True
-# SECURE_CONTENT_TYPE_NOSNIFF = True
+# За production caching
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
 
-#
-# HTTPS & HSTS (SECURE_SSL_REDIRECT, SECURE_HSTS_SECONDS) – гарантира дека целиот сообраќај е криптиран. Без тоа, податоците можат да се пресретнат.
-# Cookies Security (SESSION_COOKIE_SECURE, CSRF_COOKIE_SECURE) – без овие, cookies можат да се крадат или користат во XSS напади.
-# XSS & Content Type Filters (SECURE_BROWSER_XSS_FILTER, SECURE_CONTENT_TYPE_NOSNIFF) – штити од најчести напади преку веб прелистувачи.
-# Clickjacking (X_FRAME_OPTIONS) – без ова, некој може да вгради твојот сајт во iframe и да изведува „clickjacking“ напади.
-# Referrer & CSP – го ограничуваат кој може да вчитува ресурси и од каде се праќаат информации. Не е задолжително, но многу го зголемува security.
-# DEBUG = False & ALLOWED_HOSTS – задолжително за production, во спротивно сајтот е ранлив.
-# Admin & Permissions – само superuser треба да има пристап до admin; без ова, секој може да модифицира data.
+
+
+
+
