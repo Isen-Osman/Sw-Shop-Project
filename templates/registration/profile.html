@@ -7,191 +7,171 @@
     <title>Кориснички Профил</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary': {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                        'accent': {
-                            50: '#fdf4ff',
-                            100: '#fae8ff',
-                            200: '#f5d0fe',
-                            300: '#f0abfc',
-                            400: '#e879f9',
-                            500: '#d946ef',
-                            600: '#c026d3',
-                            700: '#a21caf',
-                            800: '#86198f',
-                            900: '#701a75',
-                        },
-                        'gray': {
-                            50: '#f9fafb',
-                            100: '#f3f4f6',
-                            200: '#e5e7eb',
-                            300: '#d1d5db',
-                            400: '#9ca3af',
-                            500: '#6b7280',
-                            600: '#4b5563',
-                            700: '#374151',
-                            800: '#1f2937',
-                            900: '#111827',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif']
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.5s ease-out',
-                        'slide-up': 'slideUp 0.5s ease-out',
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { transform: 'translateY(10px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            font-family: 'Poppins', sans-serif;
+            background-color: #f3f4f6;
+            color: #333;
             min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .card-hover {
-            transition: all 0.3s ease;
+        .container {
+            max-width: 40rem;
+            width: 100%;
         }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        .profile-header {
+            background-color: #eef2ff;
+            color: #1f2937;
+            padding: 3rem 0 5rem;
+            border-bottom: 4px solid #c7d2fe;
         }
-        .profile-image-placeholder {
-            background: linear-gradient(135deg, #7dd3fc 0%, #0ea5e9 100%);
+        .profile-content {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.03);
+            padding: 2.5rem;
+            margin-top: -3.5rem;
+            position: relative;
+            border: 1px solid #e5e7eb;
         }
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        .info-item:hover {
+            background-color: #f9fafb;
         }
         .back-button {
+            color: #4338ca;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
         .back-button:hover {
-            transform: translateX(-5px);
+            color: #3730a3;
+            transform: translateX(-0.2rem);
+        }
+        .section-title {
+            border-bottom: 3px solid #6366f1;
+            padding-bottom: 0.5rem;
+        }
+        .btn-primary {
+            background-color: #4338ca;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #3730a3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 56, 202, 0.25);
+        }
+        .btn-outline {
+            border: 2px solid #4338ca;
+            color: #4338ca;
+            transition: all 0.3s;
+        }
+        .btn-outline:hover {
+            background-color: #4338ca;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .btn-google {
+            transition: all 0.3s;
+        }
+        .btn-google:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px);
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
-    <div class="w-full max-w-md animate-fade-in">
-        <!-- Back Button -->
-        <a href="{% url 'home' %}" class="back-button inline-flex items-center text-primary-600 hover:text-primary-800 font-medium mb-4">
+<body>
+    <div class="container mx-auto px-4 py-8">
+        <a href="{% url 'home' %}" class="back-button inline-flex items-center text-sm font-medium mb-6">
             <i class="fas fa-arrow-left mr-2"></i>
             Назад кон почетна
         </a>
 
         {% if user.is_authenticated %}
-        <!-- Authenticated User View -->
-        <div class="glass-effect rounded-2xl overflow-hidden shadow-xl card-hover">
-            <!-- Profile Header with Gradient Background -->
-            <div class="bg-gradient-to-r from-primary-600 to-primary-800 p-6 text-center text-white">
-                <div class="relative inline-block mx-auto">
-                    {% if user.socialaccount_set.all.0.get_avatar_url %}
-                        <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Профилна слика"
-                             class="w-24 h-24 rounded-full border-4 border-white/30 shadow-lg mx-auto">
-                    {% else %}
-                        <div class="w-24 h-24 rounded-full border-4 border-white/30 profile-image-placeholder flex items-center justify-center text-3xl text-white font-bold shadow-lg mx-auto">
-                            {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
-                        </div>
-                    {% endif %}
-                    <div class="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-green-400 border-2 border-white"></div>
+        <div class="profile-header rounded-t-xl text-center mb-8">
+            <div class="relative inline-block mb-4">
+                {% if user.socialaccount_set.all.0.get_avatar_url %}
+                    <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" alt="Профилна слика"
+                         class="w-28 h-28 rounded-full border-4 border-white ring-4 ring-indigo-500/20 shadow-lg mx-auto">
+                {% else %}
+                    <div class="w-28 h-28 rounded-full border-4 border-white ring-4 ring-indigo-500/20 bg-indigo-600 flex items-center justify-center text-5xl text-white font-bold shadow-lg mx-auto">
+                        {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+                    </div>
+                {% endif %}
+                <div class="absolute bottom-2 right-4 w-4 h-4 rounded-full bg-green-500 border-2 border-white animate-pulse"></div>
+            </div>
+
+            <h1 class="text-3xl font-bold">{{ user.first_name }} {{ user.last_name }}</h1>
+            <p class="text-gray-500 mt-1">{{ user.email }}</p>
+        </div>
+
+        <div class="profile-content">
+            <h2 class="text-xl font-semibold text-gray-800 mb-6 section-title inline-block">
+                Детали за профилот
+            </h2>
+
+            <div class="space-y-2">
+                <div class="info-item">
+                    <div class="flex items-center text-gray-600 w-1/2">
+                        <i class="fas fa-id-card text-indigo-500 mr-4 w-6 text-center"></i>
+                        <span class="font-medium">Статус на сметка</span>
+                    </div>
+                    <div class="w-1/2 font-semibold text-right">
+                        <span class="text-green-600 bg-green-50 px-3 py-1 rounded-full text-xs">Потврдена</span>
+                    </div>
                 </div>
 
-                <h1 class="text-2xl font-bold mt-4">{{ user.first_name }} {{ user.last_name }}</h1>
-                <p class="text-primary-100 mt-1">{{ user.email }}</p>
+                <div class="info-item">
+                    <div class="flex items-center text-gray-600 w-1/2">
+                        <i class="far fa-calendar-alt text-indigo-500 mr-4 w-6 text-center"></i>
+                        <span class="font-medium">Членува од</span>
+                    </div>
+                    <div class="w-1/2 text-gray-800 font-semibold text-right">
+                        {{ user.date_joined|date:"d.m.Y" }}
+                    </div>
+                </div>
 
-                <div class="inline-flex items-center bg-primary-700/30 backdrop-blur-sm rounded-full px-4 py-1 text-sm mt-3">
-                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
-                    Активен корисник
+                <div class="info-item">
+                    <div class="flex items-center text-gray-600 w-1/2">
+                        <i class="fas fa-shield-alt text-indigo-500 mr-4 w-6 text-center"></i>
+                        <span class="font-medium">Безбедност</span>
+                    </div>
+                    <div class="w-1/2 font-semibold text-right">
+                        <span class="text-indigo-600">Google автентикација</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Profile Details -->
-            <div class="p-6 bg-white">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                    <i class="fas fa-user-circle text-primary-500 mr-2"></i>
-                    Детали за профилот
-                </h2>
+            <div class="mt-8 pt-6 border-t border-gray-200 flex flex-col sm:flex-row gap-4">
+                <a href="{% url 'logout' %}" class="btn-primary flex items-center justify-center gap-2 px-6 py-3 text-white rounded-full font-semibold shadow-md">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Одјави се
+                </a>
 
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg animate-slide-up">
-                        <div class="flex items-center text-gray-700">
-                            <i class="fas fa-id-card text-primary-500 mr-3"></i>
-                            <span>Статус на сметка</span>
-                        </div>
-                        <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">Потврдена</span>
-                    </div>
-
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg animate-slide-up">
-                        <div class="flex items-center text-gray-700">
-                            <i class="far fa-calendar text-primary-500 mr-3"></i>
-                            <span>Членува од</span>
-                        </div>
-                        <span class="text-gray-800 font-medium">{{ user.date_joined|date:"d.m.Y" }}</span>
-                    </div>
-
-                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg animate-slide-up">
-                        <div class="flex items-center text-gray-700">
-                            <i class="fas fa-shield-alt text-primary-500 mr-3"></i>
-                            <span>Безбедност</span>
-                        </div>
-                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">Google автентикација</span>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="mt-8 space-y-3">
-                    <a href="{% url 'logout' %}" class="flex items-center justify-center w-full gap-2 px-4 py-3 bg-gradient-to-r from-primary-600 to-primary-700 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-200">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Одјави се
-                    </a>
-
-                    <a href="{% url 'profile_page' %}" class="flex items-center justify-center w-full gap-2 px-4 py-3 border border-primary-200 text-primary-700 rounded-lg font-semibold hover:bg-primary-50 transition-all duration-200">
-                        <i class="fas fa-sync-alt"></i>
-                        Освежи профил
-                    </a>
-                </div>
+                <a href="{% url 'profile_page' %}" class="btn-outline flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold">
+                    <i class="fas fa-sync-alt"></i>
+                    Освежи профил
+                </a>
             </div>
         </div>
         {% else %}
-        <!-- Unauthenticated User View -->
-        <div class="glass-effect rounded-2xl overflow-hidden shadow-xl p-6 text-center card-hover">
-            <div class="w-20 h-20 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 flex items-center justify-center text-white mx-auto mb-6 shadow-lg">
+        <div class="bg-white p-8 rounded-xl shadow-lg text-center" style="border: 1px solid #e5e7eb;">
+            <div class="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 mx-auto mb-6">
                 <i class="fas fa-user-circle text-4xl"></i>
             </div>
 
-            <h2 class="text-2xl font-bold text-gray-800">Најави се</h2>
-            <p class="text-gray-600 mt-2">Влези во твојата сметка за да продолжиш</p>
+            <h2 class="text-2xl font-bold text-gray-800 section-title inline-block">Најави се</h2>
+            <p class="text-gray-600 mt-3">Влези во твојата сметка за да продолжиш</p>
 
-            <a href="{% url 'google_login' %}" class="mt-8 flex items-center justify-center gap-3 w-full px-4 py-3 bg-white border border-gray-200 rounded-lg text-gray-700 font-medium shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-200">
+            <a href="{% url 'google_login' %}" class="btn-google mt-8 inline-flex items-center justify-center gap-3 w-full px-4 py-3 bg-white border border-gray-300 rounded-full text-gray-700 font-medium shadow-sm hover:border-gray-400">
                 <svg class="w-5 h-5" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                     <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -204,15 +184,14 @@
             <div class="mt-8 pt-6 border-t border-gray-200">
                 <p class="text-gray-500 text-sm">
                     Со најавување, се согласуваш со нашите
-                    <a href="#" class="text-primary-600 hover:text-primary-800 font-medium">Услови на користење</a> и
-                    <a href="#" class="text-primary-600 hover:text-primary-800 font-medium">Политика за приватност</a>.
+                    <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">Услови на користење</a> и
+                    <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">Политика за приватност</a>.
                 </p>
             </div>
         </div>
         {% endif %}
 
-        <!-- Footer -->
-        <div class="text-center text-gray-500 text-xs mt-6">
+        <div class="text-center text-gray-400 text-xs mt-8">
             &copy; 2025 Сите права се задржани.
         </div>
     </div>

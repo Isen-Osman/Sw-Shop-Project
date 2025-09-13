@@ -14,29 +14,6 @@
             animation: spin 1s linear infinite;
         }
 
-        /* Стилови за приказ на боја */
-        .color-display {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background-color: #f9fafb;
-            border-radius: 0.75rem;
-            margin-top: 0.75rem;
-        }
-
-        .color-preview {
-            width: 1.5rem;
-            height: 1.5rem;
-            border-radius: 50%;
-            border: 2px solid #e5e7eb;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .color-name {
-            font-weight: 500;
-            color: #374151;
-        }
     </style>
 
     <div class="max-w-6xl mx-auto px-4 py-8">
@@ -62,15 +39,16 @@
             <!-- Product Images Carousel -->
             <div class="bg-white rounded-xl shadow-sm p-6">
                 <div class="relative w-full overflow-hidden rounded-lg">
-                    {% if product.images.all %}
-                        <div class="flex transition-transform duration-300 ease-in-out" id="imageCarousel">
-                            {% for img in product.images.all %}
-                                <div class="w-full flex-shrink-0">
-                                    <img src="{{ img.image.url }}" alt="{{ product.name }}"
-                                         class="w-full h-80 object-contain rounded-lg">
-                                </div>
-                            {% endfor %}
-                        </div>
+    {% if product.images.all %}
+        <div class="flex transition-transform duration-300 ease-in-out" id="imageCarousel">
+            {% for img in product.images.all %}
+                <div class="w-full flex-shrink-0">
+                    <img src="{{ img.image.url }}" alt="{{ product.name }}"
+                         class="w-full h-80 object-contain rounded-lg">
+                </div>
+            {% endfor %}
+        </div>
+
 
                         {% if product.images.all|length > 1 %}
                             <!-- Навигациски копчиња и индикатори -->
@@ -105,6 +83,7 @@
                             </div>
                         {% endif %}
                     {% else %}
+
                         <div class="w-full bg-gray-100 rounded-lg h-80 flex items-center justify-center">
                             <div class="text-center text-gray-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto mb-4" fill="none"
@@ -117,8 +96,6 @@
                         </div>
                     {% endif %}
                 </div>
-
-                <!-- Нов блок под сликата -->
 
             </div>
 
@@ -182,6 +159,7 @@
                                 disabled>
                             −
                         </button>
+
                         <span id="selectedQty" class="text-gray-800 font-medium w-8 text-center">1</span>
                         <button type="button" id="increaseQty"
                                 class="px-3 py-1 bg-gray-200 rounded-lg hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed">
@@ -191,6 +169,7 @@
 
 
                 </div>
+
 
                 <!-- Add to Cart Button -->
                 <div class="mt-8">

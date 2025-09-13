@@ -3,8 +3,147 @@
 {% block title %}Кошничка | Modern Shop{% endblock %}
 
 {% block content %}
-    <div class="max-w-6xl mx-auto px-4 py-10">
+    <style>
+        /* Стилови за loading модал */
+        .loading-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+        }
 
+        .loading-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .loading-bar-container {
+            width: 100%;
+            height: 8px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .loading-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ec4899, #f472b6);
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        .loading-subtext {
+    font-size: 14px;
+    color: #666;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+}
+
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .spinner-circle {
+            width: 100%;
+            height: 100%;
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #ec4899;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-percentage {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ec4899;
+            margin: 1rem 0;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .loading-dots {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin: 1rem 0;
+        }
+
+        .loading-dot {
+            width: 8px;
+            height: 8px;
+            background: #ec4899;
+            border-radius: 50%;
+            animation: dot-pulse 1.5s infinite ease-in-out;
+        }
+
+        .loading-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes dot-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.7; }
+        }
+    </style>
+
+    <!-- Loading модал -->
+    <div id="loadingModal" class="loading-modal">
+        <div class="loading-content">
+            <div class="loading-spinner">
+                <div class="spinner-circle"></div>
+            </div>
+            <div class="loading-text">Креирање нарачка</div>
+            <p class="loading-subtext">Ве молиме почекајте...</p>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-10">
         <!-- Header -->
         <div class="mb-8 text-center">
             <h1 class="text-3xl sm:text-3xl font-bold text-gray-900">
@@ -75,19 +214,12 @@
             <div class="mt-8 flex justify-end border-t border-gray-100 pt-8">
                 <div class="w-screen max-w-lg space-y-4">
                     <dl class="space-y-0.5 text-sm text-gray-700">
-
                         <div class="flex justify-between items-center">
                             <dt class="bg-red-500 text-white text-sm font-semibold px-2 py-1 rounded-md">% Цена со Попуст</dt>
                             <dd class="text-red-600 font-medium">
                                 {{ total_price }} ден
                             </dd>
                         </div>
-
-
-{#                        <div class="flex justify-between !text-base font-medium">#}
-{#                            <dt>За плаќање</dt>#}
-{#                            <dd>{{ total_price }} ден.</dd>#}
-{#                        </div>#}
                     </dl>
 
                     <div class="flex justify-between mt-5 gap-5">
@@ -101,18 +233,15 @@
                             Назад кон пазарење
                         </button>
 
-                        <form method="POST" action="{% url 'create_order' %}">
-                            {% csrf_token %}
-                            <button type="submit"
-                                    class="flex items-center gap-2 rounded-xl bg-gradient-to-r from-pink-500 to-pink-600 px-5 py-3 text-sm text-white">
-                                Направи Нарачка
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5" stroke="currentColor" class="size-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                                </svg>
-                            </button>
-                        </form>
+                        <button type="button" id="createOrderBtn"
+                                class="flex items-center gap-2 rounded-xl bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 px-5 py-3 text-sm text-white pulse">
+                            Направи Нарачка
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke-width="1.5" stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -135,4 +264,68 @@
             </div>
         {% endif %}
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const createOrderBtn = document.getElementById('createOrderBtn');
+            const loadingModal = document.getElementById('loadingModal');
+            const loadingBar = document.getElementById('loadingBar');
+            const loadingPercentage = document.getElementById('loadingPercentage');
+
+            if (createOrderBtn) {
+                createOrderBtn.addEventListener('click', function() {
+                    // Прикажи го loading модалот
+                    loadingModal.style.display = 'flex';
+
+                    // Започни со loading анимација
+                    startLoadingAnimation();
+                });
+            }
+
+            function startLoadingAnimation() {
+                let progress = 0;
+                const targetProgress = 100;
+                const duration = 1000; // 3 секунди вкупно
+                const interval = 30; // Ажурирај на секои 30ms
+                const increment = (interval / duration) * targetProgress;
+
+                const loadingInterval = setInterval(() => {
+                    if (progress < targetProgress) {
+                        progress += increment;
+                        if (progress > targetProgress) progress = targetProgress;
+
+                        // Ажурирај го loading bar-от
+                        loadingBar.style.width = progress + '%';
+                        loadingPercentage.textContent = Math.round(progress) + '%';
+                    } else {
+                        clearInterval(loadingInterval);
+
+                        // Почекај малку на 100% пред пренасочување
+                        setTimeout(() => {
+                            // Испрати формата
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = '{% url "create_order" %}';
+
+                            const csrfToken = document.createElement('input');
+                            csrfToken.type = 'hidden';
+                            csrfToken.name = 'csrfmiddlewaretoken';
+                            csrfToken.value = '{{ csrf_token }}';
+                            form.appendChild(csrfToken);
+
+                            document.body.appendChild(form);
+                            form.submit();
+                        }, 500);
+                    }
+                }, interval);
+            }
+
+            // Затвори модал при клик надвор од содржината
+            loadingModal.addEventListener('click', function(e) {
+                if (e.target === loadingModal) {
+                    loadingModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
 {% endblock %}

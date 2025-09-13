@@ -25,7 +25,8 @@ class Size(models.TextChoices):
     SIZE_115 = "115", "115"
     SIZE_120 = "120", "120"
     SIZE_125 = "125", "125"
-    SIZE_130 = "130", "130"
+    SIZE_130 = "130", "130",
+    STANDARD = "Standard", "Standard"
 
 
 class Color(models.TextChoices):
@@ -52,10 +53,40 @@ class Color(models.TextChoices):
 
 
 class Category(models.TextChoices):
-    BRAS = "Градници", "Градници"
-    PANTIES = "Килоти", "Килоти"
-    LINGERIE = "Приватна", "Приватна"
-    PAJAMAS = "Пижами", "Пижами"
+    BRAS = "BRAS", "Градници"
+    PANTIES = "PANTIES", "Килоти"
+    LINGERIE = "LINGERIE", "Приватна"
+    PAJAMAS = "PAJAMAS", "Пижами"
+    TSHIRT = "TSHIRT", "Маици"
+    BODICES = "BODICES", "Мидери"
+    LEGGINGS = "LEGGINGS", "Хеланки"
+    NIGHTCLOTHES = "NIGHTCLOTHES", "Ноќници"
+    KITS = "KITS", "Комплети"
+    BABY_DOLL = "BABY_DOLL", "Бебидол"
+    ACCESSORIES = "ACCESSORIES", "Додатоци"
+
+
+class SubCategory(models.TextChoices):
+    # Подкатегории за градници
+    BRAS_PUSH_UP = "BRAS_PUSH_UP", "Градници - Push-up"
+    BRAS_SPORT = "BRAS_SPORT", "Градници - Спортски"
+    BRAS_LACE = "BRAS_LACE", "Градници - Чипкани"
+    BRAS_UNDERWIRE = "BRAS_UNDERWIRE", "Градници - Без жица"
+    BRAS_STICK = "BRAS_STICK", "Градници - Лепенки"
+
+    # Подкатегории за килоти
+    PANTIES_TANGA = "PANTIES_TANGA", "Килоти - Танга"
+    PANTIES_HALF_TANGA = "PANTIES_HALF_TANGA", "Килоти - Полутанга"
+    PANTIES_HIGH_WAIST = "PANTIES_HIGH_WAIST", "Килоти - Високи"
+    BOXER_PANTIES = "BOXER_PANTIES", "Килоти - Боксерки"
+
+    # Подкатегории за пижами
+    PAJAMAS_SHORT = "PAJAMAS_SHORT", "Пижами - Кратки"
+    PAJAMAS_LONG = "PAJAMAS_LONG", "Пижами - Долги"
+    PAJAMAS_SATEN = "PAJAMAS_SATEN", "Пижами - Сатенски"
+    PAJAMAS_PLIS = "PAJAMAS_PLIS", "Пижами - Плишани"
+    PAJAMAS_COTTON = "PAJAMAS_COTTON", "Пижами - Памучни"
+    PAJAMAS_MAN = "PAJAMAS_MAN", "Пижами - Машки"
 
 
 # Главен модел Product
@@ -65,6 +96,12 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     color = models.CharField(max_length=20, choices=Color.choices)
     category = models.CharField(max_length=50, choices=Category.choices, default=Category.BRAS)
+    subcategory = models.CharField(
+        max_length=50,
+        choices=SubCategory.choices,
+        blank=True,
+        null=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -74,7 +111,7 @@ class Product(models.Model):
 # Quantity по големина
 class ProductQuantity(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='quantities')
-    size = models.CharField(max_length=5, choices=Size.choices)
+    size = models.CharField(max_length=255, choices=Size.choices)
     quantity = models.PositiveIntegerField(default=0)
 
     def __str__(self):

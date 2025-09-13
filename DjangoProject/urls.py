@@ -37,7 +37,7 @@ urlpatterns = [
 
     # Orders
     path('create-order/', order_views.create_order, name='create_order'),
-    path('order-success/<int:order_id>/', order_views.order_success, name='order_success'),
+    # path('order-success/<int:order_id>/', order_views.order_success, name='order_success'),
     path('order-confirmation/<int:order_id>/', order_views.order_confirmation, name='order_confirmation'),
 
     path('about/', views.about_us, name='about_us'),
@@ -53,8 +53,17 @@ urlpatterns = [
 
     path('products/color/', views.products_by_color, name='products_by_color'),
 
+    path('privacy/', views.privacy_cookie, name='privacy_cookie'),
     path('delivery/', order_views.delivery, name='delivery'),
-    path('privacy/', views.privacy_cookie, name='privacy_cookie')
+
+    path('category/pajamas/', views.pajamas_all, name='category_products_pajamas_all'),
+    path('category/bras/', views.bras_all, name='category_products_bras_all'),
+    path('category/panties/', views.panties_all, name='category_products_panties_all'),
+
+    path('categories/', views.categories_view, name='categories'),
+    path('category/<str:category_name>/', views.products_by_category, name='category_products'),
+    path('category/<str:category_name>/<str:subcategory_name>/', views.products_by_category,
+         name='category_products_subcategory'),
 
 ]
 

@@ -428,82 +428,198 @@
         </div>
     </section>
 
-    <!-- Categories Cards Section -->
-    <section class="py-12 bg-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="luxe-font text-3xl font-bold text-center mb-8">Колекции</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Bras -->
-                <a href="{% url 'category_products' 'bras' %}" class="category-card">
-                    <img src="https://images.unsplash.com/photo-1598459514116-9479e8c44fff?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                         alt="Градници">
-                    <div class="category-overlay">
-                        <h3 class="luxe-font text-xl font-semibold">Градници</h3>
-                    </div>
-                </a>
+    <!-- Categories Kiloti Section -->
+<!-- Килоти -->
+<section class="py-16 bg-pink-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="luxe-font text-4xl font-bold text-center mb-12 text-pink-800">Килоти</h2>
 
-                <!-- Panties -->
-                <a href="{% url 'category_products' 'panties' %}" class="category-card">
-                    <img src="https://images.unsplash.com/photo-1598814996644-388a29362dc7?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                         alt="Пижами">
-                    <div class="category-overlay">
-                        <h3 class="luxe-font text-xl font-semibold">Пижами</h3>
-                    </div>
-                </a>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 md:gap-8 justify-center">
 
-                <!-- Pajamas -->
-                <a href="{% url 'category_products' 'pajamas' %}" class="category-card">
-                    <img src="https://images.unsplash.com/photo-1643539293760-0061e47e6828?q=80&w=1584&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                         alt="Приватна">
-                    <div class="category-overlay">
-                        <h3 class="luxe-font text-xl font-semibold">Приватна</h3>
-                    </div>
-                </a>
+            <!-- Panties -->
+            <a href="{% url 'category_products_panties_all'  %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-pink-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/photo-1643539293604-239cc115a150?q=80&w=1519&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Килоти" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-pink-900 group-hover:text-pink-700 transition-colors">Сите Килоти</span>
+            </a>
 
-                <!-- Lingerie -->
-                <a href="{% url 'category_products' 'lingerie' %}" class="category-card">
-                    <img src="https://images.unsplash.com/photo-1587271636243-3bce559ae72e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                         alt="Нова Колекција">
-                    <div class="category-overlay">
-                        <h3 class="luxe-font text-xl font-semibold">Приватна</h3>
-                    </div>
-                </a>
-            </div>
+            <a href="{% url 'category_products_subcategory' 'panties' 'panties_tanga' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-pink-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/photo-1599544593314-090522e0c29d?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Танги" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-pink-900 group-hover:text-pink-700 transition-colors">Танги</span>
+            </a>
+
+            <a href="{% url 'category_products_subcategory' 'panties' 'PANTIES_HALF_TANGA' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-pink-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/photo-1644083589199-423584e0f87f?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Полу Танги" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-pink-900 group-hover:text-pink-700 transition-colors">Полу Танги</span>
+            </a>
+
+            <a href="{% url 'category_products_subcategory' 'panties' 'panties_high_waist' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-pink-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/photo-1645455164390-fd61551aba05?q=80&w=1065&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Високи" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-pink-900 group-hover:text-pink-700 transition-colors">Високи</span>
+            </a>
+
+            <a href="{% url 'category_products_subcategory' 'panties' 'boxer_panties' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-pink-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/photo-1612678421357-851c477e860d?q=80&w=1015&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Боксерки" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-pink-900 group-hover:text-pink-700 transition-colors">Боксерки</span>
+            </a>
+
         </div>
-    </section>
+    </div>
+</section>
+
+<!-- Градници -->
+<section class="py-16 bg-purple-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="luxe-font text-4xl font-bold text-center mb-12 text-purple-800">Градници</h2>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 md:gap-8 justify-center">
+            <a href="{% url 'category_products_bras_all' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-purple-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://plus.unsplash.com/premium_photo-1658506771506-820c458eabe5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Push up" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-purple-900 group-hover:text-purple-700 transition-colors">Сите градници</span>
+            </a>
+
+              <a href="{%  url 'category_products_subcategory' 'bras' 'bras_push_up' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-purple-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/photo-1594616091971-bf856a77b57d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Push up" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-purple-900 group-hover:text-purple-700 transition-colors">Push up</span>
+            </a>
+
+
+            <a href="{% url 'category_products_subcategory' 'bras' 'bras_sport' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-purple-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/photo-1518617840859-acd542e13a99?q=80&w=1952&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Спортски" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-purple-900 group-hover:text-purple-700 transition-colors">Спортски</span>
+            </a>
+
+            <a href="{% url 'category_products_subcategory' 'bras' 'bras_lace' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-purple-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/photo-1568663521381-33b7c467fda0?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YnJhfGVufDB8fDB8fHww"
+                         alt="Чипкани" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-purple-900 group-hover:text-purple-700 transition-colors">Чипкани</span>
+            </a>
+
+            <a href="{% url 'category_products_subcategory' 'bras' 'bras_underwire' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-purple-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/photo-1694290340663-65804773ce7a?q=80&w=1591&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Со жица" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-purple-900 group-hover:text-purple-700 transition-colors">Без жица</span>
+            </a>
+
+            <a href="{% url 'category_products_subcategory' 'bras' 'bras_stick' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-purple-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://plus.unsplash.com/premium_photo-1702599183511-04c684bc1fad?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Лепенки" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-purple-900 group-hover:text-purple-700 transition-colors">Лепенки</span>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+<!-- Пижами -->
+<section class="py-16 bg-blue-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="luxe-font text-4xl font-bold text-center mb-12 text-blue-800">Пижами</h2>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-8 justify-center">
+
+             <a href="{% url 'category_products_pajamas_all' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-blue-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/photo-1672710131480-a640dfa59a29?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Сатенски" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-blue-900 group-hover:text-blue-700 transition-colors">Сите пижами</span>
+            </a>
+
+            <a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_saten' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-blue-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/flagged/photo-1553802921-f70ef4de0a40?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Сатенски" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-blue-900 group-hover:text-blue-700 transition-colors">Сатенски</span>
+            </a>
+
+            <a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_plis' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-blue-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://plus.unsplash.com/premium_photo-1682088411590-4adce9fb1d9b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Плишани" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-blue-900 group-hover:text-blue-700 transition-colors">Плишани</span>
+            </a>
+
+            <a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_cotton' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-blue-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://images.unsplash.com/photo-1654512462970-8191bc8742bd?q=80&w=1064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Памучни" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-blue-900 group-hover:text-blue-700 transition-colors">Памучни</span>
+            </a>
+
+            <a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_man' %}" class="flex flex-col items-center group">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white group-hover:border-blue-300 transition-all duration-300 shadow-lg group-hover:shadow-xl mb-3 transform group-hover:scale-110">
+                    <img src="https://plus.unsplash.com/premium_photo-1663090866941-66e42617c51e?q=80&w=2052&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                         alt="Машки пижами" class="w-full h-full object-cover">
+                </div>
+                <span class="text-sm font-semibold text-center text-blue-900 group-hover:text-blue-700 transition-colors">Машки пижами</span>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+
 
     <!-- Wow Collection Section -->
     <section class="wow-collection">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <h2 class="luxe-font text-3xl sm:text-4xl font-bold text-center mb-4 section-title">WOW Колекција</h2>
-            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">Откријте ги нашите најпопуларни парчиња што ги
-                обожаваат нашите клиенти</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {% for product in products|dictsort:"id" %}
-                    {% if forloop.counter <= 3 %}
-                        <a href="{% url 'product_detail' product.id %}" class="collection-card block">
-                            {% if product.images.all %}
-                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}"
-                                     class="collection-img">
-                            {% else %}
-                                <div class="w-full h-48 bg-gray-100 flex items-center justify-center">
-                                    <i class="fas fa-image text-gray-300 text-2xl"></i>
-                                </div>
-                            {% endif %}
-                            <div class="collection-overlay">
-                                <h3 class="luxe-font text-xl font-semibold">{{ product.name }}</h3>
-                                <p class="mb-2">{{ product.description|truncatechars:40 }}</p>
-                                <p class="font-bold">{{ product.price }} ден</p>
-                            </div>
-                        </a>
-                    {% endif %}
-                {% endfor %}
+            <!-- Статична слика за целата колекција со попуст -->
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl mb-12 wow-banner">
+                <img src="https://images.unsplash.com/photo-1557682250-33bd709cbe85?q=80&w=2029&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                     alt="WOW Колекција - 20% попуст на сите артикли"
+                     class="w-full h-[400px] object-cover">
+
+
+
+                <!-- Текст на сликата -->
+                <div class="absolute inset-0 bg-black bg-opacity-30 flex flex-col items-center justify-center text-white p-6 text-center">
+                    <h3 class="luxe-font text-3xl md:text-4xl lg:text-5xl font-bold mb-4">WOW КОЛЕКЦИЈА</h3>
+                    <p class="text-xl md:text-2xl mb-6 max-w-2xl">Најдобрите парчиња од сезоната со исклучителен попуст</p>
+                    <p class="text-2xl md:text-3xl font-bold mb-8">20% попуст на сите артикли</p>
+                    <a href="{% url 'category_products' 'pajamas' %}" class="btn-luxe bg-white text-black hover:bg-gray-100">
+                        Дознај повеќе
+                    </a>
+                </div>
             </div>
 
-            <div class="text-center mt-12">
-                <a href="{% url 'category_products' 'pajamas' %}" class="btn-luxe">Види цела колекција</a>
+
             </div>
+
+
         </div>
     </section>
 
@@ -537,62 +653,111 @@
 
 
     <!-- Services Section -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Sigurno Plaćanje -->
-                <div class="flex flex-col items-center text-center p-6 bg-pink-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
-                    <div class="bg-pink-100 p-4 rounded-full mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-600" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">СИГУРНО ПЛАЌАЊЕ</h3>
-                    <p class="text-gray-600 text-sm">Платете на врата кога ќе Ви се достави производот</p>
-                </div>
+<section class="py-16 bg-gradient-to-b from-white via-gray-50 to-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900">Што добивате со нас</h2>
+        <p class="mt-2 text-gray-600 max-w-xl">
+          Брзо, сигурно и со љубов — услуги што го прават шопингот едноставен.
+        </p>
+      </div>
+      <div class="hidden sm:flex gap-3">
+        <a href="#features" class="inline-flex items-center gap-2 px-4 py-2 bg-pink-600 text-white rounded-xl shadow hover:bg-pink-700 transition">
+          Претходен
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+        <a href="/delivery/" class="inline-flex items-center gap-2 px-4 py-2 bg-white text-pink-600 border border-pink-200 rounded-xl shadow-sm hover:shadow-md transition">
+          Повеќе за достава
+        </a>
+      </div>
+    </div>
 
-                <!-- Ekspres Dostava -->
-                <div class="flex flex-col items-center text-center p-6 bg-purple-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
-                    <div class="bg-purple-100 p-4 rounded-full mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">ЕКСПРЕС ДОСТАВА</h3>
-                    <p class="text-gray-600 text-sm">Достава во најкус можен рок низ цела држава</p>
-                </div>
-
-                <!-- 100% Sigurnost -->
-                <div class="flex flex-col items-center text-center p-6 bg-yellow-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
-                    <div class="bg-yellow-100 p-4 rounded-full mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">100% СИГУРНОСТ</h3>
-                    <p class="text-gray-600 text-sm">Вашите податоци се 100% заштитени</p>
-                </div>
-
-                <!-- 24/7 Shoping -->
-                <div class="flex flex-col items-center text-center p-6 bg-pink-50 rounded-xl shadow-md hover:shadow-xl transition-shadow">
-                    <div class="bg-pink-100 p-4 rounded-full mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-600" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2">24/7 ШОПИНГ</h3>
-                    <p class="text-gray-600 text-sm">Нарачувајте кога сакате 24/7 преку интернет</p>
-                </div>
-            </div>
+    <!-- Grid -->
+    <div id="features" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Card 1 -->
+      <article class="group relative overflow-hidden rounded-2xl bg-white/60 backdrop-blur-sm p-6 shadow-lg hover:shadow-2xl transform transition hover:-translate-y-2">
+        <div class="absolute -left-10 -top-10 w-44 h-44 bg-pink-100 rounded-full opacity-40 blur-2xl pointer-events-none"></div>
+        <div class="flex items-center justify-center mb-4">
+{#          <img src="{% static 'images/payment-illustration.png' %}" alt="Плаќање" class="h-20 w-20 object-contain">#}
         </div>
-    </section>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Сигурно плаќање</h3>
+        <p class="text-sm text-gray-600 mb-4">Плати на врата или онлајн — сигурно и заштитено.</p>
+        <a href="/payment-info/" class="inline-flex items-center gap-2 text-pink-600 font-medium hover:underline">
+          Научи повеќе
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-violet-50 to-white p-6 shadow-lg hover:shadow-2xl transform transition hover:-translate-y-2">
+        <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-violet-100 rounded-full opacity-30 blur-xl pointer-events-none"></div>
+        <div class="flex items-center justify-center mb-4">
+{#          <img src="{% static 'images/delivery-illustration.png' %}" alt="Достава" class="h-20 w-20 object-contain">#}
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Експрес достава</h3>
+        <p class="text-sm text-gray-600 mb-4">Достава низ целата држава — брзо и безбедно.</p>
+        <a href="/delivery/" class="inline-flex items-center gap-2 text-violet-600 font-medium hover:underline">
+          Провери опции
+        </a>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="group relative overflow-hidden rounded-2xl bg-yellow-50 p-6 shadow-lg hover:shadow-2xl transform transition hover:-translate-y-2">
+        <div class="absolute left-4 top-4 w-12 h-12 bg-yellow-100 rounded-full opacity-60 pointer-events-none"></div>
+        <div class="flex items-center justify-center mb-4">
+{#          <img src="{% static 'images/security-illustration.png' %}" alt="Сигурност" class="h-20 w-20 object-contain">#}
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">100% сигурност</h3>
+        <p class="text-sm text-gray-600 mb-4">Заштита на податоци и безбедно чување информации.</p>
+        <a href="/privacy/" class="inline-flex items-center gap-2 text-yellow-700 font-medium hover:underline">
+          Политика за приватност
+        </a>
+      </article>
+
+      <!-- Card 4 (CTA) -->
+      <article class="group relative overflow-hidden rounded-2xl bg-pink-600 text-white p-6 shadow-2xl hover:shadow-3xl transform transition hover:-translate-y-2">
+        <div class="absolute -right-16 -top-16 w-56 h-56 bg-pink-500 rounded-full opacity-20 blur-3xl pointer-events-none"></div>
+        <div class="flex items-center justify-center mb-4">
+{#          <img src="{% static 'images/24-7-illustration.png' %}" alt="24/7" class="h-20 w-20 object-contain invert">#}
+        </div>
+        <h3 class="text-lg font-semibold mb-2">24/7 Шопинг</h3>
+        <p class="text-sm mb-4">Нарачајте кога ви одговара — брзо, едноставно и без стрес.</p>
+        <a href="/shop/" class="inline-flex items-center gap-2 bg-white text-pink-600 rounded-full px-4 py-2 font-semibold shadow hover:scale-105 transition">
+          Види ја продавницата
+        </a>
+      </article>
+    </div>
+
+    <!-- Mobile: small indicators -->
+    <div class="mt-6 flex items-center justify-center gap-2 sm:hidden">
+      <span class="w-2 h-2 bg-pink-600 rounded-full"></span>
+      <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+      <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+      <span class="w-2 h-2 bg-gray-300 rounded-full"></span>
+    </div>
+  </div>
+</section>
+
+<!-- Optional small JS for subtle entrance animation (paste before </body>) -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const cards = document.querySelectorAll('#features article');
+    cards.forEach((c, i) => {
+      c.style.opacity = 0;
+      c.style.transform = 'translateY(12px)';
+      setTimeout(() => {
+        c.style.transition = 'opacity 400ms ease, transform 400ms ease';
+        c.style.opacity = 1;
+        c.style.transform = 'translateY(0)';
+      }, 120 * i);
+    });
+  });
+</script>
 
     <!-- Stats Section -->
     <section class="py-12 sm:py-16 bg-pink-50">
