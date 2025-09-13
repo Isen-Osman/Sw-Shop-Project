@@ -1,5 +1,7 @@
 from pathlib import Path
 from decouple import config
+import os
+
 
 # -------------------------------
 # Base directory
@@ -50,14 +52,20 @@ INSTALLED_APPS = [
     'django_extensions',
 ]
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': config('CLOUD_NAME'),
-    'API_KEY': config('API_KEY'),
-    'API_SECRET': config('API_SECRET'),
-}
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': config('CLOUD_NAME'),
+#     'API_KEY': config('API_KEY'),
+#     'API_SECRET': config('API_SECRET'),
+# }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+
+# Основна директорија на проектот
+
+# Локална папка за медија фајлови
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # -------------------------------
 # Authentication backends
 # -------------------------------
@@ -122,27 +130,27 @@ WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 # -------------------------------
 # Database
 # -------------------------------
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 from urllib.parse import urlparse
 
 url = urlparse(config('MY_SQL_DATABASE'))
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': url.path[1:],  # отстрануваме почетен /
-        'USER': url.username,
-        'PASSWORD': url.password,
-        'HOST': url.hostname,
-        'PORT': url.port,
-
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': url.path[1:],  # отстрануваме почетен /
+#         'USER': url.username,
+#         'PASSWORD': url.password,
+#         'HOST': url.hostname,
+#         'PORT': url.port,
+#
+#     }
+# }
 
 CACHES = {
     'default': {
