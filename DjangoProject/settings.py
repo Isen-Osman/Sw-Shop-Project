@@ -133,25 +133,17 @@ WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 # -------------------------------
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'swshopdb',
+        'USER': 'isen',
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 from urllib.parse import urlparse
 
 url = urlparse(config('MY_SQL_DATABASE'))
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': url.path[1:],  # отстрануваме почетен /
-#         'USER': url.username,
-#         'PASSWORD': url.password,
-#         'HOST': url.hostname,
-#         'PORT': url.port,
-#
-#     }
-# }
 
 CACHES = {
     'default': {
@@ -182,6 +174,7 @@ USE_TZ = True
 # Static files
 # -------------------------------
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -225,7 +218,7 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 ALLOWED_HOSTS = ['192.168.1.196', '192.168.1.187', 'localhost', '127.0.0.1', '192.168.1.185',
-                 'your-railway-app.up.railway.app', 'sw-shop-project-3.onrender.com',]
+                 'your-railway-app.up.railway.app', 'sw-shop-project-3.onrender.com', '165.227.170.149',]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
@@ -256,17 +249,4 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
 
 SECURE_REFERRER_POLICY = 'same-origin'
-# Патот каде collectstatic ќе ги стави сите фајлови
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# URL за статички фајлови
-STATIC_URL = '/static/'
-
-# За production caching
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
-
-
-
-
-
 
