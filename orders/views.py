@@ -7,6 +7,26 @@ from django.template.loader import render_to_string
 from .models import Order, OrderItem
 from .forms import OrderForm
 from app.models import ProductQuantity
+from concurrent.futures import ThreadPoolExecutor
+
+# ThreadPool за асинхроно праќање email-и
+email_executor = ThreadPoolExecutor(max_workers=5)
+
+
+def send_email_async(subject, html_content, recipient):
+    """Функција за асинхроно праќање email."""
+    def _send():
+        email = EmailMultiAlternatives(
+            subject,
+            '',
+            settings.DEFAULT_FROM_EMAIL,
+            [recipient]
+        )
+        email.attach_alternative(html_content, "text/html")
+        email.send(fail_silently=False)
+
+    email_executor.submit(_send)
+
 
 @login_required
 def create_order(request):
@@ -85,31 +105,25 @@ def order_confirmation(request, order_id):
     if not order.email_sent:
         # Email за корисник
         html_user = render_to_string('order/order_confirmation_email.html', {'order': order})
-        email_user = EmailMultiAlternatives(
+        send_email_async(
             f"Потврда на нарачка #{order.id}",
-            '',
-            settings.DEFAULT_FROM_EMAIL,
-            [order.user.email]
+            html_user,
+            order.user.email
         )
-        email_user.attach_alternative(html_user, "text/html")
-        email_user.send(fail_silently=False)
 
         # Email за администратор
         html_admin = render_to_string('order/order_confirmation_email_for_me.html', {'order': order})
-        email_admin = EmailMultiAlternatives(
+        send_email_async(
             f"Нова нарачка #{order.id}",
-            '',
-            settings.DEFAULT_FROM_EMAIL,
-            [settings.DEFAULT_FROM_EMAIL]  # Адреса на администратор
+            html_admin,
+            settings.DEFAULT_FROM_EMAIL
         )
-        email_admin.attach_alternative(html_admin, "text/html")
-        email_admin.send(fail_silently=False)
 
         # Обележи дека email е испратен
         order.email_sent = True
         order.save()
 
-    # Намалување на quantity за секој купен производ (може да се смести тука)
+    # Намалување на quantity за секој купен производ
     for item in order.items.all():
         pq = ProductQuantity.objects.filter(product=item.product, size=item.size).first()
         if pq:
