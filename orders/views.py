@@ -116,7 +116,7 @@ def order_confirmation(request, order_id):
         send_email_async(
             f"Нова нарачка #{order.id}",
             html_admin,
-            settings.DEFAULT_FROM_EMAIL
+            'shopsw108@gmail.com'
         )
 
         # Обележи дека email е испратен
