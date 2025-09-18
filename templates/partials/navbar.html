@@ -495,20 +495,21 @@
                         </summary>
                         <ul class="pl-6 mt-2 space-y-1 max-h-0 overflow-hidden transition-[max-height] duration-500 ease-in-out group-open:max-h-96">
 
-                            <li><a href="{% url 'category_products' 'bras_push_up' %}"
+                            <li><a href="{% url 'category_products_bras_all'  %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Сите градници</a></li>
+                            <li><a href="{% url 'category_products_subcategory' 'bras' 'bras_push_up' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Push-up</a></li>
-                            <li><a href="{% url 'category_products' 'bras_sport' %}"
+                            <li><a href="{% url 'category_products_subcategory' 'bras' 'bras_sport' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Спортски</a></li>
-                            <li><a href="{% url 'category_products' 'bras_lace' %}"
+                            <li><a href="{% url 'category_products_subcategory' 'bras' 'bras_lace' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Чипкани</a></li>
-                            <li><a href="{% url 'category_products' 'bras_underwire' %}"
+                            <li><a href="{%url 'category_products_subcategory' 'bras' 'bras_underwire' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Без жица</a></li>
                             <li><a href="{% url 'category_products' 'baby_doll' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Бебидол</a></li>
-                            <li><a href="{% url 'category_products' 'bras_stick' %}"
+                            <li><a href="{% url 'category_products_subcategory' 'bras' 'bras_stick' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Лепенки</a></li>
                         </ul>
-
 
                     </details>
                 </li>
@@ -523,17 +524,21 @@
                         </summary>
                         <ul class="pl-6 mt-2 space-y-1 overflow-hidden max-h-0 transition-all duration-300 ease-in-out group-open:max-h-96">
 
-                            <li><a href="{% url 'category_products' 'panties_tanga' %}"
+                             <li><a href="{% url 'category_products_panties_all' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Сите Килоти</a></li>
+                            <li><a href="{% url 'category_products_subcategory' 'panties' 'panties_tanga' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Танга</a></li>
-                            <li><a href="{% url 'category_products' 'panties_half_tanga' %}"
+                            <li><a href="{% url 'category_products_subcategory' 'panties' 'PANTIES_HALF_TANGA' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Полутанга</a></li>
-                            <li><a href="{% url 'category_products' 'panties_high_waist' %}"
+                            <li><a href="{% url 'category_products_subcategory' 'panties' 'panties_high_waist' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Високи</a></li>
-                            <li><a href="{% url 'category_products' 'boxer_panties' %}"
+                            <li><a href="{% url 'category_products_subcategory' 'panties' 'boxer_panties' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Боксерки</a></li>
 
                         </ul>
                     </details>
+
+
                 </li>
 
                 <!-- Пижами -->
@@ -546,19 +551,23 @@
                         </summary>
                         <ul class="pl-6 mt-2 space-y-1 overflow-hidden max-h-0 transition-all duration-300 ease-in-out group-open:max-h-96">
 
-                            <li><a href="{% url 'category_products' 'pajama_plis' %}"
+                            <li><a href="{% url 'category_products_pajamas_all' %}"
+                                   class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Сите Пижами</a></li>
+                            <li><a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_plis' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Плишани</a></li>
-                            <li><a href="{% url 'category_products' 'pajama_cotton' %}"
+                            <li><a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_cotton' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Памучни</a></li>
-                            <li><a href="{% url 'category_products' 'pajama_saten' %}"
+                            <li><a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_saten' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Сатенски</a></li>
-                            <li><a href="{% url 'category_products' 'pajama_man' %}"
+                            <li><a href="{% url 'category_products_subcategory' 'pajamas' 'pajamas_man' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Mашки пижами</a></li>
 
-                            <li><a href="{% url 'category_products' 'nightclothes' %}"
+                            <li><a href="{% url 'category_products_subcategory' 'pajamas' 'nightclothes' %}"
                                    class="block py-2 px-4 rounded-lg hover:bg-pink-50 transition">Ноќници</a></li>
                         </ul>
                     </details>
+
+
                 </li>
 
                 <!-- Приватна -->
